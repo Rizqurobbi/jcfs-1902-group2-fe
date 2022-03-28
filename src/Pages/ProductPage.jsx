@@ -6,6 +6,7 @@ import header from '../img/HeaderProduct.jpg'
 import { FaFilter } from 'react-icons/fa'
 import { connect } from 'react-redux';
 import { getProductAction, sortingProduct } from '../redux/actions/productsAction';
+import { Link } from 'react-router-dom';
 class ProductPage extends React.Component {
     constructor(props) {
         super(props);
@@ -105,16 +106,18 @@ class ProductPage extends React.Component {
             return (
                 <div className="col-3">
                     <Card style={{ border: 'none', borderRadius: '14px', cursor: 'pointer' }} className='producthover mt-4 '>
-                        <CardImg
-                            src={value.images[0].url}
-                            width='100%'
-                            style={{ padding: 20 }}
-                            className='zoom'
-                        />
-                        <CardBody style={{ textAlign: 'center' }}>
-                            <CardTitle className='cardTittle1'>{value.nama}</CardTitle>
-                            <CardTitle className='heading3'>Rp. {value.harga.toLocaleString()}</CardTitle>
-                        </CardBody>
+                        <Link to={`/products-detail?idproduct=${value.idproduct}`}>
+                            <CardImg
+                                src={value.images[0].url}
+                                width='100%'
+                                style={{ padding: 20 }}
+                                className='zoom'
+                            />
+                            <CardBody style={{ textAlign: 'center' }}>
+                                <CardTitle className='cardTittle1'>{value.nama}</CardTitle>
+                                <CardTitle className='heading3'>Rp. {value.harga.toLocaleString()}</CardTitle>
+                            </CardBody>
+                        </Link>
                     </Card>
                 </div>
             )
@@ -133,7 +136,7 @@ class ProductPage extends React.Component {
         }
         return btn;
     }
-    
+
     render() {
         return (
             <div className='container-fluid' style={{ background: '#F6F7FB', paddingTop: 20 }}>
@@ -183,7 +186,7 @@ class ProductPage extends React.Component {
                                             pointerEvents='none'
                                             children={<SearchIcon color='gray.300' />}
                                         />
-                                        <I type='tel' placeholder='Search'  />
+                                        <I type='tel' placeholder='Search' />
                                     </IG>
                                     {/* <Label>Price</Label>
                                     <IG style={{ borderRadius: 50 }} >

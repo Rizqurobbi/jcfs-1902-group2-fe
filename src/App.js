@@ -5,6 +5,7 @@ import ProductPage from './Pages/ProductPage';
 import React from 'react';
 import NavbarComponent from './Components/Navbar';
 import FooterComponent from './Components/Footer';
+import ProductDetail from './Pages/ProductDetail';
 
 class App extends React.Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class App extends React.Component {
         <NavbarComponent/>
         <Routes>
           <Route path='/products' element={<ProductPage/>}/>
+          <Route path='/products-detail' element={<ProductDetail/>}/>
         </Routes>
         <FooterComponent/>
       </div>
