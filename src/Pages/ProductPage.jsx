@@ -5,7 +5,7 @@ import { SearchIcon, PhoneIcon } from '@chakra-ui/icons';
 import header from '../img/HeaderProduct.jpg'
 import { FaFilter } from 'react-icons/fa'
 import { connect } from 'react-redux';
-import { getProductAction, sortingProduct } from '../redux/actions/productsAction';
+import { getProductAction } from '../redux/actions/productsAction';
 class ProductPage extends React.Component {
     constructor(props) {
         super(props);
@@ -133,7 +133,15 @@ class ProductPage extends React.Component {
         }
         return btn;
     }
+    btnSearch = () => {
+        this.props.getProductAction({
+            nama: this.state.inputNama
+        })
+    }
     
+    btnReset = () => {
+        this.props.getProductAction()
+    }
     render() {
         return (
             <div className='container-fluid' style={{ background: '#F6F7FB', paddingTop: 20 }}>
@@ -159,7 +167,7 @@ class ProductPage extends React.Component {
                                     <FormGroup style={{ marginTop: 4 }}>
                                         <InputGroup>
                                             <Input type='select' style={{ marginLeft: 20, width: "100px", borderRadius: 10 }}
-                                            >
+                                                onChange={this.btnClick}>
                                                 {/* innerRef={(element) => this.inSearchSort = element} */}
                                                 <option value="id-asc">Sort</option>
                                                 <option value="harga-asc">Harga Asc</option>
@@ -183,7 +191,7 @@ class ProductPage extends React.Component {
                                             pointerEvents='none'
                                             children={<SearchIcon color='gray.300' />}
                                         />
-                                        <I type='tel' placeholder='Search'  />
+                                        <I type='tel' placeholder='Search' onChange={(text) => this.setState({ inputNama: text.target.value })} />
                                     </IG>
                                     {/* <Label>Price</Label>
                                     <IG style={{ borderRadius: 50 }} >
@@ -205,8 +213,8 @@ class ProductPage extends React.Component {
                                         </InputGroup>
                                     </FormGroup>
                                     <div style={{ marginLeft: '150px', marginTop: '15px' }}>
-                                        <Button>Reset</Button>
-                                        <Button style={{ marginLeft: '10px' }} >Filter</Button>
+                                        <Button onClick={this.btnReset}>Reset</Button>
+                                        <Button style={{ marginLeft: '10px' }} onClick={this.btnSearch}>Filter</Button>
                                     </div>
 
                                 </div>

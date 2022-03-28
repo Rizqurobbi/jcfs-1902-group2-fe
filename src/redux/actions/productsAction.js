@@ -7,7 +7,13 @@ export const getProductAction = (search = null) => {
             // let token = localStorage.getItem('data');
             let res;
             // if(token){
+            if (search) {
+                if (search.nama) {
+                    res = await axios.get(`${API_URL}/products?nama=${search.nama}`)
+                }
+            } else {
                 res = await axios.get(`${API_URL}/products`)
+            }
             // }
             dispatch({
                 type: "GET_DATA_PRODUCTS",
