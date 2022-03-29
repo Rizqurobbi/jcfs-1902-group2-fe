@@ -135,14 +135,18 @@ class ProductPage extends React.Component {
     }
     btnSearch = () => {
         this.props.getProductAction({
-            nama: this.state.inputNama
+            nama: this.state.inputNama,
+            idcategory:this.inCategory.value
         })
+        console.log(this.inCategory.value)
+
     }
     
     btnReset = () => {
         this.props.getProductAction()
     }
     render() {
+
         return (
             <div className='container-fluid' style={{ background: '#F6F7FB', paddingTop: 20 }}>
                 <div className='container'>
@@ -167,9 +171,9 @@ class ProductPage extends React.Component {
                                     <FormGroup style={{ marginTop: 4 }}>
                                         <InputGroup>
                                             <Input type='select' style={{ marginLeft: 20, width: "100px", borderRadius: 10 }}
-                                                onChange={this.btnClick}>
+                                                >
                                                 {/* innerRef={(element) => this.inSearchSort = element} */}
-                                                <option value="id-asc">Sort</option>
+                                                <option value="idproduct-asc">Sort</option>
                                                 <option value="harga-asc">Harga Asc</option>
                                                 <option value="harga-desc">Harga Desc</option>
                                                 <option value="nama-asc">A-Z</option>
@@ -199,18 +203,13 @@ class ProductPage extends React.Component {
                                     </IG> */}
                                     <FormGroup>
                                         <Label>Category</Label>
-                                        <InputGroup style={{}}>
-                                            <Input type='select' style={{ width: "250px", borderRadius: 0 }}
-                                            >
-                                                {/* innerRef={(element) => this.inSearchSort = element} */}
-                                                <option value="id-asc">Category</option>
-                                                <option value="harga-asc">Cough</option>
-                                                <option value="harga-desc">Skin</option>
-                                                <option value="nama-asc">Headache</option>
-                                                <option value="nama-desc">Fever</option>
-                                                <option value="idproduct-asc">Reset</option>
-                                            </Input>
-                                        </InputGroup>
+                                        <Input type='select' style={{ width: "100%", borderRadius: 0 }}
+                                            innerRef={elemen => this.inCategory = elemen}>
+                                            <option value={null}>Category</option>
+                                            {
+                                                this.props.category.map((value, index) => <option value={value.idcategory} key={value.idcategory}>{value.category}</option>)
+                                            }
+                                        </Input>
                                     </FormGroup>
                                     <div style={{ marginLeft: '150px', marginTop: '15px' }}>
                                         <Button onClick={this.btnReset}>Reset</Button>
@@ -238,7 +237,9 @@ class ProductPage extends React.Component {
 }
 const mapToProps = (state) => {
     return {
-        products: state.productsReducer.products
+        products: state.productsReducer.products,
+        category: state.productsReducer.category
     }
 }
+
 export default connect(mapToProps, { getProductAction })(ProductPage);
