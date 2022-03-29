@@ -104,7 +104,7 @@ class ProductPage extends React.Component {
         return this.props.products.slice(page > 1 ? (page - 1) * 8 : page - 1, page * 8).map((value, index) => {
             return (
                 <div className="col-3">
-                    <Card style={{ border: 'none', borderRadius: '14px', cursor: 'pointer' }} className='producthover mt-4 '>
+                    <Card style={{ border: 'none', borderRadius: '14px', cursor: 'pointer',height:'350px' }} className='producthover mt-4 '>
                         <CardImg
                             src={value.images[0].url}
                             width='100%'
@@ -112,8 +112,8 @@ class ProductPage extends React.Component {
                             className='zoom'
                         />
                         <CardBody style={{ textAlign: 'center' }}>
-                            <CardTitle className='cardTittle1'>{value.nama}</CardTitle>
-                            <CardTitle className='heading3'>Rp. {value.harga.toLocaleString()}</CardTitle>
+                            <CardTitle className='heading3' style={{fontSize:16}}>{value.nama}</CardTitle>
+                            <CardTitle className='heading3' style={{fontSize:18}}>Rp. {value.harga.toLocaleString()}</CardTitle>
                         </CardBody>
                     </Card>
                 </div>
@@ -150,7 +150,7 @@ class ProductPage extends React.Component {
                     </div>
                     <div className="row" >
                         <div className='col-3 py-4'>
-                            <div style={{ background: 'white', height: '60vh', borderRadius: '15px', padding: 10 }}>
+                            <div style={{ background: 'white', height: '47vh', borderRadius: '15px', padding: 10 }}>
                                 <div style={{ display: 'flex', borderBottom: '2px solid #1E144F', width: '85px', height: '40px', fontSize: 20 }}>
                                     <span style={{ marginTop: 8, color: '#E63E54' }}>
                                         <FaFilter />
@@ -204,11 +204,10 @@ class ProductPage extends React.Component {
                                             </Input>
                                         </InputGroup>
                                     </FormGroup>
-                                    <div style={{ marginLeft: '150px', marginTop: '15px' }}>
-                                        <Button>Reset</Button>
-                                        <Button style={{ marginLeft: '10px' }} >Filter</Button>
+                                    <div style={{ marginLeft: '148px', marginTop: '15px' }}>
+                                        <Button className='landing1'>Reset</Button>
+                                        <Button className='NavbarButton' style={{ marginLeft: '10px' }} >Filter</Button>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
