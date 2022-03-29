@@ -4,13 +4,14 @@ import { IoIosAdd, IoIosRemove } from "react-icons/io";
 import logo from '../img/logofix.png'
 import axios from 'axios';
 import { API_URL } from '../helper';
+import { Link } from 'react-router-dom';
 class ProductDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             count: 1,
             detail: {},
-            thumbnail:0,
+            thumbnail: 0,
 
         }
     }
@@ -31,11 +32,11 @@ class ProductDetail extends React.Component {
         let { images } = detail
         return images.map((value, index) => {
             return (
-                <img className="select-image mb-1 my-2 rounded" style={{ border: '1px solid',marginRight:10 }} src={value.url}
+                <img className="select-image mb-1 my-2 rounded" style={{ border: '1px solid', marginRight: 10 }} src={value.url}
                     key={index}
                     width="100%"
-                onClick={() => this.setState({thumbnail:index})}
-                style={{ border: this.state.thumbnail == index && "2px solid",cursor:'pointer' }}
+                    onClick={() => this.setState({ thumbnail: index })}
+                    style={{ border: this.state.thumbnail == index && "2px solid", cursor: 'pointer' }}
                 />
             )
         })
@@ -89,9 +90,11 @@ class ProductDetail extends React.Component {
                 <div style={{ backgroundColor: '#F6F7FB', height: 50 }}>
                     <div style={{ paddingLeft: '20px', paddingTop: '10px' }} className='container'>
                         <div style={{ display: 'flex' }}>
-                            <p className='mx-2' style={{ color: '#231953' }}>Home {'>'}</p>
-                            <p style={{ color: '#231953' }}>Products {'>'}</p>
-                            <p className='mx-2' style={{ color: '#231953', fontWeight: 'bolder' }}>VICKS</p>
+                            <p className='mx-2' style={{ color: '#231953', cursor: 'pointer' }}>Home {'>'}</p>
+                            <Link to='/products'>
+                                <p style={{ color: '#231953', cursor: 'pointer' }}>Products {'>'}</p>
+                            </Link>
+                            <p className='mx-2' style={{ color: '#231953', fontWeight: 'bolder', cursor: 'pointer' }}>{detail.nama}</p>
                         </div>
                     </div>
                 </div>
