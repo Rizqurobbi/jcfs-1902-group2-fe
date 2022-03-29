@@ -5,7 +5,7 @@ import { SearchIcon, PhoneIcon } from '@chakra-ui/icons';
 import header from '../img/HeaderProduct.jpg'
 import { FaFilter } from 'react-icons/fa'
 import { connect } from 'react-redux';
-import { getProductAction } from '../redux/actions/productsAction';
+import { getProductAction, sortingProduct } from '../redux/actions/productsAction';
 class ProductPage extends React.Component {
     constructor(props) {
         super(props);
@@ -138,7 +138,12 @@ class ProductPage extends React.Component {
             nama: this.state.inputNama
         })
     }
-    
+    btnClick = (e) => {
+        this.props.sortingProduct({
+            field: e.target.value.split('-')[0],
+            sortType: e.target.value.split('-')[1]
+        })
+    }
     btnReset = () => {
         this.props.getProductAction()
     }
@@ -241,4 +246,4 @@ const mapToProps = (state) => {
         products: state.productsReducer.products
     }
 }
-export default connect(mapToProps, { getProductAction })(ProductPage);
+export default connect(mapToProps, { getProductAction, sortingProduct })(ProductPage);

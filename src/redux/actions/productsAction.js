@@ -24,3 +24,16 @@ export const getProductAction = (search = null) => {
         }
     }
 }
+export const sortingProduct = (sort) => {
+    return async (dispatch) => {
+        try {
+            let res = await axios.get(`${API_URL}/products?_sort=${sort.field}&_order=${sort.sortType}`)
+            dispatch({
+                type: "GET_DATA_PRODUCTS",
+                payload: res.data.dataProducts
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
