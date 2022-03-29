@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Nav, Navbar, NavbarBrand, NavItem, Label } from 'reactstrap';
+import { Nav, Navbar, NavbarBrand, NavItem, Label, UncontrolledDropdown, DropdownToggle, DropdownItem, DropdownMenu, Dropdown } from 'reactstrap';
 import { Button, Input, InputLeftElement, InputGroup } from '@chakra-ui/react'
 import { SearchIcon, PhoneIcon } from '@chakra-ui/icons';
 import logo from '../img/logofix.png'
 import LoginComponent from './Login';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-
-
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import { logOutAction } from '../redux/actions';
 
 class NavbarComponent extends Component {
     constructor(props) {
@@ -17,6 +17,7 @@ class NavbarComponent extends Component {
         }
     }
     render() {
+        console.log('role', this.props.role)
         return (
             <div style={{ backgroundColor: '#FCFBFA' }}>
                 <Navbar expand='md' className='container py-4 d-flex'>
@@ -59,11 +60,50 @@ class NavbarComponent extends Component {
                     </Nav>
                     {
                         this.props.username ?
-                            <div style={{ width: "10%" }}>
-                                <div className='d-flex'>
-                                    <img src={this.props.imageurl} style={{ width: "40%" }} />
-                                    <b className='heading2 mt-2 mx-2' style={{ fontSize: 16}}>{this.props.username}</b>
-                                </div>
+                            <div>
+                                <UncontrolledDropdown className='d-flex'>
+                                    <DropdownToggle outline caret className='NavbarButton' style={{ border: 0, borderRadius: 10 }}>
+                                        Hello, <b className='mx-1' style={{ fontSize: 16 }}>{this.props.username}</b>
+                                    </DropdownToggle>
+                                    {this.props.role == 'User' ?
+                                        <DropdownMenu DropdownMenu className='heading4'
+                                        >
+                                            <DropdownItem>
+                                                My Cart
+                                            </DropdownItem>
+                                            <DropdownItem>
+                                                Transaction History
+                                            </DropdownItem>
+                                            <DropdownItem>
+                                                My Profile
+                                            </DropdownItem>
+                                            <DropdownItem divider />
+                                            <DropdownItem onClick={() => {
+                                                localStorage.removeItem("data");
+                                                this.props.logOutAction();
+                                            }}>
+                                                Logout
+                                            </DropdownItem>
+                                        </DropdownMenu>
+                                        :
+                                        <DropdownMenu DropdownMenu className='heading4'
+                                        >
+                                            <DropdownItem>
+                                                Products Management
+                                            </DropdownItem>
+                                            <DropdownItem>
+                                                Transactions Management
+                                            </DropdownItem>
+                                            <DropdownItem divider />
+                                            <DropdownItem onClick={() => {
+                                                localStorage.removeItem("data");
+                                                this.props.logOutAction();
+                                            }}>
+                                                Logout
+                                            </DropdownItem>
+                                        </DropdownMenu>
+                                    }
+                                </UncontrolledDropdown>
                             </div>
                             :
                             <div className='d-flex'>
@@ -74,7 +114,7 @@ class NavbarComponent extends Component {
                             </div>
                     }
                 </Navbar>
-            </div>
+            </div >
         );
     }
 }
@@ -82,8 +122,9 @@ class NavbarComponent extends Component {
 const mapToProps = (state) => {
     return {
         username: state.userReducer.username,
+        role: state.userReducer.role,
         imageurl: state.userReducer.imageurl
     }
 }
 
-export default connect(mapToProps)(NavbarComponent);
+export default connect(mapToProps, { logOutAction })(NavbarComponent);

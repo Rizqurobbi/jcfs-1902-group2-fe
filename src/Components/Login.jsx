@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { FormGroup, Modal, ModalBody, Input, InputGroup, InputGroupText, Label } from 'reactstrap';
 import logo from '../img/logofix.png'
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import { connect } from 'react-redux';
+import { loginAction } from '../redux/actions'
 
 
 class LoginComponent extends Component {
@@ -27,6 +29,11 @@ class LoginComponent extends Component {
         }
     }
 
+    btLogin = () => {
+        this.props.loginAction(this.emailLogin.value, this.passwordLogin.value)
+        this.props.btClose()
+    }
+
     render() {
         return (
             <div>
@@ -38,8 +45,8 @@ class LoginComponent extends Component {
                             <FormGroup style={{ width: '100%', margin: 'auto' }}>
                                 <Label className='heading4' style={{ fontSize: 12 }}>Email/Username</Label>
                                 <InputGroup>
-                                    <Input size='sm' type="text" id="textNama" placeholder="Email/username" 
-                                        innerRef={(element) => this.usernameLogin = element} />
+                                    <Input size='sm' type="text" id="textNama" placeholder="Email/username"
+                                        innerRef={(element) => this.emailLogin = element} />
                                 </InputGroup>
                             </FormGroup>
                             <FormGroup style={{ width: '100%', margin: 'auto' }}>
@@ -53,12 +60,12 @@ class LoginComponent extends Component {
                                 </InputGroup>
                             </FormGroup>
                             <div style={{ textAlign: 'right' }}>
-                                <p className='heading4' style={{ fontSize: 12 }}>Forgot password?</p>
+                                <p className='heading4' style={{ fontSize: 12, cursor: 'pointer' }}>Forgot password?</p>
                             </div>
-                            <div className='NavbarButton' style={{ margin: 'auto', textAlign: 'center' }}>
+                            <div className='NavbarButton' style={{ margin: 'auto', textAlign: 'center', cursor: 'pointer' }} onClick={this.btLogin}>
                                 <button className='py-2' >Submit</button>
                             </div>
-                            <div className='d-flex my-2' style={{ justifyContent: 'center'}}>
+                            <div className='d-flex my-2' style={{ justifyContent: 'center' }}>
                                 <p className='heading4' style={{ fontSize: 12, marginRight: 5 }}>Don't have account? </p>
                                 <p className='heading4' style={{ fontSize: 12, cursor: 'pointer', fontWeight: 800 }}>Sign up for free</p>
                             </div>
@@ -71,4 +78,4 @@ class LoginComponent extends Component {
     }
 }
 
-export default LoginComponent;
+export default connect(null, { loginAction }) (LoginComponent);

@@ -149,59 +149,10 @@ class LandingPage extends Component {
                 </div>
                 <div className='container-fluid px-0' style={{ backgroundColor: '#F6F7FB', paddingTop: 20 }}>
                     <div className='container'>
-                        <p className='heading2 text-center pt-5 pb-4'>Our Product</p>
+                        <p className='heading2 text-center pt-5 pb-4'>Our Products</p>
                         <div>
                             <Slider {...settings}>
                                 {this.printProduct()}
-                                {/* <div className='m-auto' >
-                                    <img src="https://www.pinclipart.com/picdir/big/157-1578186_user-profile-default-image-png-clipart.png" width="80%" />
-                                    <div className='my-5' >
-                                        <p >Lorem Ipsum 0.0g</p>
-                                        <p className='heading3' >Rp. 00.000</p>
-                                    </div>
-                                </div>
-                                <div className='m-auto'>
-                                    <img src="https://www.pinclipart.com/picdir/big/157-1578186_user-profile-default-image-png-clipart.png" width="80%" />
-                                    <div className='my-5' >
-                                        <p >Lorem Ipsum 0.1g</p>
-                                        <p className='heading3' >Rp. 00.000</p>
-                                    </div>
-                                </div>
-                                <div className='m-auto'>
-                                    <img src="https://www.pinclipart.com/picdir/big/157-1578186_user-profile-default-image-png-clipart.png" width="80%" />
-                                    <div className='my-5' >
-                                        <p >Lorem Ipsum 0.2g</p>
-                                        <p className='heading3' >Rp. 00.000</p>
-                                    </div>
-                                </div>
-                                <div className='m-auto'>
-                                    <img src="https://www.pinclipart.com/picdir/big/157-1578186_user-profile-default-image-png-clipart.png" width="80%" />
-                                    <div className='my-5' >
-                                        <p >Lorem Ipsum 0.3g</p>
-                                        <p className='heading3' >Rp. 00.000</p>
-                                    </div>
-                                </div>
-                                <div className='m-auto'>
-                                    <img src="https://www.pinclipart.com/picdir/big/157-1578186_user-profile-default-image-png-clipart.png" width="80%" />
-                                    <div className='my-5' >
-                                        <p >Lorem Ipsum 0.4g</p>
-                                        <p className='heading3' >Rp. 00.000</p>
-                                    </div>
-                                </div>
-                                <div className='m-auto'>
-                                    <img src="https://www.pinclipart.com/picdir/big/157-1578186_user-profile-default-image-png-clipart.png" width="80%" />
-                                    <div className='my-5' >
-                                        <p >Lorem Ipsum 0.5g</p>
-                                        <p className='heading3' >Rp. 00.000</p>
-                                    </div>
-                                </div>
-                                <div className='m-auto'>
-                                    <img src="https://www.pinclipart.com/picdir/big/157-1578186_user-profile-default-image-png-clipart.png" width="80%" />
-                                    <div className='my-5' >
-                                        <p >Lorem Ipsum 0.6g</p>
-                                        <p className='heading3' >Rp. 00.000</p>
-                                    </div>
-                                </div> */}
                             </Slider>
                         </div>
                     </div>
