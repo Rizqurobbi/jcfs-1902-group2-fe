@@ -13,6 +13,104 @@
   }
 }
 
+/* .NavbarButton {
+  font-weight: 600;
+  font-size: 14px;
+  color: #0abde3;
+  outline-color:#0abde3;
+  border: 1.5px solid #0abde3;
+  padding: 0px 15px 0px 15px;
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-bottom: 0px;
+  cursor: pointer;
+}
+
+.NavbarButton:hover {
+  animation-name: navbarbutton;
+  animation-duration: 2s;
+} */
+
+.NavbarButton {
+  background: rgb(126,197,255) !important;
+  background: linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  border: 1.5px solid;
+  padding: 0px 15px 0px 15px;
+  border-radius: 10px
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: rgb(77,223,255);
+}
+
+
+.landing1 {
+  background: rgb(254,207,137)!important;
+  background: linear-gradient(153deg, rgba(254,207,137,1) 0%, rgba(255,179,67,1) 54%, rgba(255,157,11,1) 96%)!important;
+  color: white !important;
+  font-weight: 600 !important;
+  border: 1.5px solid;
+  padding: 0px 15px 0px 15px;
+  border-radius: 10px
+}
+
+.heading1 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 900;
+  font-size: 60px;
+  color: #1E144F;
+}
+
+.heading2 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 36px;
+  margin-bottom: 10px;
+  color: #1E144F
+}
+
+.heading3 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #1E144F
+}
+
+.heading4 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  color: #1E144F
+}
+
+.NavbarHeader{
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  padding: 8px 10px;
+  margin-bottom: 0px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #1E144F;
+}
+
+.NavbarHeader:hover {
+  animation-name: navbarheader;
+  animation-duration: 2s;
+}
+
+.footerFont{
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;  
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #1E144F
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -24,8 +122,31 @@
   color: white;
 }
 
+.producthover:hover {
+  animation-name: producthover;
+  animation-duration: 2s;
+}
+
 .App-link {
   color: #61dafb;
+}
+
+@keyframes navbarheader {
+  0% {border-bottom: 1px solid white}
+  25% {border-bottom: 1px solid #1E144F;}
+  100% {border-bottom: 1px solid #1E144F;}
+}
+
+@keyframes navbarbutton {
+  0% {background-color: white;}
+  25% {background-color: #0abde3;color: white}
+  100% {background-color: #0abde3;color: white}
+}
+
+@keyframes producthover {
+  0% {border: 1px solid white}
+  25% {border: 1px solid #1E144F;}
+  100% {border: 1px solid #1E144F;}
 }
 
 @keyframes App-logo-spin {
