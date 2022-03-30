@@ -146,7 +146,12 @@ class ProductPage extends React.Component {
         console.log(this.inCategory.value)
 
     }
-    
+    btnClick = (e) => {
+        this.props.sortingProduct({
+            field: e.target.value.split('-')[0],
+            sortType: e.target.value.split('-')[1]
+        })
+    }
     btnReset = () => {
         this.props.getProductAction()
     }
@@ -247,4 +252,4 @@ const mapToProps = (state) => {
     }
 }
 
-export default connect(mapToProps, { getProductAction })(ProductPage);
+export default connect(mapToProps, { getProductAction, sortingProduct })(ProductPage);
