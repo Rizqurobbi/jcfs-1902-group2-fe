@@ -47,7 +47,9 @@ class NavbarComponent extends Component {
                             </Link>
                         </NavItem>
                         <NavItem>
-                            <p className='NavbarHeader'>Our Products</p>
+                            <Link to="/products">
+                                <p className='NavbarHeader'>Our Products</p>
+                            </Link>
                         </NavItem>
                         <NavItem>
                             <Link to='/verify'>

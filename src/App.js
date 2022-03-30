@@ -7,6 +7,7 @@ import NavbarComponent from './Components/Navbar';
 import LandingPage from './Pages/LandingPage';
 import RegisterPage from './Pages/RegisterPage';
 import VerificationPage from './Pages/VerificationPage';
+import ProductPage from './Pages/ProductPage';
 import { loginAction, keepAction } from './redux/actions'
 
 class App extends Component {
@@ -36,11 +37,13 @@ class App extends Component {
           <Route path="/" element={<LandingPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/verify/:token" element={<VerificationPage />} />
+          <Route path='/products' element={<ProductPage/>}/>
         </Routes>
         <FooterComponent />
       </div>
     );
   }
 }
+ 
 
 export default connect(null, { keepAction }) (App);
