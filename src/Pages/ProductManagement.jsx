@@ -1,7 +1,10 @@
 import axios from 'axios';
 import React from 'react';
+import { connect } from 'react-redux';
 import { Button, FormGroup, Input, Label, Row, Col } from 'reactstrap';
-const API_URL = "http://localhost:2000"
+import { API_URL } from '../helper';
+import { getProductAction } from '../redux/actions';
+
 
 
 class ProductManagement extends React.Component {
@@ -11,6 +14,9 @@ class ProductManagement extends React.Component {
             stocks: [],
             images: []
         }
+    }
+    componentDidMount() {
+        this.props.getProductAction()
     }
     btnUpload = () => {
         let formData = new FormData()
@@ -62,7 +68,7 @@ class ProductManagement extends React.Component {
         this.setState({ images: this.state.images })
     }
     printStock = () => {
-        if (this.state.stocks.length > 0) {
+        if (this.state.stocks.length > 0 <= 1) {
             return this.state.stocks.map((item, index) => {
                 return <Row>
                     <Col>
@@ -70,6 +76,14 @@ class ProductManagement extends React.Component {
                     </Col>
                     <Col>
                         <Input type="number" placeholder={`Stock-${index + 1}`} onChange={(e) => this.handleStock(e, index)} />
+                    </Col>
+                    <Col>
+                        <Input type='select' onChange={(e) => this.handleUnit(e, index)}>
+                            <option value={null}>Unit</option>
+                            {
+                                this.props.category.map((value, index) => <option value={value.idunit} key={value.idunit}>{value.satuan}</option>)
+                            }
+                        </Input>
                     </Col>
                     <Col>
                         <a className="btn btn-outline-danger" onClick={() => this.onBtDeleteStock(index)} style={{ cursor: 'pointer' }}>Delete</a>
@@ -102,20 +116,29 @@ class ProductManagement extends React.Component {
         }
     }
     handleImages = (e, index) => {
+        console.log(this.state.stocks)
         let temp = [...this.state.images]
         temp[index] = { name: e.target.files[0].name, file: e.target.files[0] }
         this.setState({ images: temp })
     }
 
     handleType = (e, index) => {
+        console.log(this.state.stocks)
         let temp = [...this.state.stocks]
         temp[index].type = e.target.value;
         this.setState({ stocks: temp })
     }
 
     handleStock = (e, index) => {
+        console.log(this.state.stocks)
         let temp = [...this.state.stocks]
         temp[index].qty = parseInt(e.target.value)
+        this.setState({ stocks: temp })
+    }
+    handleUnit = (e, index) => {
+        console.log(this.state.stocks)
+        let temp = [...this.state.stocks]
+        temp[index].idunit = parseInt(e.target.value)
         this.setState({ stocks: temp })
     }
 
@@ -125,6 +148,7 @@ class ProductManagement extends React.Component {
         this.props.btClose()
     }
     render() {
+        console.log(this.props.unit)
         return (
             <div className='container-fluid'>
                 <div className='container'>
@@ -152,8 +176,13 @@ class ProductManagement extends React.Component {
                                             </div>
                                             <div className='col-6'>
                                                 <FormGroup>
-                                                    <Label>Category</Label>
-                                                    <Input type='select' innerRef={e => this.inCategory = e}></Input>
+                                                    <Label>Status</Label>
+                                                    <Input type='select' innerRef={e => this.inStatus = e}>
+                                                        <option value={null}>Unit</option>
+                                                        {
+                                                            this.props.products.map((value, index) => <option value={value.idstatus} key={value.idstatus}>{value.status}</option>)
+                                                        }
+                                                    </Input>
                                                 </FormGroup>
                                             </div>
                                         </div>
@@ -164,9 +193,23 @@ class ProductManagement extends React.Component {
                                         </FormGroup>
                                         <div className='row'>
                                             <div className='col-6'>
-                                                <FormGroup>
+                                                {/* <FormGroup>
                                                     <Label>Unit</Label>
-                                                    <Input type='select'></Input>
+                                                    <Input type='select'>
+                                                        <option value={null}>Unit</option>
+                                                        {
+                                                            this.props.unit.map((value, index) => <option value={value.idunit} key={value.idunit}>{value.satuan}</option>)
+                                                        }
+                                                    </Input>
+                                                </FormGroup> */}
+                                                <FormGroup>
+                                                    <Label>Category</Label>
+                                                    <Input type='select' innerRef={e => this.inCategory = e}>
+                                                        <option value={null}>Category</option>
+                                                        {
+                                                            this.props.category.map((value, index) => <option value={value.idcategory} key={value.idcategory}>{value.category}</option>)
+                                                        }
+                                                    </Input>
                                                 </FormGroup>
                                             </div>
                                             <div className='col-6'>
@@ -176,10 +219,6 @@ class ProductManagement extends React.Component {
                                                 </FormGroup>
                                             </div>
                                         </div>
-                                        <FormGroup>
-                                            <Label>Status</Label>
-                                            <Input type='text' innerRef={e => this.inStatus = e}></Input>
-                                        </FormGroup>
                                         <FormGroup>
                                             <Label>Description</Label>
                                             <Input type='text' innerRef={e => this.inDesc = e}></Input>
@@ -222,5 +261,10 @@ class ProductManagement extends React.Component {
         );
     }
 }
-
-export default ProductManagement
+const mapToProps = (state) => {
+    return {
+        category: state.productsReducer.category,
+        products: state.productsReducer.products
+    }
+}
+export default connect(mapToProps, { getProductAction })(ProductManagement)
