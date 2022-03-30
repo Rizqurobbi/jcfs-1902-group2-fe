@@ -20,6 +20,8 @@ export const userReducer = (state = INITIAL_STATE, action) => {
                 role: action.payload.role,
                 status: action.payload.status
             }
+        case "LOGOUT":
+            return INITIAL_STATE
         default:
             return state
     }
