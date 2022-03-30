@@ -5,7 +5,9 @@ import { SearchIcon, PhoneIcon } from '@chakra-ui/icons';
 import header from '../img/HeaderProduct.jpg'
 import { FaFilter } from 'react-icons/fa'
 import { connect } from 'react-redux';
-import { getProductAction } from '../redux/actions/productsAction';
+import { getProductAction, sortingProduct } from '../redux/actions/productsAction';
+import { Link } from 'react-router-dom';
+
 class ProductPage extends React.Component {
     constructor(props) {
         super(props);
@@ -104,7 +106,8 @@ class ProductPage extends React.Component {
         return this.props.products.slice(page > 1 ? (page - 1) * 8 : page - 1, page * 8).map((value, index) => {
             return (
                 <div className="col-3">
-                    <Card style={{ border: 'none', borderRadius: '14px', cursor: 'pointer' }} className='producthover mt-4 '>
+                    <Card style={{ border: 'none', borderRadius: '14px', cursor: 'pointer',height:'350px' }} className='producthover mt-4 '>
+                      <Link to={`/products-detail?idproduct=${value.idproduct}`}>
                         <CardImg
                             src={value.images[0].url}
                             width='100%'
@@ -112,9 +115,10 @@ class ProductPage extends React.Component {
                             className='zoom'
                         />
                         <CardBody style={{ textAlign: 'center' }}>
-                            <CardTitle className='cardTittle1'>{value.nama}</CardTitle>
-                            <CardTitle className='heading3'>Rp. {value.harga.toLocaleString()}</CardTitle>
+                            <CardTitle className='heading3' style={{fontSize:16}}>{value.nama}</CardTitle>
+                            <CardTitle className='heading3' style={{fontSize:18}}>Rp. {value.harga.toLocaleString()}</CardTitle>
                         </CardBody>
+                     </Link>
                     </Card>
                 </div>
             )
@@ -133,6 +137,7 @@ class ProductPage extends React.Component {
         }
         return btn;
     }
+
     btnSearch = () => {
         this.props.getProductAction({
             nama: this.state.inputNama,
@@ -145,6 +150,7 @@ class ProductPage extends React.Component {
     btnReset = () => {
         this.props.getProductAction()
     }
+    
     render() {
 
         return (
@@ -162,7 +168,7 @@ class ProductPage extends React.Component {
                     </div>
                     <div className="row" >
                         <div className='col-3 py-4'>
-                            <div style={{ background: 'white', height: '60vh', borderRadius: '15px', padding: 10 }}>
+                            <div style={{ background: 'white', height: '47vh', borderRadius: '15px', padding: 10 }}>
                                 <div style={{ display: 'flex', borderBottom: '2px solid #1E144F', width: '85px', height: '40px', fontSize: 20 }}>
                                     <span style={{ marginTop: 8, color: '#E63E54' }}>
                                         <FaFilter />
@@ -211,11 +217,10 @@ class ProductPage extends React.Component {
                                             }
                                         </Input>
                                     </FormGroup>
-                                    <div style={{ marginLeft: '150px', marginTop: '15px' }}>
-                                        <Button onClick={this.btnReset}>Reset</Button>
-                                        <Button style={{ marginLeft: '10px' }} onClick={this.btnSearch}>Filter</Button>
+                                    <div style={{ marginLeft: '148px', marginTop: '15px' }}>
+                                        <Button className='landing1' onClick={this.btnReset}>Reset</Button>
+                                        <Button className='NavbarButton' style={{ marginLeft: '10px' }} onClick={this.btnSearch}>Filter</Button>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
