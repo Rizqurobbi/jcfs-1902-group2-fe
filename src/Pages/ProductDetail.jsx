@@ -59,10 +59,10 @@ class ProductDetail extends React.Component {
                         <div className='col-6' style={{ paddingTop: 20 }}>
 
                             <div style={{ alignItems: 'center' }}>
-                                <p style={{ color: '#231953', fontSize: 30 }}>{detail.nama} ({detail.berat}{detail.unit[0].satuan})</p>
+                                <p style={{ color: '#231953', fontSize: 30 }}>{detail.nama} ({detail.berat}{detail.satuan})</p>
                                 <p style={{ color: '#231953', fontWeight: 'bolder', fontSize: '30px' }}>Rp. {detail.harga.toLocaleString()}</p>
                                 <p style={{ fontWeight: 'bolder', marginTop: '14px' }} className='heading4'>{detail.deskripsi}</p>
-                                <p style={{ paddingTop: 15, paddingBottom: 15, fontSize: 15, color: '#231953', fontWeight: 'bold' }}>Available : {detail.stocks[0].qty} {detail.stocks[0].type} ({detail.berat * detail.stocks[0].qty}{detail.unit[0].satuan})</p>
+                                <p style={{ paddingTop: 15, paddingBottom: 15, fontSize: 15, color: '#231953', fontWeight: 'bold' }}>Available : {detail.stocks[0].qty} {detail.stocks[0].type} ({detail.berat * detail.stocks[0].qty}{detail.satuan})</p>
                                 <div>
 
                                 </div>
