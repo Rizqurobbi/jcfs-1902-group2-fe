@@ -11,6 +11,7 @@ import ProductPage from './Pages/ProductPage';
 import ProductDetail from './Pages/ProductDetail';
 import { loginAction, keepAction } from './redux/actions'
 import { getCategory } from './redux/actions/productsAction';
+import ProductManagement from './Pages/ProductManagement';
 
 
 class App extends Component {
@@ -44,6 +45,7 @@ class App extends Component {
           <Route path="/verify/:token" element={<VerificationPage />} />
           <Route path='/products' element={<ProductPage/>}/>
           <Route path='/products-detail' element={<ProductDetail/>}/>
+          <Route path='/products-management' element={<ProductManagement/>}/>
         </Routes>
         <FooterComponent />
       </div>
