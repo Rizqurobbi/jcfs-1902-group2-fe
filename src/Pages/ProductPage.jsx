@@ -182,7 +182,7 @@ class ProductPage extends React.Component {
                                     <FormGroup style={{ marginTop: 4 }}>
                                         <InputGroup>
                                             <Input type='select' style={{ marginLeft: 20, width: "100px", borderRadius: 10 }}
-                                                >
+                                                onChange={this.btnClick}>
                                                 {/* innerRef={(element) => this.inSearchSort = element} */}
                                                 <option value="idproduct-asc">Sort</option>
                                                 <option value="harga-asc">Harga Asc</option>
