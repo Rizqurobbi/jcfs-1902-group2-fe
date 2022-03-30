@@ -6,6 +6,8 @@ import header from '../img/HeaderProduct.jpg'
 import { FaFilter } from 'react-icons/fa'
 import { connect } from 'react-redux';
 import { getProductAction, sortingProduct } from '../redux/actions/productsAction';
+import { Link } from 'react-router-dom';
+
 class ProductPage extends React.Component {
     constructor(props) {
         super(props);
@@ -104,7 +106,8 @@ class ProductPage extends React.Component {
         return this.props.products.slice(page > 1 ? (page - 1) * 8 : page - 1, page * 8).map((value, index) => {
             return (
                 <div className="col-3">
-                    <Card style={{ border: 'none', borderRadius: '14px', cursor: 'pointer' }} className='producthover mt-4 '>
+                    <Card style={{ border: 'none', borderRadius: '14px', cursor: 'pointer',height:'350px' }} className='producthover mt-4 '>
+                      <Link to={`/products-detail?idproduct=${value.idproduct}`}>
                         <CardImg
                             src={value.images[0].url}
                             width='100%'
@@ -112,9 +115,10 @@ class ProductPage extends React.Component {
                             className='zoom'
                         />
                         <CardBody style={{ textAlign: 'center' }}>
-                            <CardTitle className='cardTittle1'>{value.nama}</CardTitle>
-                            <CardTitle className='heading3'>Rp. {value.harga.toLocaleString()}</CardTitle>
+                            <CardTitle className='heading3' style={{fontSize:16}}>{value.nama}</CardTitle>
+                            <CardTitle className='heading3' style={{fontSize:18}}>Rp. {value.harga.toLocaleString()}</CardTitle>
                         </CardBody>
+                     </Link>
                     </Card>
                 </div>
             )
@@ -133,10 +137,14 @@ class ProductPage extends React.Component {
         }
         return btn;
     }
+
     btnSearch = () => {
         this.props.getProductAction({
-            nama: this.state.inputNama
+            nama: this.state.inputNama,
+            idcategory:this.inCategory.value
         })
+        console.log(this.inCategory.value)
+
     }
     btnClick = (e) => {
         this.props.sortingProduct({
@@ -147,7 +155,9 @@ class ProductPage extends React.Component {
     btnReset = () => {
         this.props.getProductAction()
     }
+    
     render() {
+
         return (
             <div className='container-fluid' style={{ background: '#F6F7FB', paddingTop: 20 }}>
                 <div className='container'>
@@ -163,7 +173,7 @@ class ProductPage extends React.Component {
                     </div>
                     <div className="row" >
                         <div className='col-3 py-4'>
-                            <div style={{ background: 'white', height: '60vh', borderRadius: '15px', padding: 10 }}>
+                            <div style={{ background: 'white', height: '47vh', borderRadius: '15px', padding: 10 }}>
                                 <div style={{ display: 'flex', borderBottom: '2px solid #1E144F', width: '85px', height: '40px', fontSize: 20 }}>
                                     <span style={{ marginTop: 8, color: '#E63E54' }}>
                                         <FaFilter />
@@ -172,9 +182,9 @@ class ProductPage extends React.Component {
                                     <FormGroup style={{ marginTop: 4 }}>
                                         <InputGroup>
                                             <Input type='select' style={{ marginLeft: 20, width: "100px", borderRadius: 10 }}
-                                                onChange={this.btnClick}>
+                                                >
                                                 {/* innerRef={(element) => this.inSearchSort = element} */}
-                                                <option value="id-asc">Sort</option>
+                                                <option value="idproduct-asc">Sort</option>
                                                 <option value="harga-asc">Harga Asc</option>
                                                 <option value="harga-desc">Harga Desc</option>
                                                 <option value="nama-asc">A-Z</option>
@@ -204,24 +214,18 @@ class ProductPage extends React.Component {
                                     </IG> */}
                                     <FormGroup>
                                         <Label>Category</Label>
-                                        <InputGroup style={{}}>
-                                            <Input type='select' style={{ width: "250px", borderRadius: 0 }}
-                                            >
-                                                {/* innerRef={(element) => this.inSearchSort = element} */}
-                                                <option value="id-asc">Category</option>
-                                                <option value="harga-asc">Cough</option>
-                                                <option value="harga-desc">Skin</option>
-                                                <option value="nama-asc">Headache</option>
-                                                <option value="nama-desc">Fever</option>
-                                                <option value="idproduct-asc">Reset</option>
-                                            </Input>
-                                        </InputGroup>
+                                        <Input type='select' style={{ width: "100%", borderRadius: 0 }}
+                                            innerRef={elemen => this.inCategory = elemen}>
+                                            <option value={null}>Category</option>
+                                            {
+                                                this.props.category.map((value, index) => <option value={value.idcategory} key={value.idcategory}>{value.category}</option>)
+                                            }
+                                        </Input>
                                     </FormGroup>
-                                    <div style={{ marginLeft: '150px', marginTop: '15px' }}>
-                                        <Button onClick={this.btnReset}>Reset</Button>
-                                        <Button style={{ marginLeft: '10px' }} onClick={this.btnSearch}>Filter</Button>
+                                    <div style={{ marginLeft: '148px', marginTop: '15px' }}>
+                                        <Button className='landing1' onClick={this.btnReset}>Reset</Button>
+                                        <Button className='NavbarButton' style={{ marginLeft: '10px' }} onClick={this.btnSearch}>Filter</Button>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -243,7 +247,9 @@ class ProductPage extends React.Component {
 }
 const mapToProps = (state) => {
     return {
-        products: state.productsReducer.products
+        products: state.productsReducer.products,
+        category: state.productsReducer.category
     }
 }
+
 export default connect(mapToProps, { getProductAction, sortingProduct })(ProductPage);

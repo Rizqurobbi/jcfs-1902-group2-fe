@@ -7,11 +7,26 @@ export const getProductAction = (search = null) => {
             // let token = localStorage.getItem('data');
             let res;
             // if(token){
+            // if (search) {
+            //     if (search.nama) {
+            //         res = await axios.get(`${API_URL}/products?nama=${search.nama}`)
+            //     } else if() {
+            //         res = await axios.get(`${API_URL}/products?idcategory=${search.idcategory}`)
+            //     }
+            // } else {
+            //     res = await axios.get(`${API_URL}/products`)
+            // }
             if (search) {
                 if (search.nama) {
-                    res = await axios.get(`${API_URL}/products?nama=${search.nama}`)
+                    if (search.idcategory > 0) {
+                        res = await axios.get(`${API_URL}/products?nama=${search.nama}&idcategory=${search.idcategory}`)
+                    }else{
+                        res = await axios.get(`${API_URL}/products?nama=${search.nama}`)
+                    }
+                }else{
+                    res = await axios.get(`${API_URL}/products?idcategory=${search.idcategory}`)
                 }
-            } else {
+            } else{
                 res = await axios.get(`${API_URL}/products`)
             }
             // }
@@ -24,6 +39,7 @@ export const getProductAction = (search = null) => {
         }
     }
 }
+
 export const sortingProduct = (sort) => {
     return async (dispatch) => {
         try {
@@ -31,6 +47,21 @@ export const sortingProduct = (sort) => {
             dispatch({
                 type: "GET_DATA_PRODUCTS",
                 payload: res.data.dataProducts
+               })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export const getCategory = () => {
+    return async (dispatch) => {
+        try {
+            let resCategory = await axios.get(`${API_URL}/products/category`)
+            console.log("data product", { category: resCategory.data.dataCategory })
+            dispatch({
+                type: "GET_DATA_CATEGORY",
+                payload: { category: resCategory.data.dataCategory }
             })
         } catch (error) {
             console.log(error)
