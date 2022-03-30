@@ -4,13 +4,15 @@ import './index.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import reportWebVitals from './reportWebVitals';
+import { ChakraProvider } from '@chakra-ui/react'
 import { BrowserRouter } from 'react-router-dom';
-import { ChakraProvider } from '@chakra-ui/react';
 import { Provider } from 'react-redux';
+import ReduxThunk from 'redux-thunk';
 import { applyMiddleware, createStore } from 'redux';
-import ReduxThunk from 'redux-thunk'
 import { rootReducers } from './redux/reducers';
+
 const globalStore = createStore(rootReducers, {}, applyMiddleware(ReduxThunk))
+
 ReactDOM.render(
   <Provider store={globalStore}>
     <ChakraProvider>

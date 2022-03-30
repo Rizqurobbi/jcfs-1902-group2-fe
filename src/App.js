@@ -1,28 +1,49 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
-import ProductPage from './Pages/ProductPage';
-import React from 'react';
-import NavbarComponent from './Components/Navbar';
 import FooterComponent from './Components/Footer';
+import NavbarComponent from './Components/Navbar';
+import LandingPage from './Pages/LandingPage';
+import RegisterPage from './Pages/RegisterPage';
+import VerificationPage from './Pages/VerificationPage';
+import ProductPage from './Pages/ProductPage';
+import { loginAction, keepAction } from './redux/actions'
 
-class App extends React.Component {
+class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {  }
+    this.state = {
+
+    }
   }
-  render() { 
-    return ( 
+  componentDidMount() {
+    this.keepLogin()
+  }
+
+  keepLogin = async () => {
+    try {
+      let res = await this.props.keepAction()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  render() {
+    return (
       <div>
-        <NavbarComponent/>
+        <NavbarComponent />
         <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/verify/:token" element={<VerificationPage />} />
           <Route path='/products' element={<ProductPage/>}/>
         </Routes>
-        <FooterComponent/>
+        <FooterComponent />
       </div>
-     );
+    );
   }
 }
  
 
-export default App;
+export default connect(null, { keepAction }) (App);
