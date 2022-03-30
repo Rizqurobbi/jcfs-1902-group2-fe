@@ -8,6 +8,7 @@ import LandingPage from './Pages/LandingPage';
 import RegisterPage from './Pages/RegisterPage';
 import VerificationPage from './Pages/VerificationPage';
 import ProductPage from './Pages/ProductPage';
+import ProductDetail from './Pages/ProductDetail';
 import { loginAction, keepAction } from './redux/actions'
 
 class App extends Component {
@@ -38,6 +39,7 @@ class App extends Component {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/verify/:token" element={<VerificationPage />} />
           <Route path='/products' element={<ProductPage/>}/>
+          <Route path='/products-detail' element={<ProductDetail/>}/>
         </Routes>
         <FooterComponent />
       </div>
