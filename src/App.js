@@ -11,7 +11,7 @@ import ProductPage from './Pages/ProductPage';
 import ProductDetail from './Pages/ProductDetail';
 import { loginAction, keepAction } from './redux/actions'
 import { getCategory } from './redux/actions/productsAction';
-import { connect } from 'react-redux';
+
 
 class App extends Component {
   constructor(props) {
