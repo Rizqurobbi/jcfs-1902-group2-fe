@@ -12,6 +12,127 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+/* .NavbarButton {
+  font-weight: 600;
+  font-size: 14px;
+  color: #0abde3;
+  outline-color:#0abde3;
+  border: 1.5px solid #0abde3;
+  padding: 0px 15px 0px 15px;
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-bottom: 0px;
+  cursor: pointer;
+}
+.NavbarButton:hover {
+  animation-name: navbarbutton;
+  animation-duration: 2s;
+} */
+.NavbarButton {
+  background: rgb(77,223,255)!important;
+  background: linear-gradient(146deg, rgba(77,223,255,1) 0%, rgba(0,206,244,1) 54%, rgba(0,176,255,1) 96%)!important;
+  color: white !important;
+  font-weight: 600 !important;
+  border: 1.5px solid;
+  padding: 0px 15px 0px 15px;
+  border-radius: 10px
+}
+.slick-prev:before,
+.slick-next:before {
+  color: rgb(77,223,255);
+}
+.NavbarButton:hover {
+  animation-name: navbarbutton;
+  animation-duration: 2s;
+}
+.landing1 {
+  background: rgb(254,207,137)!important;
+  background: linear-gradient(153deg, rgba(254,207,137,1) 0%, rgba(255,179,67,1) 54%, rgba(255,157,11,1) 96%)!important;
+  color: white !important;
+  font-weight: 600 !important;
+  border: 1.5px solid;
+  padding: 0px 15px 0px 15px;
+  border-radius: 10px
+}
+.heading1 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 60px;
+  color: #1E144F;
+}
+.heading2 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 500;
+  font-size: 36px;
+  margin-bottom: 10px;
+  color: #1E144F
+}
+.heading3 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: #1E144F
+}
+.heading4 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  margin-bottom: 10px;
+  color: #1E144F
+}
+.NavbarHeader{
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  padding: 10px 10px;
+  margin-bottom: 0px;
+  font-size: 16px;
+  color: #1E144F;
+}
+.footerFont{
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;  
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #1E144F
+}
+
+.cardTittle1{
+  font-family: 'Nunito', sans-serif;
+  font-size: 22px;
+  font-weight: 300;
+  margin-bottom: -2px;
+  color: #1E144F
+}
+
+.cardTittle2{
+  font-family: 'Nunito', sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  margin-bottom: 10px;
+  color: #1E144F
+}
+
+.card1:hover{
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  
+}
+
+.zoom{
+  transition:transform .3s;
+  margin: 0 auto;
+}
+.zoom:hover{
+  transform: scale(1.1); 
+
+}
+.producthover{
+  transition-property: box-shadow;
+  transition-duration: 1s;
+}
+.producthover:hover {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
 
 /* .NavbarButton {
   font-weight: 600;
@@ -156,4 +277,9 @@
   to {
     transform: rotate(360deg);
   }
+}
+@keyframes producthover {
+  0% {border: 'none'}
+  25% {box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;}
+  100% {box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;}
 }

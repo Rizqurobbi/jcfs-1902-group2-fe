@@ -9,7 +9,11 @@ import LandingPage from './Pages/LandingPage';
 import RegisterPage from './Pages/RegisterPage';
 import ResetPasswordPage from './Pages/ResetPasswordPage';
 import VerificationPage from './Pages/VerificationPage';
+import ProductPage from './Pages/ProductPage';
+import ProductDetail from './Pages/ProductDetail';
 import { loginAction, keepAction } from './redux/actions'
+import { getCategory } from './redux/actions/productsAction';
+
 
 class App extends Component {
   constructor(props) {
@@ -18,8 +22,10 @@ class App extends Component {
 
     }
   }
+
   componentDidMount() {
     this.keepLogin()
+    this.props.getCategory()
   }
 
   keepLogin = async () => {
@@ -40,11 +46,13 @@ class App extends Component {
           <Route path="/verify/:token" element={<VerificationPage />} />
           <Route path="/reset" element={<ForgotPasswordPage/>} />
           <Route path="/reset/:token" element={<ResetPasswordPage/>} />
+          <Route path='/products' element={<ProductPage/>}/>
+          <Route path='/products-detail' element={<ProductDetail/>}/>
         </Routes>
         <FooterComponent />
       </div>
     );
   }
 }
-
-export default connect(null, { keepAction }) (App);
+ 
+export default connect(null, { keepAction, getCategory }) (App);
