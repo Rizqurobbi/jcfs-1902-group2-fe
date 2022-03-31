@@ -52,7 +52,7 @@ class NavbarComponent extends Component {
                             </Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/verify'>
+                            <Link to='/reset'>
                                 <p className='NavbarHeader'>Buy by Recipes</p>
                             </Link>
                         </NavItem>

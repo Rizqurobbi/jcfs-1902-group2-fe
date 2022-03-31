@@ -4,8 +4,10 @@ import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import FooterComponent from './Components/Footer';
 import NavbarComponent from './Components/Navbar';
+import ForgotPasswordPage from './Pages/ForgotPasswordPage';
 import LandingPage from './Pages/LandingPage';
 import RegisterPage from './Pages/RegisterPage';
+import ResetPasswordPage from './Pages/ResetPasswordPage';
 import VerificationPage from './Pages/VerificationPage';
 import ProductPage from './Pages/ProductPage';
 import ProductDetail from './Pages/ProductDetail';
@@ -42,6 +44,8 @@ class App extends Component {
           <Route path="/" element={<LandingPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/verify/:token" element={<VerificationPage />} />
+          <Route path="/reset" element={<ForgotPasswordPage/>} />
+          <Route path="/reset/:token" element={<ResetPasswordPage/>} />
           <Route path='/products' element={<ProductPage/>}/>
           <Route path='/products-detail' element={<ProductDetail/>}/>
         </Routes>

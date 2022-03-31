@@ -4,7 +4,7 @@ import logo from '../img/logofix.png'
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { connect } from 'react-redux';
 import { loginAction } from '../redux/actions'
-
+import { Link } from 'react-router-dom';
 
 class LoginComponent extends Component {
     constructor(props) {
@@ -59,9 +59,11 @@ class LoginComponent extends Component {
                                     </InputGroupText>
                                 </InputGroup>
                             </FormGroup>
-                            <div style={{ textAlign: 'right' }}>
-                                <p className='heading4' style={{ fontSize: 12, cursor: 'pointer' }}>Forgot password?</p>
-                            </div>
+                            <Link to='/reset' onClick={this.props.btClose}>
+                                <div style={{ textAlign: 'right' }}>
+                                    <p className='heading4' style={{ fontSize: 12, cursor: 'pointer' }}>Forgot password?</p>
+                                </div>
+                            </Link>
                             <div className='NavbarButton' style={{ margin: 'auto', textAlign: 'center', cursor: 'pointer' }} onClick={this.btLogin}>
                                 <button className='py-2' >Submit</button>
                             </div>
@@ -78,4 +80,4 @@ class LoginComponent extends Component {
     }
 }
 
-export default connect(null, { loginAction }) (LoginComponent);
+export default connect(null, { loginAction })(LoginComponent);

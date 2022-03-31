@@ -4,7 +4,7 @@ import photo1 from '../img/photo2.jpg'
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import axios from 'axios';
 import { API_URL } from '../helper';
-
+import { FaRegSmileBeam } from "react-icons/fa";
 
 class RegisterPage extends Component {
     constructor(props) {
@@ -57,8 +57,8 @@ class RegisterPage extends Component {
                                 this.setState({
                                     toastOpen: true,
                                     toastHeader: "Register Success",
-                                    toastMessage: "Check your email! :)",
-                                    toastIcon: "success"
+                                    toastMessage: "Check your email!",
+                                    toastIcon: <FaRegSmileBeam style={{fontSize: 20}}/>
                                 })
                                 this.emailRegis.value = ""
                                 this.usernameRegis.value = ""
@@ -90,7 +90,7 @@ class RegisterPage extends Component {
     render() {
         return (
             <div className='container-fluid pt-3 pb-5' style={{ backgroundColor: '#FCFBFA' }} >
-                <Toast isOpen={this.state.toastOpen} style={{ position: "fixed" }}>
+                <Toast isOpen={this.state.toastOpen} style={{ float: 'right', marginRight: 40 }}>
                     <ToastHeader icon={this.state.toastIcon}
                         toggle={() => this.setState({ toastOpen: false })}>
                         {this.state.toastHeader}
