@@ -10,7 +10,7 @@ import VerificationPage from './Pages/VerificationPage';
 import ProductPage from './Pages/ProductPage';
 import ProductDetail from './Pages/ProductDetail';
 import { loginAction, keepAction } from './redux/actions'
-import { getCategory } from './redux/actions/productsAction';
+import { getCategory,getUnit } from './redux/actions/productsAction';
 import ProductManagement from './Pages/ProductManagement';
 
 
@@ -25,6 +25,7 @@ class App extends Component {
   componentDidMount() {
     this.keepLogin()
     this.props.getCategory()
+    this.props.getUnit()
   }
 
   keepLogin = async () => {
@@ -53,4 +54,4 @@ class App extends Component {
   }
 }
  
-export default connect(null, { keepAction, getCategory }) (App);
+export default connect(null, { keepAction, getCategory,getUnit }) (App);
