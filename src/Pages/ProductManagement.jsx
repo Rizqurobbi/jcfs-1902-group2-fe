@@ -1,262 +1,152 @@
 import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, FormGroup, Input, Label, Row, Col } from 'reactstrap';
+import { Button, FormGroup, Input, Label, Row, Col, Table, ButtonGroup } from 'reactstrap';
 import { API_URL } from '../helper';
 import { getProductAction } from '../redux/actions';
-
-
+import ModalAdd from '../Components/ModalAdd';
+import { IoRemoveCircleOutline, IoAddCircleOutline } from "react-icons/io5";
+import { MdMoreHoriz } from "react-icons/md";
+import { FiEdit,FiUpload,FiTrash2 } from "react-icons/fi";
+import { CgAddR } from "react-icons/cg";
+import ModalEdit from '../Components/ModalEdit';
+import PM from '../img/productsManagement2.jpg'
 
 class ProductManagement extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             stocks: [],
-            images: []
+            images: [],
+            page: 1,
+            productDetail: {},
+            modalOpenAdd: false,
+            modalOpenEdit: false,
         }
     }
     componentDidMount() {
         this.props.getProductAction()
     }
-    btnUpload = () => {
-        let formData = new FormData()
-        let data = {
-            idcategory: this.inCategory.value,
-            idunit: this.inUnit.value,
-            nama: this.inName.value,
-            berat: this.inWeight.value,
-            harga: this.inPrice.value,
-            deskripsi: this.inDesc.value,
-            penyajian: this.inServ.value,
-            dosis: this.inDose.value,
-            caraPenyimpanan: this.inKeep.value,
-            kegunaan: this.inBenefit.value,
-            komposisi: this.inCompos.value,
-            efekSamping: this.inSide.value,
-            stocks: this.state.stocks
-        }
-        formData.append(`data`, JSON.stringify(data))
-        this.state.images.forEach(val => formData.append('Images', val.file))
-        axios.post(API_URL + '/products', formData)
-            .then(res => {
-                console.log(res.data)
-                this.props.getProductsAction()
-                alert('Add Product Success')
-            }).catch(err => {
+    // render element input form image
+    deleteProduct = (id) => {
+        axios.delete(`${API_URL}/products/${id}`)
+            .then((res) => {
+                this.props.getProductAction()
+            })
+            .catch((err) => {
                 console.log(err)
             })
-
     }
-    onBtAddStock = () => {
-        // let tempStock = [...this.state.stock]
-        this.state.stocks.push({ id: null, type: null, qty: null })
-        this.setState({ stocks: this.state.stocks })
+    printProduct = () => {
+        let {page} = this.state
+        return this.props.products.slice(page > 1 ? (page - 1) * 8 : page - 1, page * 8).map((value, index) => {
+            return (
+                // <div className='row' style={{ height: '22vh', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px', borderRadius: 15, marginBottom: '20px' }}>
+                //     <div className='col-4' style={{ width: '23%' }}>
+                //         <img src={value.images[0].url} style={{ objectFit: 'cover', width: '100%', height: '100%' }} alt="" />
+                //     </div>
+                //     <div className='col-4 p-4' style={{}}>
+                //         <p className='heading3'>{value.nama}</p>
+                //         <p>Category: {value.category}</p>
+                //     </div>
+                //     <div className='col-2' style={{ padding: 0 }}>
+                //         <p className='heading3' style={{ marginTop: 30, fontSize: 20 }}>Rp.{value.harga.toLocaleString()}</p>
+                //         {/* <p>{value.harga.toLocaleString()}</p> */}
+                //     </div>
+                //     <div className='col-3'>
+                //         <Button className='landing1' style={{ marginTop: '100px', float: 'right' }}>Detail</Button>
+                //     </div>
+                // </div>
+                <tr>
+                    <td>{index + 1}</td>
+                    <td style={{ width: '13%' }}>
+                        <img src={value.images[0].url} style={{ objectFit: 'cover', width: '100%', height: '100%' }} alt="" />
+                    </td>
+                    <td style={{paddingTop:42}}><p className='heading3'>{value.nama}</p></td>
+                    <td style={{paddingTop:50}}><p className='heading3' style={{ fontSize: 15 }}>{value.berat}</p></td>
+                    <td style={{paddingTop:50}}><p className='heading3' style={{ fontSize: 15 }}>{value.satuan}</p></td>
+                    <td style={{paddingTop:50}}><p className='heading3' style={{ fontSize: 15 }}>{value.category}</p></td>
+                    <td style={{paddingTop:50}}><p className='heading3' style={{ fontSize: 15 }}>Rp.{value.harga.toLocaleString()}</p></td>
+                    <td style={{paddingTop:50}}>
+                        <div className='d-flex' style={{ justifyContent: 'space-evenly' }}>
+                            <span title='Add Product' style={{ fontSize: 25 }} onClick={() => this.setState({ modalOpenAdd: !this.state.modalOpenAdd })}><CgAddR /></span>
+                            <span title='Remove Product' style={{ fontSize: 25, color: '#E63E54' }} onClick={() => this.deleteProduct(value.idproduct)}><FiTrash2 /></span>
+                            <span title='Edit Product' style={{ fontSize: 25, }} onClick={() => this.setState({ modalOpenEdit: !this.state.modalOpenEdit, productDetail: value })}><FiEdit /></span>
+                        </div>
+                    </td>
+                </tr>
+            )
+        })
     }
-
-    // menambah penampung data image pada state.images
-    onBtAddImages = () => {
-        this.state.images.push("")
-        this.setState({ images: this.state.images })
-    }
-    onBtDeleteStock = (index) => {
-        this.state.stocks.splice(index, 1)
-        this.setState({ stocks: this.state.stocks })
-    }
-
-    onBtDeleteImage = (index) => {
-        this.state.images.splice(index, 1)
-        this.setState({ images: this.state.images })
-    }
-    printStock = () => {
-        if (this.state.stocks.length > 0) {
-            return this.state.stocks.map((item, index) => {
-                return <Row>
-                    <Col>
-                        <Input type="text" placeholder={`Type-${index + 1}`} onChange={(e) => this.handleType(e, index)} />
-                    </Col>
-                    <Col>
-                        <Input type="number" placeholder={`Stock-${index + 1}`} onChange={(e) => this.handleStock(e, index)} />
-                    </Col>
-                    <Col>
-                        <a className="btn btn-outline-danger" onClick={() => this.onBtDeleteStock(index)} style={{ cursor: 'pointer' }}>Delete</a>
-                    </Col>
-                </Row>
-            })
+    printBtnPagination = () => {
+        let btn = []
+        for (let i = 0; i < Math.ceil(this.props.products.length / 8); i++) {
+            btn.push(
+                <button
+                    className='NavbarButton'
+                    disabled={this.state.page == i + 1 ? true : false}
+                    onClick={() => this.setState({ page: i + 1 })}
+                    style={{borderRadius:'8px'}}
+                >{i + 1}
+                </button>
+            )
         }
-    }
-
-    // render element input form image
-    printImages = () => {
-        if (this.state.images.length > 0) {
-            return this.state.images.map((item, index) => {
-                return <Row>
-                    <Col>
-                        <Input style={{ width: '10vw' }} accept="image/*" type="file" placeholder={`Select Images-${index + 1}`}
-                            onChange={(e) => this.handleImages(e, index)} />
-                        {
-                            item.file ?
-                                <img src={URL.createObjectURL(item.file)} style={{ width: '60%', marginTop: 20, marginBottom: 20 }} />
-                                :
-                                <img src='http://bppl.kkp.go.id/uploads/publikasi/karya_tulis_ilmiah/default.jpg' style={{ width: '60%', marginTop: 20, marginBottom: 20 }} />
-                        }
-                    </Col>
-                    <Col>
-                        <a className="btn btn-outline-danger" onClick={() => this.onBtDeleteImage(index)} style={{ cursor: 'pointer' }}>Delete</a>
-                    </Col>
-                </Row>
-            })
-        }
-    }
-    handleImages = (e, index) => {
-        console.log(this.state.stocks)
-        let temp = [...this.state.images]
-        temp[index] = { name: e.target.files[0].name, file: e.target.files[0] }
-        this.setState({ images: temp })
-    }
-
-    handleType = (e, index) => {
-        console.log(this.state.stocks)
-        let temp = [...this.state.stocks]
-        temp[index].type = e.target.value;
-        this.setState({ stocks: temp })
-    }
-
-    handleStock = (e, index) => {
-        console.log(this.state.stocks)
-        let temp = [...this.state.stocks]
-        temp[index].qty = parseInt(e.target.value)
-        this.setState({ stocks: temp })
-    }
-    // handleUnit = (e, index) => {
-    //     console.log(this.state.stocks)
-    //     let temp = [...this.state.stocks]
-    //     temp[index].idunit = parseInt(e.target.value)
-    //     this.setState({ stocks: temp })
-    // }
-
-    onBtCancel = () => {
-        this.setState({ stocks: [], images: [] })
-        // fungsi untuk close modal
-        this.props.btClose()
+        return btn;
     }
     render() {
         // console.log(this.props.unit)
         console.log(typeof (this.props.unit))
         console.log(typeof (this.props.category))
         console.log(this.inUnit)
+        // console.log(this.props.getProductAction())
+        console.log(this.props.products)
         return (
             <div className='container-fluid'>
                 <div className='container'>
-                    <div className="container">
-                        <div className='row'>
-                            <div className='col-7' style={{ background: 'blue', height: '20vh' }}>
-
-                            </div>
-                            <div className='col-5' style={{ background: 'white', height: 'auto', padding: 20 }}>
-                                <div style={{ border: '1px solid black', borderRadius: 10, height: 'auto', width: '25vw', margin: 'auto', padding: 30 }}>
-                                    <div>
-                                        <p className='heading2 text-center'>ADD PRODUCT</p>
-                                    </div>
-                                    <div>
-                                        <FormGroup>
-                                            <Label>Product Name</Label>
-                                            <Input type='text' innerRef={e => this.inName = e}></Input>
-                                        </FormGroup>
-                                        <div className='row'>
-                                            <div className='col-6'>
-                                                <FormGroup>
-                                                    <Label>Price</Label>
-                                                    <Input type='Number' innerRef={e => this.inPrice = e}></Input>
-                                                </FormGroup>
-                                            </div>
-                                            <div className='col-6'>
-                                                <FormGroup>
-                                                    <Label>Unit</Label>
-                                                    <Input type='select'
-                                                        innerRef={e => this.inUnit = e}>
-                                                        <option value={null}>Unit</option>
-                                                        {
-                                                            this.props.unit.map((value, index) => <option value={value.idunit} key={value.idunit}>{value.satuan}</option>)
-                                                        }
-                                                    </Input>
-                                                </FormGroup>
-                                            </div>
-                                        </div>
-                                        <FormGroup>
-                                            <Label>Stocks</Label>
-                                            <Button outline color="success" type="button" size="sm" style={{ float: 'right' }} className='landing1' onClick={this.onBtAddStock}>ADD</Button>
-                                            {this.printStock()}
-                                        </FormGroup>
-                                        <div className='row'>
-                                            <div className='col-6'>
-                                                {/* <FormGroup>
-                                                    <Label>Unit</Label>
-                                                    <Input type='select'>
-                                                        <option value={null}>Unit</option>
-                                                        {
-                                                            this.props.unit.map((value, index) => <option value={value.idunit} key={value.idunit}>{value.satuan}</option>)
-                                                        }
-                                                    </Input>
-                                                </FormGroup> */}
-                                                <FormGroup>
-                                                    <Label>Category</Label>
-                                                    <Input type='select' innerRef={e => this.inCategory = e}>
-                                                        <option value={null}>Category</option>
-                                                        {
-                                                            this.props.category.map((value, index) => <option value={value.idcategory} key={value.idcategory}>{value.category}</option>)
-                                                        }
-                                                    </Input>
-                                                </FormGroup>
-                                            </div>
-                                            <div className='col-6'>
-                                                <FormGroup>
-                                                    <Label>Weight</Label>
-                                                    <Input type='Number' innerRef={e => this.inWeight = e}></Input>
-                                                </FormGroup>
-                                            </div>
-                                        </div>
-                                        <FormGroup>
-                                            <Label>Description</Label>
-                                            <Input type='text' innerRef={e => this.inDesc = e}></Input>
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <Label>Serving Method</Label>
-                                            <Input type='text' innerRef={e => this.inServ = e}></Input>
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <Label>Dose</Label>
-                                            <Input type='text' innerRef={e => this.inDose = e}></Input>
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <Label>How to Keep</Label>
-                                            <Input type='text' innerRef={e => this.inKeep = e}></Input>
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <Label>Composition</Label>
-                                            <Input type='text' innerRef={e => this.inCompos = e}></Input>
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <Label>Benefit</Label>
-                                            <Input type='text' innerRef={e => this.inBenefit = e}></Input>
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <Label>Side Effects</Label>
-                                            <Input type='text' innerRef={e => this.inSide = e}></Input>
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <Label>Images</Label>
-                                            <Button type="button" size="sm" style={{ float: 'right', margin: 'auto' }} className='landing1' onClick={this.onBtAddImages}>ADD</Button>
-                                            {this.printImages()}
-                                        </FormGroup>
-                                    </div>
-                                    <div style={{ marginTop: 20 }}>
-                                        <Button className='NavbarButton' style={{ width: '100%' }} onClick={this.btnUpload}>UPLOAD</Button>
-                                    </div>
-                                </div>
-                            </div>
+                    <div style={{ backgroundPosition: '20% 30%', backgroundSize: 'cover', backgroundImage: "url(" + PM + ")", backgroundRepeat: 'no-repeat', width: '100%', height: '40vh', borderRadius: '15px' }}>
+                        <div style={{ paddingTop: '13vh', paddingLeft: '260px' }}>
+                            <h1 className='heading1' style={{ color: 'white', fontWeight: 900 }}>Products Management</h1>
+                        </div>
+                        <div>
+                            {/* <Link to="/">
+                            <a className="mx-4" style={{ fontWeight: 'bold', textDecoration: 'transparent', color: 'black', alignItems: 'center' }} title="Back to the Homepage">Home</a>
+                        </Link> */}
                         </div>
                     </div>
+
+                    <div style={{ padding: 80 }}>
+                            <Table bordered style={{ textAlign: 'center', }}>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Image</th>
+                                        <th>Product</th>
+                                        <th>Weight</th>
+                                        <th>Unit</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {this.printProduct()}
+                                </tbody>
+                            </Table>
+                        <div className="my-5 text-center">
+                            <ButtonGroup>
+                                {this.printBtnPagination()}
+                            </ButtonGroup>
+                        </div>
+                    </div>
+
                 </div>
+                <ModalAdd
+                    modalOpen={this.state.modalOpenAdd}
+                    btClose={() => this.setState({ modalOpenAdd: !this.state.modalOpenAdd })} />
+                <ModalEdit
+                    modalOpen={this.state.modalOpenEdit}
+                    btClose={() => this.setState({ modalOpenEdit: !this.state.modalOpenEdit })}
+                    productDetail={this.state.productDetail} />
             </div>
         );
     }
