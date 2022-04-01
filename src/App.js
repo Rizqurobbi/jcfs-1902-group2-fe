@@ -13,6 +13,7 @@ import ProductPage from './Pages/ProductPage';
 import ProductDetail from './Pages/ProductDetail';
 import { loginAction, keepAction } from './redux/actions'
 import { getCategory } from './redux/actions/productsAction';
+import ProfileManagement from './Pages/EditProfilePage';
 
 
 class App extends Component {
@@ -44,15 +45,30 @@ class App extends Component {
           <Route path="/" element={<LandingPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/verify/:token" element={<VerificationPage />} />
-          <Route path="/reset" element={<ForgotPasswordPage/>} />
-          <Route path="/reset/:token" element={<ResetPasswordPage/>} />
-          <Route path='/products' element={<ProductPage/>}/>
-          <Route path='/products-detail' element={<ProductDetail/>}/>
+          <Route path="/reset" element={<ForgotPasswordPage />} />
+          <Route path="/reset/:token" element={<ResetPasswordPage />} />
+          <Route path='/products' element={<ProductPage />} />
+          <Route path='/products-detail' element={<ProductDetail />} />
+          {
+            this.props.role == "User" ?
+              <>
+                <Route path="/cart-user" />
+                <Route path="/edit" element={<ProfileManagement />} />
+              </>
+              :
+              null
+          }
         </Routes>
         <FooterComponent />
       </div>
     );
   }
 }
- 
-export default connect(null, { keepAction, getCategory }) (App);
+
+const mapToProps = (state) => {
+  return {
+    role: state.userReducer.role
+  }
+}
+
+export default connect(mapToProps, { keepAction, getCategory })(App);
