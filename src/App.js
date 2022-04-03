@@ -12,9 +12,9 @@ import VerificationPage from './Pages/VerificationPage';
 import ProductPage from './Pages/ProductPage';
 import ProductDetail from './Pages/ProductDetail';
 import { loginAction, keepAction } from './redux/actions'
-import { getCategory } from './redux/actions/productsAction';
+import { getCategory,getUnit } from './redux/actions/productsAction';
+import ProductManagement from './Pages/ProductManagement';
 import ProfileManagement from './Pages/EditProfilePage';
-
 
 class App extends Component {
   constructor(props) {
@@ -27,6 +27,7 @@ class App extends Component {
   componentDidMount() {
     this.keepLogin()
     this.props.getCategory()
+    this.props.getUnit()
   }
 
   keepLogin = async () => {
@@ -49,6 +50,7 @@ class App extends Component {
           <Route path="/reset/:token" element={<ResetPasswordPage />} />
           <Route path='/products' element={<ProductPage />} />
           <Route path='/products-detail' element={<ProductDetail />} />
+          <Route path='/products-management' element={<ProductManagement/>}/>
           {
             this.props.role == "User" ?
               <>
@@ -71,4 +73,4 @@ const mapToProps = (state) => {
   }
 }
 
-export default connect(mapToProps, { keepAction, getCategory })(App);
+export default connect(mapToProps, { keepAction, getCategory, getUnit })(App);
