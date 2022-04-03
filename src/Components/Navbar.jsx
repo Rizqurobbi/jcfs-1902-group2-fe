@@ -52,7 +52,7 @@ class NavbarComponent extends Component {
                             </Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/verify'>
+                            <Link to='/reset'>
                                 <p className='NavbarHeader'>Buy by Recipes</p>
                             </Link>
                         </NavItem>
@@ -77,15 +77,20 @@ class NavbarComponent extends Component {
                                                 Transaction History
                                             </DropdownItem>
                                             <DropdownItem>
-                                                My Profile
+                                                <Link to='/edit'>
+                                                    My Profile
+                                                </Link>
                                             </DropdownItem>
                                             <DropdownItem divider />
-                                            <DropdownItem onClick={() => {
-                                                localStorage.removeItem("data");
-                                                this.props.logOutAction();
-                                            }}>
-                                                Logout
-                                            </DropdownItem>
+                                            <Link to='/'>
+                                                <DropdownItem onClick={() => {
+                                                    localStorage.removeItem("data");
+                                                    this.props.logOutAction();
+                                                }}>
+                                                    Logout
+                                                </DropdownItem>
+                                            </Link>
+
                                         </DropdownMenu>
                                         :
                                         <DropdownMenu DropdownMenu className='heading4'

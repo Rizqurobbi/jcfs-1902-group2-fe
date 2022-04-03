@@ -73,6 +73,32 @@ export const keepAction = () => {
     }
 }
 
+export const resetPassword = ( newPass ) => {
+    return async (dispatch) => {
+        try {
+            let token = window.location.pathname.split('/')[2]
+            console.log('initoken dan pass', token, newPass)
+            if (token) {
+                let res = await axios.post(`${API_URL}/users/reset`, {newPass},  {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                if (res.data.success) {
+                    localStorage.setItem("data", res.data.dataReset.token)
+                    dispatch({
+                        type: "LOGIN_SUCCESS",
+                        payload: res.data.dataReset
+                    })
+                }
+                return { success: res.data.success }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
 export const logOutAction = () => {
     return {
         type: "LOGOUT"
