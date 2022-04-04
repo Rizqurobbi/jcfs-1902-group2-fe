@@ -32,7 +32,7 @@ class ProductDetail extends React.Component {
         let { images } = detail
         return images.map((value, index) => {
             return (
-                <img className="select-image mb-1 my-2 rounded" style={{ border: '1px solid', marginRight: 10 }} src={value.url}
+                <img className="select-image mb-1 my-2 rounded" style={{ border: '1px solid', marginRight: 10 }} src={API_URL + value.url}
                     key={index}
                     width="100%"
                     onClick={() => this.setState({ thumbnail: index })}
@@ -50,7 +50,7 @@ class ProductDetail extends React.Component {
                     <>
                         <div className='col-6' style={{ paddingLeft: 105 }}>
                             <div style={{ width: '80%' }}>
-                                <img style={{ borderRadius: 8 }} src={detail.images[0].url} width="100%" alt="" />
+                                <img style={{ borderRadius: 8 }} src={API_URL + detail.images[0].url} width="100%" alt="" />
                                 <div className='col-4 d-flex'>
                                     {this.renderImages()}
                                 </div>
