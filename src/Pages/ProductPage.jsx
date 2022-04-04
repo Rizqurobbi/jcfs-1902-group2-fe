@@ -7,6 +7,7 @@ import { FaFilter } from 'react-icons/fa'
 import { connect } from 'react-redux';
 import { getProductAction, sortingProduct } from '../redux/actions/productsAction';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../helper';
 
 class ProductPage extends React.Component {
     constructor(props) {
@@ -106,19 +107,19 @@ class ProductPage extends React.Component {
         return this.props.products.slice(page > 1 ? (page - 1) * 8 : page - 1, page * 8).map((value, index) => {
             return (
                 <div className="col-3">
-                    <Card style={{ border: 'none', borderRadius: '14px', cursor: 'pointer',height:'350px' }} className='producthover mt-4 '>
-                      <Link to={`/products-detail?idproduct=${value.idproduct}`}>
-                        <CardImg
-                            src={value.images[0].url}
-                            width='100%'
-                            style={{ padding: 20 }}
-                            className='zoom'
-                        />
-                        <CardBody style={{ textAlign: 'center' }}>
-                            <CardTitle className='heading3' style={{fontSize:16}}>{value.nama}</CardTitle>
-                            <CardTitle className='heading3' style={{fontSize:18}}>Rp. {value.harga.toLocaleString()}</CardTitle>
-                        </CardBody>
-                     </Link>
+                    <Card style={{ border: 'none', borderRadius: '14px', cursor: 'pointer', height: '350px' }} className='producthover mt-4 '>
+                        <Link to={`/products-detail?idproduct=${value.idproduct}`}>
+                            <CardImg
+                                src={value.images[0].url.includes("http") ? value.images[0].url : API_URL + value.images[0].url}
+                                width='100%'
+                                style={{ padding: 20 }}
+                                className='zoom'
+                            />
+                            <CardBody style={{ textAlign: 'center' }}>
+                                <CardTitle className='heading3' style={{ fontSize: 16 }}>{value.nama}</CardTitle>
+                                <CardTitle className='heading3' style={{ fontSize: 18 }}>Rp. {value.harga.toLocaleString()}</CardTitle>
+                            </CardBody>
+                        </Link>
                     </Card>
                 </div>
             )
@@ -141,7 +142,7 @@ class ProductPage extends React.Component {
     btnSearch = () => {
         this.props.getProductAction({
             nama: this.state.inputNama,
-            idcategory:this.inCategory.value
+            idcategory: this.inCategory.value
         })
         console.log(this.inCategory.value)
 
@@ -155,7 +156,7 @@ class ProductPage extends React.Component {
     btnReset = () => {
         this.props.getProductAction()
     }
-    
+
     render() {
 
         return (
