@@ -60,7 +60,7 @@ class ProductManagement extends React.Component {
                 <tr>
                     <td>{index + 1}</td>
                     <td style={{ width: '13%' }}>
-                        <img src={value.images[0].url} style={{ objectFit: 'cover', width: '100%', height: '100%' }} alt="" />
+                        <img src={value.images[0].url.includes('http')?value.images[0].url:API_URL + value.images[0].url} style={{ objectFit: 'cover', width: '100%', height: '100%' }} alt="" />
                     </td>
                     <td style={{paddingTop:42}}><p className='heading3'>{value.nama}</p></td>
                     <td style={{paddingTop:50}}><p className='heading3' style={{ fontSize: 15 }}>{value.berat}</p></td>
