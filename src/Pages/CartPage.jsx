@@ -17,6 +17,24 @@ class CartPage extends React.Component {
     componentDidMount() {
         this.props.getCartAction()
     }
+    btnIncrement = (index) => {
+        let temp = [...this.props.carts]
+        if (temp[index].qty < temp[index].stock_qty) {
+            temp[index].qty += 1
+            this.setState({ coonter: this.state.counter })
+        }else{
+            alert(`Hai`)
+        }
+    }
+    btnDecrement = (num) => {
+        if (this.state.counter > 1) {
+
+            this.state.counter -= num
+            this.setState({
+                counter: this.state.counter
+            })
+        }
+    }
     printCart = () => {
         return this.props.carts.map((value, index) => {
             return (
@@ -35,7 +53,7 @@ class CartPage extends React.Component {
                         </div>
                         <div className="d-flex" style={{ marginTop: 20 }}>
                             <IoRemoveCircleOutline style={{ fontSize: 30, marginTop: 5,color:'#1E144F' }} />
-                            <Input style={{ width: 40, border: 'none', textAlign: 'center' }} defaultValue={this.state.counter}></Input>
+                            <Input style={{ width: 45, border: 'none', textAlign: 'center' }} value={value.qty}></Input>
                             <IoAddCircleOutline style={{ fontSize: 30, marginTop: 5,color:'#1E144F' }} />
                             <span title='Remove Product' style={{ fontSize: 29, color: '#E63E54', marginTop: 5, marginLeft: 15 }}><FiTrash2 /></span>
                         </div>
@@ -60,7 +78,7 @@ class CartPage extends React.Component {
                                 {this.printCart()}
                             </div>
                             <div className='col-5 p-4'>
-                                <div style={{ borderRadius: 10, background: 'white', height: 500, width: 340, margin: 'auto', padding: 23, boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}>
+                                <div style={{ borderRadius: 10, background: 'white', height: 500, width: 340, marginLeft:'auto' ,padding: 23, boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}>
                                     <div>
                                         <p className='heading3' style={{ fontSize: '' }}>ORDER SUMMARY</p>
                                     </div>

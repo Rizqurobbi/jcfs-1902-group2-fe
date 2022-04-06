@@ -5,14 +5,18 @@ import logo from '../img/logofix.png'
 import axios from 'axios';
 import { API_URL } from '../helper';
 import { Link } from 'react-router-dom';
+import { IoRemoveCircleOutline, IoAddCircleOutline, IoCloseCircleOutline, IoCloseOutline } from "react-icons/io5";
+import { connect } from 'react-redux';
+import { Navigate } from 'react-router';
+import { addToCartAction } from '../redux/actions';
 class ProductDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            count: 1,
+            counter: 1,
             detail: {},
             thumbnail: 0,
-
+            redirect: false
         }
     }
     componentDidMount() {
@@ -26,6 +30,41 @@ class ProductDetail extends React.Component {
             .catch((err) => {
                 console.log(err);
             })
+    }
+    btnAddToCart = async () => {
+        let { detail, counter } = this.state
+        let dataCart = {
+            idproduct: detail.idproduct,
+            idstock: detail.stocks[0].idstock,
+            qty: counter
+        }
+        if (this.props.username) {
+            let res = await this.props.addToCartAction(dataCart)
+            if (res.success) {
+                this.setState({ redirect: true })
+            } else {
+                alert(`KOSONG`)
+            }
+        } else {
+            alert('LOGIN')
+        }
+    }
+    btnIncrement = (num) => {
+        if (this.state.counter < this.state.detail.stocks[0].qty) {
+            this.state.counter += num
+            this.setState({ coonter: this.state.counter })
+        }else{
+            alert(`Hai`)
+        }
+    }
+    btnDecrement = (num) => {
+        if (this.state.counter > 1) {
+
+            this.state.counter -= num
+            this.setState({
+                counter: this.state.counter
+            })
+        }
     }
     renderImages = () => {
         let { detail } = this.state
@@ -69,11 +108,11 @@ class ProductDetail extends React.Component {
                             </div>
                             <div className='d-flex'>
                                 <div className='d-flex'>
-                                    <button className='NavbarButton'><IoIosRemove color='white' fontSize='20' /></button>
-                                    <Input textAlign='center' value={this.state.count} type="number" width='12' style={{ borderRadius: 2.9 }} border='none'></Input>
-                                    <button className='NavbarButton'><IoIosAdd color='white' fontSize='20' /></button>
+                                    <IoRemoveCircleOutline style={{ fontSize: 30, marginTop: 5, color: '#1E144F',cursor:'pointer' }} onClick={() => this.btnDecrement(1)} />
+                                    <Input textAlign='center' value={this.state.counter} type="number" width='12' style={{ borderRadius: 2.9 }} border='none'></Input>
+                                    <IoAddCircleOutline style={{ fontSize: 30, marginTop: 5, color: '#1E144F',cursor:'pointer' }} onClick={() => this.btnIncrement(1)} />
                                 </div>
-                                <button style={{ marginLeft: 'auto', width: '200px' }} className='landing1'>Add To Cart</button>
+                                <button onClick={this.btnAddToCart} style={{ marginLeft: 'auto', width: '200px' }} className='landing1'>Add To Cart</button>
                             </div>
 
                         </div>
@@ -85,6 +124,10 @@ class ProductDetail extends React.Component {
     }
     render() {
         let { detail } = this.state
+        console.log(this.state.counter)
+        if (this.state.redirect) {
+            return <Navigate to='/cart-user' />
+        }
         return (
             <div style={{ background: '#F6F7FB' }}>
                 <div style={{ backgroundColor: '#F6F7FB', height: 50 }}>
@@ -139,5 +182,9 @@ class ProductDetail extends React.Component {
         );
     }
 }
-
-export default ProductDetail;
+const mapToProps = (state) => {
+    return {
+        username: state.userReducer.username
+    }
+}
+export default connect(mapToProps, { addToCartAction })(ProductDetail);
