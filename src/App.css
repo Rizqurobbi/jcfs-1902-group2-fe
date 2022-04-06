@@ -252,6 +252,12 @@
   color: #61dafb;
 }
 
+.scrollbar {
+  flex: 1;
+  background: white;
+  overflow-y: scroll;
+}
+
 @keyframes navbarheader {
   0% {border-bottom: 1px solid white}
   25% {border-bottom: 1px solid #1E144F;}
