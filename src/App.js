@@ -15,6 +15,7 @@ import { loginAction, keepAction } from './redux/actions'
 import { getCategory,getUnit } from './redux/actions/productsAction';
 import ProductManagement from './Pages/ProductManagement';
 import ProfileManagement from './Pages/EditProfilePage';
+import NotFoundPage from './Pages/NotFoundPage';
 
 class App extends Component {
   constructor(props) {
@@ -50,7 +51,6 @@ class App extends Component {
           <Route path="/reset/:token" element={<ResetPasswordPage />} />
           <Route path='/products' element={<ProductPage />} />
           <Route path='/products-detail' element={<ProductDetail />} />
-          <Route path='/products-management' element={<ProductManagement/>}/>
           {
             this.props.role == "User" ?
               <>
@@ -58,7 +58,13 @@ class App extends Component {
                 <Route path="/edit" element={<ProfileManagement />} />
               </>
               :
-              null
+              this.props.role == "Admin" ?
+                <>
+                  <Route path="/product-management" element={<ProductManagement />} />
+                  {/* <Route path="/transaction-management" element={<TransactionManagement />} /> */}
+                </>
+                :
+                <Route path="*" element={<NotFoundPage />} />
           }
         </Routes>
         <FooterComponent />

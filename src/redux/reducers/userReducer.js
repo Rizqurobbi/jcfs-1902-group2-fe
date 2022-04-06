@@ -4,7 +4,11 @@ const INITIAL_STATE = {
     email: "",
     imageurl: "",
     role: "",
-    status: ""
+    status: "", 
+    fullname: "",
+    age: "",
+    gender: "",
+    address: [],
 }
 
 export const userReducer = (state = INITIAL_STATE, action) => {
@@ -18,7 +22,11 @@ export const userReducer = (state = INITIAL_STATE, action) => {
                 email: action.payload.email,
                 imageurl: action.payload.imageurl,
                 role: action.payload.role,
-                status: action.payload.status
+                status: action.payload.status,
+                fullname: action.payload.fullname,
+                age: action.payload.age,
+                gender: action.payload.gender,
+                address: action.payload.address
             }
         case "LOGOUT":
             return INITIAL_STATE

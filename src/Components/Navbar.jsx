@@ -27,7 +27,9 @@ class NavbarComponent extends Component {
                     />
                     <NavbarBrand className='d-flex' style={{ width: "45%" }}>
                         <div style={{ width: "25%", paddingTop: 3 }}>
-                            <img src={logo} width="100%" />
+                            <Link to="/">
+                                <img src={logo} width="100%" />
+                            </Link>
                         </div>
                         {/* <p style={{ color: '#231953', fontWeight: 'bolder', fontSize: '30px' }}>Farmacia</p> */}
                         <Nav className='mx-3'>
@@ -52,7 +54,7 @@ class NavbarComponent extends Component {
                             </Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/reset'>
+                            <Link to='/byrecipe'>
                                 <p className='NavbarHeader'>Buy by Recipes</p>
                             </Link>
                         </NavItem>
@@ -96,7 +98,9 @@ class NavbarComponent extends Component {
                                         <DropdownMenu DropdownMenu className='heading4'
                                         >
                                             <DropdownItem>
-                                                Products Management
+                                                <Link to='/product-management'>
+                                                    Products Management
+                                                </Link>
                                             </DropdownItem>
                                             <DropdownItem>
                                                 Transactions Management
