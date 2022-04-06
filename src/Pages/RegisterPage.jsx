@@ -5,6 +5,7 @@ import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import axios from 'axios';
 import { API_URL } from '../helper';
 import { FaRegSmileBeam } from "react-icons/fa";
+import LoginComponent from '../Components/Login';
 
 class RegisterPage extends Component {
     constructor(props) {
@@ -15,7 +16,8 @@ class RegisterPage extends Component {
             toastOpen: "",
             toastHeader: "",
             toastMessage: "",
-            toastIcon: ""
+            toastIcon: "",
+            modalLogin: false
         }
     }
 
@@ -81,7 +83,7 @@ class RegisterPage extends Component {
                     toastOpen: true,
                     toastHeader: "Register Warning",
                     toastIcon: "warning",
-                    toastMessage: "Password tidak sesuai"
+                    toastMessage: "Password not match"
                 })
             }
         }
@@ -99,12 +101,16 @@ class RegisterPage extends Component {
                         {this.state.toastMessage}
                     </ToastBody>
                 </Toast>
+                <LoginComponent
+                        modalOpen={this.state.modalLogin}
+                        btClose={() => this.setState({ modalLogin: !this.state.modalLogin })}
+                    />
                 <div className='container shadow' style={{ backgroundColor: 'white', borderRadius: 50, padding: 60, paddingLeft: 150 }}>
                     <Row>
                         <Col xs='4' className='m-auto'>
                             <div className='d-flex heading4' style={{ fontSize: 12 }}>
                                 <p className='text-muted' style={{ marginRight: 5 }}>Already member? </p>
-                                <p style={{ fontWeight: 900, cursor: 'pointer' }}>Sign In </p>
+                                <p style={{ fontWeight: 900, cursor: 'pointer' }} onClick={() => this.setState({ modalLogin: !this.state.modalLogin })}>Sign In </p>
                             </div>
                             <p className='heading2'>Let's Get Started</p>
                             <p className='heading4 text-muted' style={{ fontSize: 12 }}>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minima recusandae, minus facilis consectetur totam nihil sapiente eveniet quidem.</p>
