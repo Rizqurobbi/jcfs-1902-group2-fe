@@ -51,10 +51,12 @@ class LoginComponent extends Component {
     }
 
     render() {
-        // on going
-        // if (this.state.redirect) {
-        //     return <Navigate to="/" />
-        // }
+        if (this.state.redirect) {
+            this.setState({
+                redirect: false
+            })
+            return <Navigate to="/" />    
+        }
         return (
             <div>
                 <Modal size='md' isOpen={this.props.modalOpen} toggle={this.props.btClose} centered >
