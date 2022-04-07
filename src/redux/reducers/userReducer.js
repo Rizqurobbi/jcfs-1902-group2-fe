@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-    id: null,
+    iduser: null,
     username: "",
     email: "",
     imageurl: "",
@@ -17,7 +17,7 @@ export const userReducer = (state = INITIAL_STATE, action) => {
             console.log("DATA DARI ACTION PAYLOAD", action.payload)
             return {
                 ...state,
-                id: action.payload.iduser,
+                iduser: action.payload.iduser,
                 username: action.payload.username,
                 email: action.payload.email,
                 imageurl: action.payload.imageurl,
