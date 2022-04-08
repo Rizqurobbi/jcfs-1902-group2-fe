@@ -31,7 +31,6 @@ class NavbarComponent extends Component {
                                 <img src={logo} width="100%" />
                             </Link>
                         </div>
-                        {/* <p style={{ color: '#231953', fontWeight: 'bolder', fontSize: '30px' }}>Farmacia</p> */}
                         <Nav className='mx-3'>
                             <InputGroup style={{ borderRadius: 50 }} >
                                 <InputLeftElement
@@ -54,8 +53,8 @@ class NavbarComponent extends Component {
                             </Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/byrecipe'>
-                                <p className='NavbarHeader'>Buy by Recipes</p>
+                            <Link to='/doctorsprescription'>
+                                <p className='NavbarHeader'>Order by Recipes</p>
                             </Link>
                         </NavItem>
                         <NavItem>

@@ -16,6 +16,7 @@ import { getCategory,getUnit } from './redux/actions/productsAction';
 import ProductManagement from './Pages/ProductManagement';
 import ProfileManagement from './Pages/EditProfilePage';
 import NotFoundPage from './Pages/NotFoundPage';
+import DoctorPrescriptionPage from './Pages/DoctorPrescription';
 
 class App extends Component {
   constructor(props) {
@@ -51,6 +52,7 @@ class App extends Component {
           <Route path="/reset/:token" element={<ResetPasswordPage />} />
           <Route path='/products' element={<ProductPage />} />
           <Route path='/products-detail' element={<ProductDetail />} />
+          <Route path='/doctorsprescription' element={<DoctorPrescriptionPage/>}/>
           {
             this.props.role == "User" ?
               <>
