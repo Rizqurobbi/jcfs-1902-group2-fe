@@ -16,6 +16,7 @@ import { getCategory,getUnit } from './redux/actions/productsAction';
 import ProductManagement from './Pages/ProductManagement';
 import ProfileManagement from './Pages/EditProfilePage';
 import NotFoundPage from './Pages/NotFoundPage';
+import HistoryTransaction from './Pages/HistoryTransaction';
 
 class App extends Component {
   constructor(props) {
@@ -56,6 +57,7 @@ class App extends Component {
               <>
                 <Route path="/cart-user" />
                 <Route path="/edit" element={<ProfileManagement />} />
+                <Route path="/history" element={<HistoryTransaction />} />
               </>
               :
               this.props.role == "Admin" ?

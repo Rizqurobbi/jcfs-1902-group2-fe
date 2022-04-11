@@ -76,7 +76,9 @@ class NavbarComponent extends Component {
                                                 My Cart
                                             </DropdownItem>
                                             <DropdownItem>
-                                                Transaction History
+                                                <Link to='/history'>
+                                                    Transaction History
+                                                </Link>
                                             </DropdownItem>
                                             <DropdownItem>
                                                 <Link to='/edit'>
