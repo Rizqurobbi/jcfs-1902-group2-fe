@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { deleteCartActions, getCartAction, updateQtyActions } from '../redux/actions';
+import { deleteCartActions, getCartAction, getProductAction, updateQtyActions } from '../redux/actions';
 import { Button, Input } from 'reactstrap';
 import { AiOutlineCloseSquare } from 'react-icons/ai'
 import cartmedicine from '../img/cartmedicine.png'
@@ -13,7 +13,6 @@ class CartPage extends React.Component {
         super(props);
         this.state = {
             counter: 1,
-            data: [...this.props.carts]
         }
     }
     componentDidMount() {
@@ -23,6 +22,21 @@ class CartPage extends React.Component {
         // console.log('data',this.state.data.qty)
         const d = new Date()
         axios.post(`${API_URL}/transactions/checkout`, {
+            idaddress:1,
+            invoice:`#INV/${d.getTime()}`,
+            date:d.toLocaleDateString(),
+            total_price :this.totalPrice(),
+            shipping:this.shipping(),
+            total_payment:this.totalPayment(),
+            notes:'kirim',
+            detail:this.props.carts,
+        },{
+            headers:{
+                'Authorization':`Bearer ${localStorage.getItem('data')}`
+            }
+        })
+        .then((res)=>{
+            this.props.getCartAction()
         })
     }
     btnIncrement = (index) => {
@@ -105,7 +119,6 @@ class CartPage extends React.Component {
         return total + this.shipping()
     }
     render() {
-        console.log('hai', this.props.carts)
         return (
             <div className='container-fluid' style={{ background: '#F6F7FB' }}>
                 <div className='container'>
@@ -195,4 +208,4 @@ const mapToProps = (state) => {
         carts: state.transactionsReducer.carts
     }
 }
-export default connect(mapToProps, { getCartAction, deleteCartActions, updateQtyActions })(CartPage)
+export default connect(mapToProps, { getCartAction, deleteCartActions, updateQtyActions,getProductAction })(CartPage)
