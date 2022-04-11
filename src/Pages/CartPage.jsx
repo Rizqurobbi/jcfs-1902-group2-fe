@@ -1,44 +1,55 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getCartAction } from '../redux/actions';
+import { deleteCartActions, getCartAction, updateQtyActions } from '../redux/actions';
 import { Button, Input } from 'reactstrap';
 import { AiOutlineCloseSquare } from 'react-icons/ai'
 import cartmedicine from '../img/cartmedicine.png'
 import { FiEdit, FiUpload, FiTrash2 } from "react-icons/fi";
 import { API_URL } from '../helper';
 import { IoRemoveCircleOutline, IoAddCircleOutline, IoCloseCircleOutline, IoCloseOutline } from "react-icons/io5";
+import axios from 'axios';
 class CartPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            counter: 1
+            counter: 1,
+            data: [...this.props.carts]
         }
     }
     componentDidMount() {
         this.props.getCartAction()
     }
+    btnCheckout = () => {
+        // console.log('data',this.state.data.qty)
+        const d = new Date()
+        axios.post(`${API_URL}/transactions/checkout`, {
+        })
+    }
     btnIncrement = (index) => {
         let temp = [...this.props.carts]
         if (temp[index].qty < temp[index].stock_qty) {
             temp[index].qty += 1
-            this.setState({ coonter: this.state.counter })
-        }else{
-            alert(`Hai`)
+        }
+        this.props.updateQtyActions(temp[index].idcart, temp[index].qty)
+    }
+    btnDecrement = (index) => {
+        let temp = [...this.props.carts];
+        if (temp[index].qty > 1) {
+            temp[index].qty -= 1
+            temp[index].total_harga -= this.props.carts[index].harga
+            this.props.updateQtyActions(temp[index].idcart, temp[index].qty)
+        } else {
+            this.props.deleteCartActions(temp[index].idcart)
         }
     }
-    btnDecrement = (num) => {
-        if (this.state.counter > 1) {
-
-            this.state.counter -= num
-            this.setState({
-                counter: this.state.counter
-            })
-        }
+    btnRemove = (index) => {
+        let temp = [...this.props.carts]
+        this.props.deleteCartActions(temp[index].idcart)
     }
     printCart = () => {
         return this.props.carts.map((value, index) => {
             return (
-                <div className='row' style={{ height: '22vh', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px', borderRadius: 15, marginBottom: '20px', background: 'white' }}>
+                <div className='row' style={{ height: '20vh', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px', borderRadius: 15, marginBottom: '20px', background: 'white' }}>
                     <div className='col-4' style={{ width: '30%' }}>
                         <img src={API_URL + value.url} style={{ width: '100%', height: '100%' }} alt="" />
                     </div>
@@ -48,19 +59,50 @@ class CartPage extends React.Component {
                     </div>
                     <div className='col-3'>
                         <div>
-                            <p className='heading3' style={{ marginTop: 27, fontSize: 25 }}>Rp.{value.harga.toLocaleString()}</p>
+                            <p className='heading3' style={{ marginTop: 27, fontSize: 25 }}>Rp.{value.total_harga.toLocaleString()}</p>
                             <p style={{ marginTop: -10 }}>{value.berat}{value.satuan}</p>
                         </div>
                         <div className="d-flex" style={{ marginTop: 20 }}>
-                            <IoRemoveCircleOutline style={{ fontSize: 30, marginTop: 5,color:'#1E144F' }} />
+                            <IoRemoveCircleOutline style={{ fontSize: 30, marginTop: 5, color: '#1E144F' }} onClick={() => this.btnDecrement(index)} />
                             <Input style={{ width: 45, border: 'none', textAlign: 'center' }} value={value.qty}></Input>
-                            <IoAddCircleOutline style={{ fontSize: 30, marginTop: 5,color:'#1E144F' }} />
-                            <span title='Remove Product' style={{ fontSize: 29, color: '#E63E54', marginTop: 5, marginLeft: 15 }}><FiTrash2 /></span>
+                            <IoAddCircleOutline style={{ fontSize: 30, marginTop: 5, color: '#1E144F' }} onClick={() => this.btnIncrement(index)} />
+                            <span onClick={() => this.btnRemove(index)} title='Remove Product' style={{ fontSize: 29, color: '#E63E54', marginTop: 5, marginLeft: 15 }}><FiTrash2 /></span>
                         </div>
                     </div>
                 </div>
             )
         })
+    }
+    printAddress = () => {
+        if (this.props.address) {
+            return this.props.address.map((value, index) => {
+                return <div className='container py-4 px-5 my-4 d-flex heading4 justify-content-between' style={{ backgroundColor: 'white', border: '2px solid lightgray', borderRadius: 50 }}>
+                    <div className='d-flex py-2'>
+                        <p className='mx-2'>{index + 1}. </p>
+                        <p>{value.address}</p>
+                    </div>
+                    <div className='d-flex'>
+                        <span title='Edit' className='my-2' style={{ fontSize: 20, cursor: 'pointer' }} onClick={() => this.setState({ modalEdit: !this.state.modalEdit, address: value.address, idx: value.idaddress })}><FiEdit /></span>
+                        <span title='Remove Address' className='my-2 mx-2' style={{ fontSize: 20, color: '#E63E54', cursor: 'pointer' }} onClick={() => this.btDeleteAddress(value.idaddress)} ><FiTrash2 /></span>
+                    </div>
+                </div>
+            })
+        }
+    }
+    totalPrice = () => {
+        let total = 0
+        this.props.carts.forEach((value) => total += value.qty * value.harga)
+        return total
+    }
+    shipping = () => {
+        let total = 0;
+        this.props.carts.forEach((value) => total += (value.qty * value.harga) * 20 / 100)
+        return total
+    }
+    totalPayment = () => {
+        let total = 0;
+        this.props.carts.forEach((value) => total += value.qty * value.harga)
+        return total + this.shipping()
     }
     render() {
         console.log('hai', this.props.carts)
@@ -78,15 +120,66 @@ class CartPage extends React.Component {
                                 {this.printCart()}
                             </div>
                             <div className='col-5 p-4'>
-                                <div style={{ borderRadius: 10, background: 'white', height: 500, width: 340, marginLeft:'auto' ,padding: 23, boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}>
+                                <div style={{ borderRadius: 10, background: 'white', height: 'auto', width: 340, marginLeft: 'auto', padding: 23, boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px', marginBottom: '4%' }}>
+                                    <div>
+                                        <p className='heading3' style={{ fontSize: '' }}>ADDRESS</p>
+                                    </div>
+                                    <div style={{ height: '15vh' }}>
+                                        {
+                                            this.props.carts.length ?
+                                                <>
+                                                    <div className='container py-2 my-4 d-flex heading4 justify-content-between' style={{ backgroundColor: 'white', border: '2px solid lightgray', borderRadius: 20 }}>
+                                                        <div className='d-flex py-2' style={{ width: '' }}>
+                                                            <p className='mx-2'>1. </p>
+                                                            <p>jl.Garuda II Block T2 sau banget au iaw wah tae waj</p>
+                                                        </div>
+                                                        {/* <div className='d-flex'>
+                                                <span title='Edit' className='my-2' style={{ fontSize: 20, cursor: 'pointer' }}><FiEdit /></span>
+                                                <span title='Remove Address' className='my-2 mx-2' style={{ fontSize: 20, color: '#E63E54', cursor: 'pointer' }}><FiTrash2 /></span>
+                                            </div> */}
+                                                    </div>
+                                                    <div style={{ float: 'right' }}>
+                                                        <p>Change Address</p>
+                                                    </div>
+                                                </>
+                                                :
+                                                <>
+                                                    <div>
+                                                        YOU HAVE TO ADD YOUR ADDRESS
+                                                    </div>
+                                                    <div style={{ float: 'right' }}>
+                                                        <p>Add Address</p>
+                                                    </div>
+                                                </>
+
+                                        }
+                                    </div>
+                                </div>
+                                <div style={{ borderRadius: 10, background: 'white', height: 400, width: 340, marginLeft: 'auto', padding: 23, boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}>
                                     <div>
                                         <p className='heading3' style={{ fontSize: '' }}>ORDER SUMMARY</p>
                                     </div>
-                                    <div style={{ height: '36vh', margin: 10 }}>
-                                        <p>HALO</p>
+                                    <div style={{ height: '26vh' }}>
+                                        <div>
+                                            <p className='heading3' style={{ fontSize: 20 }}>Cart total</p>
+                                        </div>
+                                        <div style={{ marginTop: 40 }}>
+                                            <div className='d-flex' style={{ justifyContent: 'space-between' }}>
+                                                <p className='heading3' style={{ fontSize: 18 }}>Total Price</p>
+                                                <p className='heading3' style={{ fontSize: 18 }}>Rp. {this.totalPrice().toLocaleString()}</p>
+                                            </div>
+                                            <div className='d-flex' style={{ justifyContent: 'space-between' }}>
+                                                <p className='heading3' style={{ fontSize: 18 }}>Shipping</p>
+                                                <p className='heading3' style={{ fontSize: 18 }}>Rp. {this.shipping().toLocaleString()}</p>
+                                            </div>
+                                            <div className='d-flex' style={{ justifyContent: 'space-between' }}>
+                                                <p className='heading3' style={{ fontSize: 18 }}>Total Payment</p>
+                                                <p className='heading3' style={{ fontSize: 18 }}>Rp. {this.totalPayment().toLocaleString()}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div style={{ textAlign: 'center' }}>
-                                        <Button style={{ width: 200, height: 50 }} className='NavbarButton'>CHECKOUT</Button>
+                                        <Button onClick={this.btnCheckout} style={{ width: 200, height: 50, border: 'none' }} className='NavbarButton'>CHECKOUT</Button>
                                     </div>
                                 </div>
                             </div>
@@ -102,4 +195,4 @@ const mapToProps = (state) => {
         carts: state.transactionsReducer.carts
     }
 }
-export default connect(mapToProps, { getCartAction })(CartPage)
+export default connect(mapToProps, { getCartAction, deleteCartActions, updateQtyActions })(CartPage)

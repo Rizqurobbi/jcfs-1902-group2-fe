@@ -43,15 +43,46 @@ export const addToCartAction = (data) => {
         }
     }
 }
-// export const deleteCart = (id) => {
-//     return async (dispatch) => {
-//         try {
-//             let token = localStorage.getItem('data')
-//             if(token){
-//                 let res = await axios.
-//             }
-//         } catch (error) {
-//             console.log(error)
-//         }
-//     }
-// }
+export const updateQtyActions = (id, qty) => {
+    return async (dispatch) =>{
+        try {
+            console.log('test',id,qty)
+            let token = localStorage.getItem('data');
+            if(token) {
+                let res = await axios.patch(`${API_URL}/transactions/carts/${id}`,{
+                    qty
+                },{
+                    headers:{
+                        'Authorization':`Bearer ${token}`
+                    }
+                })
+                if(res.data.success){
+                    dispatch(getCartAction())
+                    return {success : true, message : 'Qty updated'}
+                }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+export const deleteCartActions = (idcart) => {
+    return async (dispatch) => {
+        try {
+            let token = localStorage.getItem('data')
+            if (token) {
+                let res = await axios.delete(`${API_URL}/transactions/carts/${idcart}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                if (res.data.success) {
+                    dispatch(getCartAction())
+                    return { success: true, message: 'Delete Cart Success' }
+                }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
