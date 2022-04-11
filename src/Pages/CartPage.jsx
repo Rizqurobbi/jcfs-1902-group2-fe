@@ -8,6 +8,7 @@ import { FiEdit, FiUpload, FiTrash2 } from "react-icons/fi";
 import { API_URL } from '../helper';
 import { IoRemoveCircleOutline, IoAddCircleOutline, IoCloseCircleOutline, IoCloseOutline } from "react-icons/io5";
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 class CartPage extends React.Component {
     constructor(props) {
         super(props);
@@ -22,22 +23,22 @@ class CartPage extends React.Component {
         // console.log('data',this.state.data.qty)
         const d = new Date()
         axios.post(`${API_URL}/transactions/checkout`, {
-            idaddress:1,
-            invoice:`#INV/${d.getTime()}`,
-            date:d.toLocaleDateString(),
-            total_price :this.totalPrice(),
-            shipping:this.shipping(),
-            total_payment:this.totalPayment(),
-            notes:'kirim',
-            detail:this.props.carts,
-        },{
-            headers:{
-                'Authorization':`Bearer ${localStorage.getItem('data')}`
+            idaddress: 1,
+            invoice: `#INV/${d.getTime()}`,
+            date: d.toLocaleDateString(),
+            total_price: this.totalPrice(),
+            shipping: this.shipping(),
+            total_payment: this.totalPayment(),
+            notes: 'kirim',
+            detail: this.props.carts,
+        }, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('data')}`
             }
         })
-        .then((res)=>{
-            this.props.getCartAction()
-        })
+            .then((res) => {
+                this.props.getCartAction()
+            })
     }
     btnIncrement = (index) => {
         let temp = [...this.props.carts]
@@ -146,13 +147,11 @@ class CartPage extends React.Component {
                                                             <p className='mx-2'>1. </p>
                                                             <p>jl.Garuda II Block T2 sau banget au iaw wah tae waj</p>
                                                         </div>
-                                                        {/* <div className='d-flex'>
-                                                <span title='Edit' className='my-2' style={{ fontSize: 20, cursor: 'pointer' }}><FiEdit /></span>
-                                                <span title='Remove Address' className='my-2 mx-2' style={{ fontSize: 20, color: '#E63E54', cursor: 'pointer' }}><FiTrash2 /></span>
-                                            </div> */}
                                                     </div>
-                                                    <div style={{ float: 'right' }}>
-                                                        <p>Change Address</p>
+                                                    <div>
+                                                        <Link to='/edit'>
+                                                            <p style={{ float: 'right', color: '#1E144F', fontWeight: 'bold', cursor: 'pointer' }} className='heading4'>Change Address</p>
+                                                        </Link>
                                                     </div>
                                                 </>
                                                 :
@@ -164,7 +163,6 @@ class CartPage extends React.Component {
                                                         <p>Add Address</p>
                                                     </div>
                                                 </>
-
                                         }
                                     </div>
                                 </div>
@@ -208,4 +206,4 @@ const mapToProps = (state) => {
         carts: state.transactionsReducer.carts
     }
 }
-export default connect(mapToProps, { getCartAction, deleteCartActions, updateQtyActions,getProductAction })(CartPage)
+export default connect(mapToProps, { getCartAction, deleteCartActions, updateQtyActions, getProductAction })(CartPage)

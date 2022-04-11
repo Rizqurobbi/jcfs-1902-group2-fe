@@ -36,7 +36,10 @@ class ProductDetail extends React.Component {
         let dataCart = {
             idproduct: detail.idproduct,
             idstock: detail.stocks[0].idstock,
-            qty: counter
+            qty: counter,
+            qtyStock: detail.stocks[0].qty - counter,
+            qtyTotal: (detail.stocks[0].qty - counter) * detail.stocks[1].qty,
+            idstockTotal: detail.stocks[2].idstock
         }
         if (this.props.username) {
             let res = await this.props.addToCartAction(dataCart)
@@ -53,7 +56,7 @@ class ProductDetail extends React.Component {
         if (this.state.counter < this.state.detail.stocks[0].qty) {
             this.state.counter += num
             this.setState({ coonter: this.state.counter })
-        }else{
+        } else {
             alert(`Hai`)
         }
     }
@@ -98,19 +101,19 @@ class ProductDetail extends React.Component {
                         <div className='col-6' style={{ paddingTop: 20 }}>
 
                             <div style={{ alignItems: 'center' }}>
-                                <p style={{ color: '#231953', fontSize: 30 }}>{detail.nama} ({detail.berat}{detail.satuan})</p>
+                                <p style={{ color: '#231953', fontSize: 30 }}>{detail.nama} ({detail.stocks[1].qty}{detail.stocks[1].satuan})</p>
                                 <p style={{ color: '#231953', fontWeight: 'bolder', fontSize: '30px' }}>Rp. {detail.harga.toLocaleString()}</p>
                                 <p style={{ fontWeight: 'bolder', marginTop: '14px' }} className='heading4'>{detail.deskripsi}</p>
-                                <p style={{ paddingTop: 15, paddingBottom: 15, fontSize: 15, color: '#231953', fontWeight: 'bold' }}>Available : {detail.stocks[0].qty} {detail.stocks[0].type} ({detail.berat * detail.stocks[0].qty}{detail.satuan})</p>
+                                <p style={{ paddingTop: 15, paddingBottom: 15, fontSize: 15, color: '#231953', fontWeight: 'bold' }}>Available : {detail.stocks[0].qty} {detail.stocks[0].satuan}</p>
                                 <div>
 
                                 </div>
                             </div>
                             <div className='d-flex'>
                                 <div className='d-flex'>
-                                    <IoRemoveCircleOutline style={{ fontSize: 30, marginTop: 5, color: '#1E144F',cursor:'pointer' }} onClick={() => this.btnDecrement(1)} />
+                                    <IoRemoveCircleOutline style={{ fontSize: 30, marginTop: 5, color: '#1E144F', cursor: 'pointer' }} onClick={() => this.btnDecrement(1)} />
                                     <Input textAlign='center' value={this.state.counter} type="number" width='12' style={{ borderRadius: 2.9 }} border='none'></Input>
-                                    <IoAddCircleOutline style={{ fontSize: 30, marginTop: 5, color: '#1E144F',cursor:'pointer' }} onClick={() => this.btnIncrement(1)} />
+                                    <IoAddCircleOutline style={{ fontSize: 30, marginTop: 5, color: '#1E144F', cursor: 'pointer' }} onClick={() => this.btnIncrement(1)} />
                                 </div>
                                 <button onClick={this.btnAddToCart} style={{ marginLeft: 'auto', width: '200px' }} className='landing1'>Add To Cart</button>
                             </div>
@@ -125,6 +128,7 @@ class ProductDetail extends React.Component {
     render() {
         let { detail } = this.state
         console.log(this.state.counter)
+        // console.log('cek data qty detail',detail.qty)
         if (this.state.redirect) {
             return <Navigate to='/cart-user' />
         }
