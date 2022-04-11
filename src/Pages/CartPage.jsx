@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { deleteCartActions, getCartAction, getProductAction, updateQtyActions } from '../redux/actions';
-import { Button, Input } from 'reactstrap';
+import { Badge, Button, Input } from 'reactstrap';
 import { AiOutlineCloseSquare } from 'react-icons/ai'
 import cartmedicine from '../img/cartmedicine.png'
 import { FiEdit, FiUpload, FiTrash2 } from "react-icons/fi";
@@ -134,21 +134,21 @@ class CartPage extends React.Component {
                                 {this.printCart()}
                             </div>
                             <div className='col-5 p-4'>
-                                <div style={{ borderRadius: 10, background: 'white', height: 'auto', width: 340, marginLeft: 'auto', padding: 23, boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px', marginBottom: '4%' }}>
-                                    <div>
+                                <div style={{ borderRadius: 20, background: 'white', height: 'auto', width: 340, marginLeft: 'auto', padding: 23, boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px', marginBottom: '4%' }}>
+                                    <div style={{ height: 'auto' }}>
                                         <p className='heading3' style={{ fontSize: '' }}>ADDRESS</p>
                                     </div>
-                                    <div style={{ height: '15vh' }}>
+                                    <div style={{ height: 'auto' }}>
                                         {
                                             this.props.carts.length ?
                                                 <>
-                                                    <div className='container py-2 my-4 d-flex heading4 justify-content-between' style={{ backgroundColor: 'white', border: '2px solid lightgray', borderRadius: 20 }}>
+                                                    <div className='container py-2 my-4 d-flex heading4 justify-content-between' style={{ backgroundColor: 'white', border: '2px solid gray', borderRadius: 15 }}>
                                                         <div className='d-flex py-2' style={{ width: '' }}>
                                                             <p className='mx-2'>1. </p>
-                                                            <p>jl.Garuda II Block T2 sau banget au iaw wah tae waj</p>
+                                                            <p>jl.Garuda II Block T2 sau banget </p>
                                                         </div>
                                                     </div>
-                                                    <div>
+                                                    <div style={{ paddingBottom: 20 }}>
                                                         <Link to='/edit'>
                                                             <p style={{ float: 'right', color: '#1E144F', fontWeight: 'bold', cursor: 'pointer' }} className='heading4'>Change Address</p>
                                                         </Link>
@@ -156,23 +156,31 @@ class CartPage extends React.Component {
                                                 </>
                                                 :
                                                 <>
-                                                    <div>
-                                                        YOU HAVE TO ADD YOUR ADDRESS
+                                                    {/* <div style={{height:'auto'}}>
+                                                        <p>YOU HAVE TO ADD YOUR ADDRESS YOU HAVE TO ADD YOUR ADDRESS YOU HAVE TO ADD YOUR ADDRESS YOU HAVE TO ADD YOUR ADDRESS</p>
                                                     </div>
                                                     <div style={{ float: 'right' }}>
                                                         <p>Add Address</p>
+                                                    </div> */}
+                                                    <div style={{ height: 'auto', textAlign: 'center', color: 'red', fontSize: 17 }}>
+                                                        <p>YOU HAVE TO ADD YOUR ADDRESS</p>
+                                                    </div>
+                                                    <div style={{ paddingBottom: 20, paddingTop: 10 }}>
+                                                        <Link to='/edit'>
+                                                            <p style={{ float: 'right', color: '#1E144F', fontWeight: 'bold', cursor: 'pointer' }} className='heading4'>Add Address</p>
+                                                        </Link>
                                                     </div>
                                                 </>
                                         }
                                     </div>
                                 </div>
-                                <div style={{ borderRadius: 10, background: 'white', height: 400, width: 340, marginLeft: 'auto', padding: 23, boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}>
+                                <div style={{ borderRadius: 20, background: 'white', height: 400, width: 340, marginLeft: 'auto', padding: 23, boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}>
                                     <div>
                                         <p className='heading3' style={{ fontSize: '' }}>ORDER SUMMARY</p>
                                     </div>
                                     <div style={{ height: '26vh' }}>
                                         <div>
-                                            <p className='heading3' style={{ fontSize: 20 }}>Cart total</p>
+                                            <p className='heading3' style={{ fontSize: 20 }}>Cart total<Badge style={{ fontSize: 13 }}>5</Badge></p>
                                         </div>
                                         <div style={{ marginTop: 40 }}>
                                             <div className='d-flex' style={{ justifyContent: 'space-between' }}>
@@ -189,8 +197,9 @@ class CartPage extends React.Component {
                                             </div>
                                         </div>
                                     </div>
+                                    {/*Ganti this.props.carts.length dengan this.props.address.length jika sudah mendapatkan reducer address*/}
                                     <div style={{ textAlign: 'center' }}>
-                                        <Button onClick={this.btnCheckout} style={{ width: 200, height: 50, border: 'none' }} className='NavbarButton'>CHECKOUT</Button>
+                                        <Button onClick={this.props.carts.length ? this.btnCheckout : () => alert('Choose Your Address First')} style={{ width: 200, height: 50, border: 'none' }} disabled={this.props.carts.length ? false : true} className='NavbarButton'>CHECKOUT</Button>
                                     </div>
                                 </div>
                             </div>
