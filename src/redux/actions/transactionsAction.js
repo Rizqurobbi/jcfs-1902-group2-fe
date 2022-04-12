@@ -66,12 +66,13 @@ export const updateQtyActions = (id, qty) => {
         }
     }
 }
-export const deleteCartActions = (id) => {
+
+export const deleteCartActions = (idcart) => {
     return async (dispatch) => {
         try {
             let token = localStorage.getItem('data')
             if (token) {
-                let res = await axios.delete(`${API_URL}/transactions/carts/${id}`, {
+                let res = await axios.delete(`${API_URL}/transactions/carts/${idcart}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -108,4 +109,5 @@ export const getTransactionsActions = () => {
             console.log(error)
         }
     }
+
 }

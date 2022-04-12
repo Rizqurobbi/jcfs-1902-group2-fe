@@ -15,6 +15,7 @@ import { loginAction, keepAction } from './redux/actions'
 import { getCategory,getUnit } from './redux/actions/productsAction';
 import ProductManagement from './Pages/ProductManagement';
 import ProfileManagement from './Pages/EditProfilePage';
+import CartPage from './Pages/CartPage';
 import NotFoundPage from './Pages/NotFoundPage';
 import DoctorPrescriptionPage from './Pages/DoctorPrescription';
 import HistoryTransaction from './Pages/HistoryTransaction';
@@ -58,7 +59,7 @@ class App extends Component {
           {
             this.props.role == "User" ?
               <>
-                <Route path="/cart-user" />
+                <Route path="/cart-user" element={<CartPage/>} />
                 <Route path="/edit" element={<ProfileManagement />} />
                 <Route path="/history" element={<HistoryTransaction />} />
               </>
