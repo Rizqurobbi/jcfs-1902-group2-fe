@@ -71,9 +71,11 @@ class NavbarComponent extends Component {
                                     {this.props.role == 'User' ?
                                         <DropdownMenu DropdownMenu className='heading4'
                                         >
-                                            <DropdownItem>
-                                                My Cart
-                                            </DropdownItem>
+                                            <Link to="/cart-user" style={{ color: "#2d3436", textDecoration: "none" }}>
+                                                <DropdownItem>
+                                                    My Cart
+                                                </DropdownItem>
+                                            </Link>
                                             <DropdownItem>
                                                 <Link to='/history'>
                                                     Transaction History
