@@ -18,6 +18,7 @@ import ProfileManagement from './Pages/EditProfilePage';
 import NotFoundPage from './Pages/NotFoundPage';
 import DoctorPrescriptionPage from './Pages/DoctorPrescription';
 import HistoryTransaction from './Pages/HistoryTransaction';
+import TransactionManagement from './Pages/TransactionsManagement';
 
 class App extends Component {
   constructor(props) {
@@ -65,7 +66,7 @@ class App extends Component {
               this.props.role == "Admin" ?
                 <>
                   <Route path="/product-management" element={<ProductManagement />} />
-                  {/* <Route path="/transaction-management" element={<TransactionManagement />} /> */}
+                  <Route path="/transactions-management" element={<TransactionManagement />} />
                 </>
                 :
                 <Route path="*" element={<NotFoundPage />} />

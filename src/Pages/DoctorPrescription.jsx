@@ -15,8 +15,14 @@ class DoctorPrescriptionPage extends Component {
     }
 
     btSubmit = () => {
+        const d = new Date();
         let formData = new FormData()
+        let data = {
+            invoice: `#INV/${d.getTime()}`
+        }
         formData.append('Images', this.state.images.file)
+        formData.append('data', JSON.stringify(data));
+
         let token = localStorage.getItem("data")
         if (token) {
             axios.post(`${API_URL}/users/uploadrecipe`, formData, {
@@ -25,7 +31,7 @@ class DoctorPrescriptionPage extends Component {
                 }
             }).then(res => {
                 console.log(res.data)
-                alert('Upload Success, your request is been processed')
+                alert('Upload Success, your request has been processed')
                 window.location.reload();
             }).catch(err => {
                 console.log(err)
