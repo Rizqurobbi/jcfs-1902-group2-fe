@@ -5,6 +5,8 @@ import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { connect } from 'react-redux';
 import { loginAction } from '../redux/actions'
 import { Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+
 
 class LoginComponent extends Component {
     constructor(props) {
@@ -12,6 +14,7 @@ class LoginComponent extends Component {
         this.state = {
             logPassType: "password",
             logPassShow: <MdVisibilityOff style={{ fontSize: 16 }} />,
+            redirect: false
         }
     }
 
@@ -29,12 +32,31 @@ class LoginComponent extends Component {
         }
     }
 
-    btLogin = () => {
-        this.props.loginAction(this.emailLogin.value, this.passwordLogin.value)
-        this.props.btClose()
+    btLogin = async () => {
+        try {
+            let res = await this.props.loginAction(this.emailLogin.value, this.passwordLogin.value)
+            if (this.emailLogin.value === "" || this.passwordLogin.value === "") {
+                alert("Fill the blank");
+            } else {
+                if (res) {
+                    await this.setState({ redirect: true })
+                    this.props.btClose()
+                } else {
+                    alert("Account not exist")
+                }
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     render() {
+        if (this.state.redirect) {
+            this.setState({
+                redirect: false
+            })
+            return <Navigate to="/" />    
+        }
         return (
             <div>
                 <Modal size='md' isOpen={this.props.modalOpen} toggle={this.props.btClose} centered >
@@ -69,7 +91,9 @@ class LoginComponent extends Component {
                             </div>
                             <div className='d-flex my-2' style={{ justifyContent: 'center' }}>
                                 <p className='heading4' style={{ fontSize: 12, marginRight: 5 }}>Don't have account? </p>
-                                <p className='heading4' style={{ fontSize: 12, cursor: 'pointer', fontWeight: 800 }}>Sign up for free</p>
+                                <Link to='/register' onClick={this.props.btClose}>
+                                    <p className='heading4' style={{ fontSize: 12, cursor: 'pointer', fontWeight: 800 }}>Sign up for free</p>
+                                </Link>
                             </div>
                             <img src={logo} width="40%" className="m-auto pt-4 pb-3 " />
                         </ModalBody>
@@ -80,4 +104,10 @@ class LoginComponent extends Component {
     }
 }
 
-export default connect(null, { loginAction })(LoginComponent);
+const mapToProps = (state) => {
+    return {
+        username: state.userReducer.username
+    }
+}
+
+export default connect(mapToProps, { loginAction })(LoginComponent);

@@ -44,21 +44,21 @@ export const addToCartAction = (data) => {
     }
 }
 export const updateQtyActions = (id, qty) => {
-    return async (dispatch) =>{
+    return async (dispatch) => {
         try {
-            console.log('test',id,qty)
+            console.log('test', id, qty)
             let token = localStorage.getItem('data');
-            if(token) {
-                let res = await axios.patch(`${API_URL}/transactions/carts/${id}`,{
+            if (token) {
+                let res = await axios.patch(`${API_URL}/transactions/carts/${id}`, {
                     qty
-                },{
-                    headers:{
-                        'Authorization':`Bearer ${token}`
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
                     }
                 })
-                if(res.data.success){
+                if (res.data.success) {
                     dispatch(getCartAction())
-                    return {success : true, message : 'Qty updated'}
+                    return { success: true, message: 'Qty updated' }
                 }
             }
         } catch (error) {
@@ -66,6 +66,7 @@ export const updateQtyActions = (id, qty) => {
         }
     }
 }
+
 export const deleteCartActions = (idcart) => {
     return async (dispatch) => {
         try {
@@ -85,4 +86,28 @@ export const deleteCartActions = (idcart) => {
             console.log(error)
         }
     }
+}
+
+export const getTransactionsActions = () => {
+    return async (dispatch) => {
+        try {
+            let token = localStorage.getItem('data')
+            if (token) {
+                let res = await axios.get(`${API_URL}/transactions/usertransactions`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                if (res.data.success) {
+                    dispatch({
+                        type: "GET_TRANSACTIONS",
+                        payload: res.data.dataTransaction
+                    })
+                }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 }

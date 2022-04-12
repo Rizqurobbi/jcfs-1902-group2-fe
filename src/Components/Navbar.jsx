@@ -27,9 +27,10 @@ class NavbarComponent extends Component {
                     />
                     <NavbarBrand className='d-flex' style={{ width: "45%" }}>
                         <div style={{ width: "25%", paddingTop: 3 }}>
-                            <img src={logo} width="100%" />
+                            <Link to="/">
+                                <img src={logo} width="100%" />
+                            </Link>
                         </div>
-                        {/* <p style={{ color: '#231953', fontWeight: 'bolder', fontSize: '30px' }}>Farmacia</p> */}
                         <Nav className='mx-3'>
                             <InputGroup style={{ borderRadius: 50 }} >
                                 <InputLeftElement
@@ -52,8 +53,8 @@ class NavbarComponent extends Component {
                             </Link>
                         </NavItem>
                         <NavItem>
-                            <Link to='/reset'>
-                                <p className='NavbarHeader'>Buy by Recipes</p>
+                            <Link to='/doctorsprescription'>
+                                <p className='NavbarHeader'>Order by Recipes</p>
                             </Link>
                         </NavItem>
                         <NavItem>
@@ -76,7 +77,9 @@ class NavbarComponent extends Component {
                                                 </DropdownItem>
                                             </Link>
                                             <DropdownItem>
-                                                Transaction History
+                                                <Link to='/history'>
+                                                    Transaction History
+                                                </Link>
                                             </DropdownItem>
                                             <DropdownItem>
                                                 <Link to='/edit'>
@@ -98,7 +101,9 @@ class NavbarComponent extends Component {
                                         <DropdownMenu DropdownMenu className='heading4'
                                         >
                                             <DropdownItem>
-                                                Products Management
+                                                <Link to='/product-management'>
+                                                    Products Management
+                                                </Link>
                                             </DropdownItem>
                                             <DropdownItem>
                                                 Transactions Management

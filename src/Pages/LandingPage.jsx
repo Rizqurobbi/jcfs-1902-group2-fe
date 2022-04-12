@@ -3,6 +3,8 @@ import { Row, Col } from 'reactstrap';
 import bannerphoto1 from '../img/landingpagecrop.png';
 import recipes from '../img/recipes.jpg';
 import Slider from "react-slick";
+import { Link } from 'react-router-dom';
+
 
 class LandingPage extends Component {
     constructor(props) {
@@ -97,7 +99,7 @@ class LandingPage extends Component {
         return this.state.product.map((val, idx) => {
             return (
                 <div>
-                    <div width="100%"> 
+                    <div width="100%">
                         <img src={val.url} width="80%" style={{ borderRadius: 20, margin: 0 }} />
                         <div className='my-4  text-center' >
                             <p >{val.nama}</p>
@@ -165,9 +167,12 @@ class LandingPage extends Component {
                                     <Col xs='4' className='m-auto' style={{ paddingLeft: 40 }}>
                                         <p className='heading3'>Provide the best medicine</p>
                                         <p className='heading4'>We provide the best medicine with best quality control.</p>
-                                        <button className='NavbarButton text-center py-2 mt-4' style={{ width: '80%' }}>
-                                            <p style={{ fontSize: 15, fontWeight: 'bold', margin: 'auto' }}>Order Now</p>
-                                        </button>
+                                        <Link to="/products">
+                                            <button className='NavbarButton text-center py-2 mt-4' style={{ width: '80%' }}>
+                                                <p style={{ fontSize: 15, fontWeight: 'bold', margin: 'auto' }}>Order Now</p>
+                                            </button>
+                                        </Link>
+
                                     </Col>
                                     <Col className='m-auto'>
                                         <img src={recipes} width="70%" style={{ borderRadius: 20, margin: 'auto' }} />
@@ -179,9 +184,12 @@ class LandingPage extends Component {
                                     <Col xs='4' className='m-auto' style={{ paddingLeft: 40 }}>
                                         <p className='heading3'>Order by your doctor recipe</p>
                                         <p className='heading4'>Try our new service, now you can order by your doctor recipe.</p>
-                                        <button className='landing1 text-center py-2 mt-4' style={{ width: '80%' }}>
-                                            <p style={{ fontSize: 15, fontWeight: 'bold', margin: 'auto' }}>Upload Now</p>
-                                        </button>
+                                        <Link to='/doctorsprescription'>
+                                            <button className='landing1 text-center py-2 mt-4' style={{ width: '80%' }}>
+                                                <p style={{ fontSize: 15, fontWeight: 'bold', margin: 'auto' }}>Upload Now</p>
+                                            </button>
+                                        </Link>
+
                                     </Col>
                                     <Col className='m-auto'>
                                         <img src="https://images.unsplash.com/photo-1638202993928-7267aad84c31?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80" width="70%" style={{ borderRadius: 20, margin: 'auto' }} />
