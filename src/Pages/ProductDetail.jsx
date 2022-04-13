@@ -1,11 +1,9 @@
 import React from 'react';
-import { Tabs, TabList, TabPanels, Tab, TabPanel, Button, Input, } from '@chakra-ui/react'
-import { IoIosAdd, IoIosRemove } from "react-icons/io";
-import logo from '../img/logofix.png'
+import { Tabs, TabList, TabPanels, Tab, TabPanel,Input, } from '@chakra-ui/react'
 import axios from 'axios';
 import { API_URL } from '../helper';
 import { Link } from 'react-router-dom';
-import { IoRemoveCircleOutline, IoAddCircleOutline, IoCloseCircleOutline, IoCloseOutline } from "react-icons/io5";
+import { IoRemoveCircleOutline, IoAddCircleOutline} from "react-icons/io5";
 import { connect } from 'react-redux';
 import { Navigate } from 'react-router';
 import { addToCartAction } from '../redux/actions';
@@ -37,9 +35,6 @@ class ProductDetail extends React.Component {
             idproduct: detail.idproduct,
             idstock: detail.stocks[0].idstock,
             qty: counter,
-            qtyStock: detail.stocks[0].qty - counter,
-            qtyTotal: (detail.stocks[0].qty - counter) * detail.stocks[1].qty,
-            idstockTotal: detail.stocks[2].idstock
         }
         if (this.props.username) {
             let res = await this.props.addToCartAction(dataCart)
@@ -126,8 +121,6 @@ class ProductDetail extends React.Component {
     }
     render() {
         let { detail } = this.state
-        console.log(this.state.counter)
-        // console.log('cek data qty detail',detail.qty)
         if (this.state.redirect) {
             return <Navigate to='/cart-user' />
         }
