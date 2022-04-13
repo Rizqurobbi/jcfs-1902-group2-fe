@@ -16,6 +16,9 @@ import { getCategory,getUnit } from './redux/actions/productsAction';
 import ProductManagement from './Pages/ProductManagement';
 import ProfileManagement from './Pages/EditProfilePage';
 import CartPage from './Pages/CartPage';
+import NotFoundPage from './Pages/NotFoundPage';
+import DoctorPrescriptionPage from './Pages/DoctorPrescription';
+import HistoryTransaction from './Pages/HistoryTransaction';
 
 class App extends Component {
   constructor(props) {
@@ -51,15 +54,22 @@ class App extends Component {
           <Route path="/reset/:token" element={<ResetPasswordPage />} />
           <Route path='/products' element={<ProductPage />} />
           <Route path='/products-detail' element={<ProductDetail />} />
-          <Route path='/products-management' element={<ProductManagement/>}/>
+          <Route path='/doctorsprescription' element={<DoctorPrescriptionPage/>}/>
           {
             this.props.role == "User" ?
               <>
                 <Route path="/cart-user" element={<CartPage/>} />
                 <Route path="/edit" element={<ProfileManagement />} />
+                <Route path="/history" element={<HistoryTransaction />} />
               </>
               :
-              null
+              this.props.role == "Admin" ?
+                <>
+                  <Route path="/product-management" element={<ProductManagement />} />
+                  {/* <Route path="/transaction-management" element={<TransactionManagement />} /> */}
+                </>
+                :
+                <Route path="*" element={<NotFoundPage />} />
           }
         </Routes>
         <FooterComponent />

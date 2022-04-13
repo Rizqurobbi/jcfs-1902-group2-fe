@@ -69,11 +69,10 @@ class ProductDetail extends React.Component {
         let { images } = detail
         return images.map((value, index) => {
             return (
-                <img className="select-image mb-1 my-2 rounded" style={{ border: '1px solid', marginRight: 10 }} src={API_URL + value.url}
+                <img className="select-image mb-1 my-2 rounded" style={{ border: this.state.thumbnail == index && "2px solid", marginRight: 10, cursor: 'pointer' }} src={API_URL + value.url}
                     key={index}
                     width="100%"
                     onClick={() => this.setState({ thumbnail: index })}
-                    style={{ border: this.state.thumbnail == index && "2px solid", cursor: 'pointer' }}
                 />
             )
         })
