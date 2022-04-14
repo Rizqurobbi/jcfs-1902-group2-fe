@@ -47,8 +47,8 @@ class ProductManagement extends React.Component {
                         <img src={value.images[0].url.includes('http') ? value.images[0].url : API_URL + value.images[0].url} style={{ objectFit: 'cover', width: '100%', height: '100%' }} alt="" />
                     </td>
                     <td style={{ paddingTop: 42 }}><p className='heading3'>{value.nama}</p></td>
-                    <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.berat}</p></td>
-                    <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.satuan}</p></td>
+                    <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.stocks[1].qty}</p></td>
+                    <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.stocks[2].satuan}</p></td>
                     <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.category}</p></td>
                     <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>Rp.{value.harga.toLocaleString()}</p></td>
                     <td style={{ paddingTop: 50 }}>

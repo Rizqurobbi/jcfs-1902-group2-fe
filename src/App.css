@@ -12,22 +12,7 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-/* .NavbarButton {
-  font-weight: 600;
-  font-size: 14px;
-  color: #0abde3;
-  outline-color:#0abde3;
-  border: 1.5px solid #0abde3;
-  padding: 0px 15px 0px 15px;
-  border-radius: 10px;
-  margin-left: 10px;
-  margin-bottom: 0px;
-  cursor: pointer;
-}
-.NavbarButton:hover {
-  animation-name: navbarbutton;
-  animation-duration: 2s;
-} */
+
 .NavbarButton {
   background: rgb(77,223,255)!important;
   background: linear-gradient(146deg, rgba(77,223,255,1) 0%, rgba(0,206,244,1) 54%, rgba(0,176,255,1) 96%)!important;
@@ -128,29 +113,11 @@
 }
 .producthover{
   transition-property: box-shadow;
-  transition-duration: 1s;
+  transition-duration: 0.4s;
 }
 .producthover:hover {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-
-/* .NavbarButton {
-  font-weight: 600;
-  font-size: 14px;
-  color: #0abde3;
-  outline-color:#0abde3;
-  border: 1.5px solid #0abde3;
-  padding: 0px 15px 0px 15px;
-  border-radius: 10px;
-  margin-left: 10px;
-  margin-bottom: 0px;
-  cursor: pointer;
-}
-
-.NavbarButton:hover {
-  animation-name: navbarbutton;
-  animation-duration: 2s;
-} */
 
 .NavbarButton {
   background: rgb(126,197,255) !important;
@@ -243,10 +210,6 @@
   color: white;
 }
 
-.producthover:hover {
-  animation-name: producthover;
-  animation-duration: 2s;
-}
 
 .App-link {
   color: #61dafb;
@@ -316,12 +279,6 @@
   100% {background-color: #0abde3;color: white}
 }
 
-@keyframes producthover {
-  0% {border: 1px solid white}
-  25% {border: 1px solid #1E144F;}
-  100% {border: 1px solid #1E144F;}
-}
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -329,9 +286,4 @@
   to {
     transform: rotate(360deg);
   }
-}
-@keyframes producthover {
-  0% {border: 'none'}
-  25% {box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;}
-  100% {box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;}
 }
