@@ -121,6 +121,7 @@ class ProductDetail extends React.Component {
     }
     render() {
         let { detail } = this.state
+
         if (this.state.redirect) {
             return <Navigate to='/cart-user' />
         }
