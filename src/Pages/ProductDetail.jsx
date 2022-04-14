@@ -127,6 +127,7 @@ class ProductDetail extends React.Component {
     render() {
         let { detail } = this.state
         console.log(this.state.counter)
+        console.log('abc', window.location.search)
         // console.log('cek data qty detail',detail.qty)
         if (this.state.redirect) {
             return <Navigate to='/cart-user' />

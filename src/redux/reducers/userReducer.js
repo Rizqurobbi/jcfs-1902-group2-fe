@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
     iduser: null,
+    idaddress: null,
     username: "",
     email: "",
     imageurl: "",
@@ -18,6 +19,7 @@ export const userReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 iduser: action.payload.iduser,
+                idaddress: action.payload.idaddress,
                 username: action.payload.username,
                 email: action.payload.email,
                 imageurl: action.payload.imageurl,
