@@ -54,7 +54,7 @@ class ModalEdit extends React.Component {
             return this.props.productDetail.stocks.map((value, index) => {
                 return <Row>
                     <Col>
-                        <Input disabled={!this.state.edit} defaultValue={value.type} type="text" placeholder={`Type-${index + 1}`} onChange={(e) => this.handleType(e, index)} />
+                        <Input disabled={!this.state.edit} defaultValue={value.idunit} type="text" placeholder={`Type-${index + 1}`} onChange={(e) => this.handleType(e, index)} />
                     </Col>
                     <Col>
                         <Input disabled={!this.state.edit} defaultValue={value.qty} type="number" placeholder={`Stock-${index + 1}`} onChange={(e) => this.handleStock(e, index)} />
@@ -81,7 +81,7 @@ class ModalEdit extends React.Component {
                             this.state.images[0] ?
                                 <img src={URL.createObjectURL(this.state.images[0].file)} style={{ width: '40%', marginTop: 20, marginBottom: 20 }} />
                                 :
-                                <img src={value.url} style={{ width: '40%', marginTop: 20, marginBottom: 20, boxShadow: ' rgba(0, 0, 0, 0.24) 0px 3px 8px' }} />
+                                <img src={API_URL + value.url} style={{ width: '40%', marginTop: 20, marginBottom: 20, boxShadow: ' rgba(0, 0, 0, 0.24) 0px 3px 8px' }} />
                         }
                     </Col>
 
@@ -111,9 +111,10 @@ class ModalEdit extends React.Component {
                     fullscreen="sm"
                     size="lg"
                     isOpen={this.props.modalOpen}
+                    toggle={this.props.btClose}
                 >
                     <ModalHeader toggle={this.props.btClose}>
-                        <p className='heading3' style={{ marginLeft: '20.6vw', marginTop: '10px' }}>Edit Product</p>
+                        <p className='heading3' style={{ marginLeft: '16.6vw', marginTop: '10px' }}>Edit Product</p>
                     </ModalHeader>
                     <ModalBody>
                         <div className='row'>

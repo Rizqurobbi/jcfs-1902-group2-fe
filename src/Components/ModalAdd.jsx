@@ -9,7 +9,6 @@ class ModalAdd extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            stocks: [],
             images: []
         }
     }
@@ -20,9 +19,7 @@ class ModalAdd extends React.Component {
         let formData = new FormData()
         let data = {
             idcategory: this.inCategory.value,
-            idunit: this.inUnit.value,
             nama: this.inName.value,
-            berat: this.inWeight.value,
             harga: this.inPrice.value,
             deskripsi: this.inDesc.value,
             penyajian: this.inServ.value,
@@ -31,16 +28,31 @@ class ModalAdd extends React.Component {
             kegunaan: this.inBenefit.value,
             komposisi: this.inCompos.value,
             efekSamping: this.inSide.value,
-            stocks: this.state.stocks
+            stocks: [
+                {
+                    idunit: this.inUnit.value,
+                    qty: this.inQty.value,
+                    isnetto: 0
+                },
+                {
+                    idunit: this.inNettoUnit.value,
+                    qty: this.inNettoQty.value,
+                    isnetto: 1
+                },
+                {
+                    idunit: this.inNettoUnit.value,
+                    qty: this.inQty.value * this.inNettoQty.value,
+                    isnetto: 0
+                }
+            ]
         }
         formData.append(`data`, JSON.stringify(data))
         this.state.images.forEach(val => formData.append('Images', val.file))
-        console.log(data)
         axios.post(API_URL + '/products', formData)
             .then(res => {
-                // console.log(res.data)
                 if (res) {
                     this.props.btClose()
+                    this.setState({images:[]})
                     alert('Add Product Success')
                     this.props.getProductAction()
                 }
@@ -49,18 +61,6 @@ class ModalAdd extends React.Component {
             })
 
     }
-    onBtAddStock = () => {
-        // let tempStock = [...this.state.stock]
-        if (this.state.stocks.length < 1) {
-
-            this.state.stocks.push({ id: null, type: null, qty: null })
-            this.setState({ stocks: this.state.stocks })
-        } else {
-            alert(`As For Now Admin can only input 1 type and qty per product`)
-        }
-    }
-
-    // menambah penampung data image pada state.images
     onBtAddImages = () => {
         if (this.state.images.length < 1) {
             this.state.images.push("")
@@ -78,35 +78,16 @@ class ModalAdd extends React.Component {
         this.state.images.splice(index, 1)
         this.setState({ images: this.state.images })
     }
-    printStock = () => {
-        if (this.state.stocks.length > 0) {
-            return this.state.stocks.map((item, index) => {
-                return <Row>
-                    <Col>
-                        <Input type="text" placeholder={`Type-${index + 1}`} onChange={(e) => this.handleType(e, index)} />
-                    </Col>
-                    <Col>
-                        <Input type="number" placeholder={`Stock-${index + 1}`} onChange={(e) => this.handleStock(e, index)} />
-                    </Col>
-                    <Col>
-                        <a className="btn btn-outline-danger" onClick={() => this.onBtDeleteStock(index)} style={{ cursor: 'pointer' }}>Delete</a>
-                    </Col>
-                </Row>
-            })
-        }
-    }
-
-    // render element input form image
     printImages = () => {
         if (this.state.images.length > 0) {
-            return this.state.images.map((item, index) => {
+            return this.state.images.map((value, index) => {
                 return <Row>
                     <Col>
                         <Input style={{ width: '10vw' }} accept="image/*" type="file" placeholder={`Select Images-${index + 1}`}
                             onChange={(e) => this.handleImages(e, index)} />
                         {
-                            item.file ?
-                                <img src={URL.createObjectURL(item.file)} style={{ width: '60%', marginTop: 20, marginBottom: 20 }} />
+                            value.file ?
+                                <img src={URL.createObjectURL(value.file)} style={{ width: '60%', marginTop: 20, marginBottom: 20 }} />
                                 :
                                 <img src='http://bppl.kkp.go.id/uploads/publikasi/karya_tulis_ilmiah/default.jpg' style={{ width: '60%', marginTop: 20, marginBottom: 20 }} />
                         }
@@ -138,23 +119,30 @@ class ModalAdd extends React.Component {
         temp[index].qty = parseInt(e.target.value)
         this.setState({ stocks: temp })
     }
+    handleUnit = (e, index) => {
+        console.log(this.state.stocks)
+        let temp = [...this.state.stocks]
+        temp[index].qty = e.target.value
+        this.setState({ stocks: temp })
+    }
     onBtCancel = () => {
         this.setState({ stocks: [], images: [] })
         // fungsi untuk close modal
         this.props.btClose()
     }
     render() {
+        console.log(this.props.unit)
         return (
             <div>
                 <Modal
                     centered
                     fullscreen="sm"
                     size="lg"
-                    toggle={function noRefCheck() { }}
+                    toggle={this.props.btClose}
                     isOpen={this.props.modalOpen}
                 >
                     <ModalHeader toggle={this.props.btClose}>
-                        <p className='heading3' style={{ marginLeft: '20.6vw', marginTop: '10px' }}>Add Product</p>
+                        <p className='heading3' style={{ marginLeft: '16vw', marginTop: '10px' }}>Add Product</p>
                     </ModalHeader>
                     <ModalBody>
                         <div className='row'>
@@ -172,29 +160,6 @@ class ModalAdd extends React.Component {
                                     </div>
                                     <div className='col-6'>
                                         <FormGroup>
-                                            <Label>Unit</Label>
-                                            <Input type='select'
-                                                innerRef={e => this.inUnit = e}>
-                                                <option value={null}>Unit</option>
-                                                {
-                                                    this.props.unit.map((value, index) => <option value={value.idunit} key={value.idunit}>{value.satuan}</option>)
-                                                }
-                                            </Input>
-                                        </FormGroup>
-                                    </div>
-                                </div>
-                                <div className='row'>
-                                    <div className='col-6'>
-                                        {/* <FormGroup>
-                                                    <Label>Unit</Label>
-                                                    <Input type='select'>
-                                                        <option value={null}>Unit</option>
-                                                        {
-                                                            this.props.unit.map((value, index) => <option value={value.idunit} key={value.idunit}>{value.satuan}</option>)
-                                                        }
-                                                    </Input>
-                                                </FormGroup> */}
-                                        <FormGroup>
                                             <Label>Category</Label>
                                             <Input type='select' innerRef={e => this.inCategory = e}>
                                                 <option value={null}>Category</option>
@@ -202,12 +167,6 @@ class ModalAdd extends React.Component {
                                                     this.props.category.map((value, index) => <option value={value.idcategory} key={value.idcategory}>{value.category}</option>)
                                                 }
                                             </Input>
-                                        </FormGroup>
-                                    </div>
-                                    <div className='col-6'>
-                                        <FormGroup>
-                                            <Label>Weight</Label>
-                                            <Input type='Number' innerRef={e => this.inWeight = e}></Input>
                                         </FormGroup>
                                     </div>
                                 </div>
@@ -219,13 +178,38 @@ class ModalAdd extends React.Component {
                                     <Label>Serving Method</Label>
                                     <Input type='text' innerRef={e => this.inServ = e}></Input>
                                 </FormGroup>
-                                <FormGroup>
-                                    <Label>Stocks</Label>
-                                    <button outline color="success" type="button" size="sm" style={{ float: 'right' }} className='landing1' onClick={this.onBtAddStock}>CLICK</button>
-                                    <div style={{ marginTop: 10 }}>
-                                        {this.printStock()}
+                                <div className='row'>
+                                    <div className='col-6'>
+                                        <FormGroup>
+                                            <Label>Stocks</Label>
+                                            <div className='d-flex'>
+                                                <Input style={{marginRight:'5px'}} type="number" placeholder={`Qty`} innerRef={e => this.inQty = e} />
+                                                <Input type='select'
+                                                    innerRef={e => this.inUnit = e}>
+                                                    <option value={null}>Unit</option>
+                                                    {
+                                                        this.props.unit.map((val, index) => <option value={val.idunit} key={val.idunit}>{val.satuan}</option>)
+                                                    }
+                                                </Input>
+                                            </div>
+                                        </FormGroup>
                                     </div>
-                                </FormGroup>
+                                    <div className='col-6'>
+                                        <FormGroup>
+                                            <Label>Netto/Stock</Label>
+                                            <div className="d-flex">
+                                                <Input style={{marginRight:'5px'}} type="number" placeholder={`Qty`} innerRef={e => this.inNettoQty = e} />
+                                                <Input type='select'
+                                                    innerRef={e => this.inNettoUnit = e}>
+                                                    <option value={null}>Unit</option>
+                                                    {
+                                                        this.props.unit.map((val, index) => <option value={val.idunit} key={val.idunit}>{val.satuan}</option>)
+                                                    }
+                                                </Input>
+                                            </div>
+                                        </FormGroup>
+                                    </div>
+                                </div>
                             </div>
                             <div className='col-6'>
                                 <FormGroup>
@@ -237,15 +221,15 @@ class ModalAdd extends React.Component {
                                     <Input type='text' innerRef={e => this.inKeep = e}></Input>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label>Composition</Label>
-                                    <Input type='text' innerRef={e => this.inCompos = e}></Input>
-                                </FormGroup>
-                                <FormGroup>
                                     <Label>Benefit</Label>
                                     <Input type='text' innerRef={e => this.inBenefit = e}></Input>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label>Side Effects</Label>
+                                    <Label>Composition</Label>
+                                    <Input type='text' innerRef={e => this.inCompos = e}></Input>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label>Cautions</Label>
                                     <Input type='text' innerRef={e => this.inSide = e}></Input>
                                 </FormGroup>
                                 <FormGroup>

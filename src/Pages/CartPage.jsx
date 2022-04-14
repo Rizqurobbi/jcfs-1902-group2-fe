@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { deleteCartActions, getCartAction, getProductAction, updateQtyActions } from '../redux/actions';
-import { Button, Input } from 'reactstrap';
+import { Badge, Button, Input } from 'reactstrap';
 import { AiOutlineCloseSquare } from 'react-icons/ai'
 import cartmedicine from '../img/cartmedicine.png'
 import { FiEdit, FiUpload, FiTrash2 } from "react-icons/fi";
@@ -20,7 +20,6 @@ class CartPage extends React.Component {
         this.props.getCartAction()
     }
     btnCheckout = () => {
-        // console.log('data',this.state.data.qty)
         const d = new Date()
         axios.post(`${API_URL}/transactions/checkout`, {
             idaddress: 1,
@@ -129,72 +128,87 @@ class CartPage extends React.Component {
                                 <h1 className='heading1' style={{ color: 'white', fontWeight: 900 }}>Carts</h1>
                             </div>
                         </div>
-                        <div className='row'>
-                            <div className='col-7 p-4'>
-                                {this.printCart()}
-                            </div>
-                            <div className='col-5 p-4'>
-                                <div style={{ borderRadius: 10, background: 'white', height: 'auto', width: 340, marginLeft: 'auto', padding: 23, boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px', marginBottom: '4%' }}>
-                                    <div>
-                                        <p className='heading3' style={{ fontSize: '' }}>ADDRESS</p>
+                        {
+                            this.props.carts.length ?
+                                <div className='row'>
+                                    <div className='col-7 p-4'>
+                                        {this.printCart()}
                                     </div>
-                                    <div style={{ height: '15vh' }}>
-                                        {
-                                            this.props.carts.length ?
-                                                <>
-                                                    <div className='container py-2 my-4 d-flex heading4 justify-content-between' style={{ backgroundColor: 'white', border: '2px solid lightgray', borderRadius: 20 }}>
-                                                        <div className='d-flex py-2' style={{ width: '' }}>
-                                                            <p className='mx-2'>1. </p>
-                                                            <p>jl.Garuda II Block T2 sau banget au iaw wah tae waj</p>
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <Link to='/edit'>
-                                                            <p style={{ float: 'right', color: '#1E144F', fontWeight: 'bold', cursor: 'pointer' }} className='heading4'>Change Address</p>
-                                                        </Link>
-                                                    </div>
-                                                </>
-                                                :
-                                                <>
-                                                    <div>
-                                                        YOU HAVE TO ADD YOUR ADDRESS
-                                                    </div>
-                                                    <div style={{ float: 'right' }}>
-                                                        <p>Add Address</p>
-                                                    </div>
-                                                </>
-                                        }
-                                    </div>
-                                </div>
-                                <div style={{ borderRadius: 10, background: 'white', height: 400, width: 340, marginLeft: 'auto', padding: 23, boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}>
-                                    <div>
-                                        <p className='heading3' style={{ fontSize: '' }}>ORDER SUMMARY</p>
-                                    </div>
-                                    <div style={{ height: '26vh' }}>
-                                        <div>
-                                            <p className='heading3' style={{ fontSize: 20 }}>Cart total</p>
-                                        </div>
-                                        <div style={{ marginTop: 40 }}>
-                                            <div className='d-flex' style={{ justifyContent: 'space-between' }}>
-                                                <p className='heading3' style={{ fontSize: 18 }}>Total Price</p>
-                                                <p className='heading3' style={{ fontSize: 18 }}>Rp. {this.totalPrice().toLocaleString()}</p>
+                                    <div className='col-5 p-4'>
+                                        <div style={{ borderRadius: 20, background: 'white', height: 'auto', width: 340, marginLeft: 'auto', padding: 23, boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px', marginBottom: '4%' }}>
+                                            <div style={{ height: 'auto' }}>
+                                                <p className='heading3' style={{ fontSize: '' }}>ADDRESS</p>
                                             </div>
-                                            <div className='d-flex' style={{ justifyContent: 'space-between' }}>
-                                                <p className='heading3' style={{ fontSize: 18 }}>Shipping</p>
-                                                <p className='heading3' style={{ fontSize: 18 }}>Rp. {this.shipping().toLocaleString()}</p>
-                                            </div>
-                                            <div className='d-flex' style={{ justifyContent: 'space-between' }}>
-                                                <p className='heading3' style={{ fontSize: 18 }}>Total Payment</p>
-                                                <p className='heading3' style={{ fontSize: 18 }}>Rp. {this.totalPayment().toLocaleString()}</p>
+                                            <div style={{ height: 'auto' }}>
+                                                {
+                                                    /*Ganti this.props.carts.length dengan this.props.address.length jika sudah mendapatkan reducer address*/
+                                                    this.props.carts.length ?
+                                                        <>
+                                                            <div className='container py-2 my-4 d-flex heading4 justify-content-between' style={{ backgroundColor: 'white', border: '2px solid gray', borderRadius: 15 }}>
+                                                                <div className='d-flex py-2' style={{ width: '' }}>
+                                                                    <p className='mx-2'>1. </p>
+                                                                    <p>jl.Garuda II Block T2 sau banget </p>
+                                                                </div>
+                                                            </div>
+                                                            <div style={{ paddingBottom: 20 }}>
+                                                                <Link to='/edit'>
+                                                                    <p style={{ float: 'right', color: '#1E144F', fontWeight: 'bold', cursor: 'pointer' }} className='heading4'>Change Address</p>
+                                                                </Link>
+                                                            </div>
+                                                        </>
+                                                        :
+                                                        <>
+                                                            <div style={{ height: 'auto', textAlign: 'center', color: 'red', fontSize: 17 }}>
+                                                                <p>YOU HAVE TO ADD YOUR ADDRESS</p>
+                                                            </div>
+                                                            <div style={{ paddingBottom: 20, paddingTop: 10 }}>
+                                                                <Link to='/edit'>
+                                                                    <p style={{ float: 'right', color: '#1E144F', fontWeight: 'bold', cursor: 'pointer' }} className='heading4'>Add Address</p>
+                                                                </Link>
+                                                            </div>
+                                                        </>
+                                                }
                                             </div>
                                         </div>
-                                    </div>
-                                    <div style={{ textAlign: 'center' }}>
-                                        <Button onClick={this.btnCheckout} style={{ width: 200, height: 50, border: 'none' }} className='NavbarButton'>CHECKOUT</Button>
+                                        <div style={{ borderRadius: 20, background: 'white', height: 400, width: 340, marginLeft: 'auto', padding: 23, boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}>
+                                            <div>
+                                                <p className='heading3' style={{ fontSize: '' }}>ORDER SUMMARY</p>
+                                            </div>
+                                            <div style={{ height: '26vh' }}>
+                                                <div>
+                                                    <p className='heading3' style={{ fontSize: 20 }}>Cart total<Badge style={{ fontSize: 13 }}>5</Badge></p>
+                                                </div>
+                                                <div style={{ marginTop: 40 }}>
+                                                    <div className='d-flex' style={{ justifyContent: 'space-between' }}>
+                                                        <p className='heading3' style={{ fontSize: 18 }}>Total Price</p>
+                                                        <p className='heading3' style={{ fontSize: 18 }}>Rp. {this.totalPrice().toLocaleString()}</p>
+                                                    </div>
+                                                    <div className='d-flex' style={{ justifyContent: 'space-between' }}>
+                                                        <p className='heading3' style={{ fontSize: 18 }}>Shipping</p>
+                                                        <p className='heading3' style={{ fontSize: 18 }}>Rp. {this.shipping().toLocaleString()}</p>
+                                                    </div>
+                                                    <div className='d-flex' style={{ justifyContent: 'space-between' }}>
+                                                        <p className='heading3' style={{ fontSize: 18 }}>Total Payment</p>
+                                                        <p className='heading3' style={{ fontSize: 18 }}>Rp. {this.totalPayment().toLocaleString()}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {/*Ganti this.props.carts.length dengan this.props.address.length jika sudah mendapatkan reducer address*/}
+                                            <div style={{ textAlign: 'center' }}>
+                                                <Button onClick={this.props.carts.length ? this.btnCheckout : () => alert('Choose Your Address First')} style={{ width: 200, height: 50, border: 'none' }} className='NavbarButton'>CHECKOUT</Button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                                :
+                                <div style={{ marginTop: 50, marginBottom: 50, width: '70%', height: '40vh'}} className="container text-center ">
+                                    <p className='heading1' style={{ paddingTop: '50px' }}>Your Cart Is Empty</p>
+                                    <p className='heading3'>Buy some fruit by click this button below</p>
+                                    <Link to="/products">
+                                        <Button style={{ marginTop:40,backgroundColor: '#E63E54',width:'20%',height:'15%',border:'none',fontSize:20,fontFamily: "Nunito, sans-serif" }}>Buy</Button>
+                                    </Link>
+                                </div>
+                        }
                     </div>
                 </div>
             </div>
