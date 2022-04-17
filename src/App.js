@@ -19,6 +19,7 @@ import CartPage from './Pages/CartPage';
 import NotFoundPage from './Pages/NotFoundPage';
 import DoctorPrescriptionPage from './Pages/DoctorPrescription';
 import HistoryTransaction from './Pages/HistoryTransaction';
+import TransactionManagement from './Pages/TransactionManagement';
 
 class App extends Component {
   constructor(props) {
@@ -66,7 +67,7 @@ class App extends Component {
               this.props.role == "Admin" ?
                 <>
                   <Route path="/product-management" element={<ProductManagement />} />
-                  {/* <Route path="/transaction-management" element={<TransactionManagement />} /> */}
+                  <Route path="/transaction-management" element={<TransactionManagement />} />
                 </>
                 :
                 <Route path="*" element={<NotFoundPage />} />
@@ -77,7 +78,6 @@ class App extends Component {
     );
   }
 }
-
 const mapToProps = (state) => {
   return {
     role: state.userReducer.role
