@@ -14,16 +14,11 @@ class ModalEdit extends React.Component {
             edit: false
         }
     }
-    // componentDidMount() {
-    //     this.props.getProductAction()
-    // }
     btnSave = () => {
         let formData = new FormData()
         let data = {
             idcategory: this.inCategory.value,
-            idunit: this.inUnit.value,
             nama: this.inName.value,
-            berat: this.inWeight.value,
             harga: this.inPrice.value,
             deskripsi: this.inDesc.value,
             penyajian: this.inServ.value,
@@ -37,13 +32,13 @@ class ModalEdit extends React.Component {
         formData.append(`data`, JSON.stringify(data))
         this.state.images.forEach(val => formData.append('Images', val.file))
         console.log(data)
-        this.props.btClose()
         axios.patch(`${API_URL}/products/${this.props.productDetail.idproduct}`, formData)
             .then(res => {
                 console.log(res.data)
-                this.props.getProductAction()
-                this.setState({ edit: false })
                 alert('Edit Product Success')
+                this.props.btClose()
+                this.setState({ edit: false })
+                this.props.getProductAction()
             }).catch(err => {
                 console.log(err)
             })
@@ -54,10 +49,10 @@ class ModalEdit extends React.Component {
             return this.props.productDetail.stocks.map((value, index) => {
                 return <Row>
                     <Col>
-                        <Input disabled={!this.state.edit} defaultValue={value.idunit} type="text" placeholder={`Type-${index + 1}`} onChange={(e) => this.handleType(e, index)} />
+                        <Input disabled={!this.state.edit} defaultValue={value.qty} type="number" placeholder={`Stock-${index + 1}`} onChange={(e) => this.handleStock(e, index)} />
                     </Col>
                     <Col>
-                        <Input disabled={!this.state.edit} defaultValue={value.qty} type="number" placeholder={`Stock-${index + 1}`} onChange={(e) => this.handleStock(e, index)} />
+                        <Input disabled={!this.state.edit} defaultValue={value.satuan} type="text" placeholder={`Type-${index + 1}`} onChange={(e) => this.handleType(e, index)} />
                     </Col>
                 </Row>
             })
@@ -71,7 +66,6 @@ class ModalEdit extends React.Component {
     }
     printImages = () => {
         if (this.props.productDetail.images) {
-
             return this.props.productDetail.images.map((value, index) => {
                 return <Row>
                     <Col>
@@ -103,7 +97,7 @@ class ModalEdit extends React.Component {
         this.setState({ stocks: temp })
     }
     render() {
-        let { idunit, idcategory, nama, satuan, category, berat, harga, deskripsi, penyajian, dosis, caraPenyimpanan, kegunaan, komposisi, efekSamping } = this.props.productDetail
+        let { idcategory, nama, category, harga, deskripsi, penyajian, dosis, caraPenyimpanan, kegunaan, komposisi, efekSamping } = this.props.productDetail
         return (
             <div>
                 <Modal
@@ -132,21 +126,6 @@ class ModalEdit extends React.Component {
                                     </div>
                                     <div className='col-6'>
                                         <FormGroup>
-                                            <Label>Unit</Label>
-                                            <Input type='select'
-                                                disabled={!this.state.edit}
-                                                innerRef={e => this.inUnit = e}>
-                                                <option value={idunit}>{satuan}</option>
-                                                {
-                                                    this.props.unit.map((value, index) => <option value={value.idunit} key={value.idunit}>{value.satuan}</option>)
-                                                }
-                                            </Input>
-                                        </FormGroup>
-                                    </div>
-                                </div>
-                                <div className='row'>
-                                    <div className='col-6'>
-                                        <FormGroup>
                                             <Label>Category</Label>
                                             <Input type='select' innerRef={e => this.inCategory = e}
                                                 disabled={!this.state.edit}>
@@ -155,12 +134,6 @@ class ModalEdit extends React.Component {
                                                     this.props.category.map((value, index) => <option value={value.idcategory} key={value.idcategory}>{value.category}</option>)
                                                 }
                                             </Input>
-                                        </FormGroup>
-                                    </div>
-                                    <div className='col-6'>
-                                        <FormGroup>
-                                            <Label>Weight</Label>
-                                            <Input disabled={!this.state.edit} defaultValue={berat} type='Number' innerRef={e => this.inWeight = e}></Input>
                                         </FormGroup>
                                     </div>
                                 </div>
@@ -206,15 +179,6 @@ class ModalEdit extends React.Component {
                         </div>
                     </ModalBody>
                     <ModalFooter>
-                        {/* <button
-                            className='NavbarButton py-1'
-                            onClick={this.btnUpload}
-                        >
-                            UPLOAD
-                        </button>
-                        <button className='landing1 py-1' onClick={this.props.btClose}>
-                            Cancel
-                        </button> */}
                         {
                             this.state.edit ?
                                 <button type="button" className='NavbarButton py-1' onClick={this.btnSave}>Save</button>
