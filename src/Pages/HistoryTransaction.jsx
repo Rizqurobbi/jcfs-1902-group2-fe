@@ -4,12 +4,15 @@ import { Badge, Button } from 'reactstrap';
 import { getTransactionsActions } from '../redux/actions/transactionsAction';
 import { connect } from 'react-redux';
 import { API_URL } from '../helper';
+import ModalDetailPastTransaction from '../Components/ModalDetailPastTransaction';
 
 class HistoryTransaction extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            modalOpenDetail: false,
+            detailTransaction: [],
+            transactions:{}
         }
     }
 
@@ -71,7 +74,7 @@ class HistoryTransaction extends Component {
                         </div>
                     </div>
                     <div style={{ textAlign: "right", paddingRight: 30 }}>
-                        <Button color="primary" outline style={{ border: "none", fontSize: 12, marginLeft: 10 }}>
+                        <Button color="primary" outline style={{ border: "none", fontSize: 12, marginLeft: 10 }} onClick={() => this.setState({ modalOpenDetail: !this.state.modalOpenDetail, detailTransaction:value.detail,transactions:value })}>
                             Detail Transactions
                         </Button>
                     </div>
@@ -82,6 +85,7 @@ class HistoryTransaction extends Component {
     render() {
         // let badgeColor = value.status.includes("Batal") ? "danger" : "warning"
         console.log('transaction', this.props.transactions)
+        console.log('detail transaction', this.state.detailTransaction)
         return (
             <div className='container-fluid pt-4' style={{ backgroundColor: '#FCFBFA', paddingBottom: 50 }} >
                 <div className='container shadow px-5' style={{ backgroundColor: 'white', borderRadius: 50, paddingTop: 40, paddingBottom: 40 }}>
@@ -98,18 +102,21 @@ class HistoryTransaction extends Component {
                                     {this.printTransactions()}
                                 </TabPanel>
                                 <TabPanel className='p-0'>
-                                    {
-                                        this.printPastTransactions()
-                                    }
+                                    {this.printPastTransactions()}
                                 </TabPanel>
                                 <TabPanel>
 
                                 </TabPanel>
-
                             </TabPanels>
                         </>
                     </Tabs>
                 </div>
+                <ModalDetailPastTransaction
+                    modalOpen={this.state.modalOpenDetail}
+                    detailTransaction={this.state.detailTransaction}
+                    transaction={this.state.transactions}
+                    btClose={() => this.setState({ modalOpenDetail: !this.state.modalOpenDetail })}
+                />
             </div>
         );
     }
