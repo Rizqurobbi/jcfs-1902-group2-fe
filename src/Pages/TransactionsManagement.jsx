@@ -47,6 +47,17 @@ class TransactionManagement extends Component {
             })
     }
 
+    onBtDiscardOrder = (value) => {
+        axios.patch(`${API_URL}/transactions/editstatusrecipe`, { status: 'Discard', idresep: value.idresep })
+            .then(res => {
+                if (res.data.success) {
+                    this.setState({ modalAdd: !this.state.modalAdd, detailRecipe: value })
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+    }
+
     printUserRecipe = () => {
         return this.state.recipe.map((value, index) => {
             let badgeColor = value.status.includes("Cancel") ? "danger" : value.status.includes("Process") ? "primary" : "warning"
@@ -69,7 +80,7 @@ class TransactionManagement extends Component {
                             onClick={() => this.onBtArrangeOrder(value)}
                         >Arrange order</Button>
                         <Button color="danger" style={{ fontSize: 16, width: "100%" }}
-                            onClick={() => this.onBtArrangeOrder(value)}
+                            onClick={() => this.onBtDiscardOrder(value)}
                         >Discard order</Button>
                     </div>
                 </div>
