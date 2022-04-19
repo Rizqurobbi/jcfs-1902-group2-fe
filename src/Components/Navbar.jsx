@@ -105,9 +105,11 @@ class NavbarComponent extends Component {
                                                     Products Management
                                                 </Link>
                                             </DropdownItem>
-                                            <DropdownItem>
-                                                Transactions Management
-                                            </DropdownItem>
+                                            <Link to='/transaction-management'>
+                                                <DropdownItem>
+                                                    Transactions Management
+                                                </DropdownItem>
+                                            </Link>
                                             <DropdownItem divider />
                                             <DropdownItem onClick={() => {
                                                 localStorage.removeItem("data");
