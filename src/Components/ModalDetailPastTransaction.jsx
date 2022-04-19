@@ -89,15 +89,15 @@ class ModalDetailPastTransaction extends Component {
                                 </div>
                                 <hr className='my-3' />
                                 <Row style={{ marginTop: 40 }}>
-                                    <Col className='align-self-center'>
-                                            <p className='heading3'>
+                                    <Col className='align-self-center mx-3'>
+                                        <p className='heading3'>
                                             Receipt of payment
-                                            </p>
+                                        </p>
                                     </Col>
                                     <Col>
                                         {
                                             this.props.transaction.payment_url ?
-                                                <div style={{width:'65%',margin:'auto'}}>
+                                                <div style={{ width: '65%', margin: 'auto' }}>
                                                     <img src={API_URL + this.props.transaction.payment_url} style={{ width: '100%' }} />
                                                 </div>
                                                 :
