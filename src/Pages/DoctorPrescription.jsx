@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { API_URL } from '../helper';
+import Swal from 'sweetalert2';
+
 
 class DoctorPrescriptionPage extends Component {
     constructor(props) {
@@ -31,13 +33,23 @@ class DoctorPrescriptionPage extends Component {
                 }
             }).then(res => {
                 console.log(res.data)
-                alert('Upload Success, your request has been processed')
+                Swal.fire({
+                    title: 'Yeay!',
+                    text: 'Upload success',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                })
                 window.location.reload();
             }).catch(err => {
                 console.log(err)
             })
         } else {
-            alert('Please login first')
+            Swal.fire({
+                title: 'Warning!',
+                text: 'Please login first',
+                icon: 'warning',
+                confirmButtonText: 'Ok'
+            })
         }
 
     }

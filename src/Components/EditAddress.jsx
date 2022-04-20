@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { FormGroup, Modal, ModalBody, Input, InputGroup } from 'reactstrap';
 import { API_URL } from '../helper';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import { keepAction } from '../redux/actions/userAction';
+import { connect } from 'react-redux';
 
 class EditAddress extends Component {
     constructor(props) {
@@ -12,8 +15,23 @@ class EditAddress extends Component {
     }
 
     btSubmit = () => {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-right',
+            iconColor: 'white',
+            customClass: {
+                popup: 'colored-toast'
+            },
+            showConfirmButton: false,
+            timer: 2500,
+            timerProgressBar: true
+        })
         if (this.inAddress.value === "") {
-            alert('fill the blank')
+            Toast.fire({
+                icon: 'warning',
+                text: 'Fill all the blank.',
+                title: 'Warning'
+            })
         } else {
             let token = localStorage.getItem("data")
             axios.patch(`${API_URL}/users/editaddress`, { address: this.inAddress.value, idaddress: this.props.idx }, {
@@ -22,7 +40,15 @@ class EditAddress extends Component {
                 }
             }).then(res => {
                 console.log(res.data)
-                window.location.reload();
+                Swal.fire({
+                    title: 'Yeay!',
+                    text: 'Change address success',
+                    icon: 'success',
+                    confirmButtonText: 'Ok',
+                    width: '24rem'
+                })     
+                this.props.btClose()
+                this.props.keepAction()
             }).catch(err => {
                 console.log(err)
             })
@@ -55,4 +81,4 @@ class EditAddress extends Component {
     }
 }
 
-export default EditAddress;
+export default connect(null, { keepAction })(EditAddress);

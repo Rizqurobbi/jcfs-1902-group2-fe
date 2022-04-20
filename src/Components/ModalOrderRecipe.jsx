@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { FiTrash2, FiEdit, FiCheck } from "react-icons/fi";
 import { IoAddCircleOutline } from "react-icons/io5";
 import axios from 'axios';
+import Swal from 'sweetalert2';
+
 
 class ModalAddRecipe extends Component {
     constructor(props) {
@@ -24,8 +26,23 @@ class ModalAddRecipe extends Component {
     }
 
     onBtAddProduct = () => {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-right',
+            iconColor: 'white',
+            customClass: {
+                popup: 'colored-toast'
+            },
+            showConfirmButton: false,
+            timer: 2500,
+            timerProgressBar: true
+        })
         if (this.state.inProduct === 0 || this.inUnit.value === "" || this.inQty.value === 0) {
-            alert('Fill all the blank')
+            Toast.fire({
+                icon: 'warning',
+                text: 'Fill all the blank.',
+                title: 'Warning'
+            })
         } else {
             axios.get(`${API_URL}/products?idproduct=${this.state.inProduct}`)
                 .then((response) => {
@@ -143,14 +160,19 @@ class ModalAddRecipe extends Component {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('data')}`
             }
-        }) .then((res) => {
-            if(res.data.success) {
-                alert('Checkout Success')
+        }).then((res) => {
+            if (res.data.success) {
+                Swal.fire({
+                    title: 'Yeay!',
+                    text: 'Checkout success',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                })
                 this.setState({
                     AddProduct: []
                 })
             }
-        }) .catch((err) => {
+        }).catch((err) => {
             console.log(err)
         })
     }
