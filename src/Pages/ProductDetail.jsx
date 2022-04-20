@@ -7,6 +7,8 @@ import { IoRemoveCircleOutline, IoAddCircleOutline} from "react-icons/io5";
 import { connect } from 'react-redux';
 import { Navigate } from 'react-router';
 import { addToCartAction } from '../redux/actions';
+import Swal from 'sweetalert2';
+
 class ProductDetail extends React.Component {
     constructor(props) {
         super(props);
@@ -41,10 +43,20 @@ class ProductDetail extends React.Component {
             if (res.success) {
                 this.setState({ redirect: true })
             } else {
-                alert(`KOSONG`)
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Stock empty',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                })
             }
         } else {
-            alert('LOGIN')
+            Swal.fire({
+                title: 'Warning!',
+                text: 'Please login first',
+                icon: 'warning',
+                confirmButtonText: 'Ok'
+            })
         }
     }
     btnIncrement = (num) => {
@@ -52,7 +64,12 @@ class ProductDetail extends React.Component {
             this.state.counter += num
             this.setState({ coonter: this.state.counter })
         } else {
-            alert(`Hai`)
+            Swal.fire({
+                title: 'Error!',
+                text: 'Out of stock',
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            })
         }
     }
     btnDecrement = (num) => {

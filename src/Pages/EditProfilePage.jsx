@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import AddAddress from '../Components/AddAddress';
 import EditAddress from '../Components/EditAddress';
+import Swal from 'sweetalert2';
 
 
 
@@ -65,11 +66,11 @@ class ProfileManagement extends Component {
                 })
                 try {
                     if (res.data.success) {
-                        this.setState({
-                            toastOpen: true,
-                            toastHeader: "Yeay...",
-                            toastMessage: "Change password success.",
-                            toastIcon: <FaRegSmileBeam style={{ fontSize: 20 }} />
+                        Swal.fire({
+                            title: 'Yeay!',
+                            text: 'Change password success',
+                            icon: 'success',
+                            confirmButtonText: 'Ok'
                         })
                         this.newPassword.value = ""
                         this.newConfPassword.value = ""
@@ -78,11 +79,11 @@ class ProfileManagement extends Component {
                     console.log(error)
                 }
             } else {
-                this.setState({
-                    toastOpen: true,
-                    toastHeader: "Oh no...",
-                    toastIcon: <CgSmileSad style={{ fontSize: 20 }} />,
-                    toastMessage: "Password doesn't match."
+                Swal.fire({
+                    title: 'Warning!',
+                    text: 'Password does not match',
+                    icon: 'warning',
+                    confirmButtonText: 'Ok'
                 })
             }
         }
@@ -113,7 +114,12 @@ class ProfileManagement extends Component {
             console.log(res.data)
             this.setState({ edit: false })
             window.location.reload();
-            alert('Edit Profile Success')
+            Swal.fire({
+                title: 'Yeay!',
+                text: 'Edit success',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+            })
         }).catch(err => {
             console.log(err)
         })

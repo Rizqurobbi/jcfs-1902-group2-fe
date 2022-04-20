@@ -6,6 +6,8 @@ import axios from 'axios';
 import { API_URL } from '../helper';
 import { FaRegSmileBeam } from "react-icons/fa";
 import LoginComponent from '../Components/Login';
+import Swal from 'sweetalert2';
+
 
 class RegisterPage extends Component {
     constructor(props) {
@@ -36,12 +38,23 @@ class RegisterPage extends Component {
     }
 
     btRegister = () => {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-right',
+            iconColor: 'white',
+            customClass: {
+                popup: 'colored-toast'
+            },
+            showConfirmButton: false,
+            timer: 2500,
+            timerProgressBar: true
+        })
         if (this.usernameRegis.value === "" || this.emailRegis.value === "" || this.passwordRegis.value === "") {
-            this.setState({
-                toastOpen: true,
-                toastHeader: "Register",
-                toastMessage: "Fill all the blank",
-                toastIcon: "warning"
+            Swal.fire({
+                title: 'Warning!',
+                text: 'Please fill all the blank.',
+                icon: 'warning',
+                confirmButtonText: 'Ok'
             })
         } else {
             if (this.passwordRegis.value === this.confPasswordRegis.value) {
@@ -56,34 +69,41 @@ class RegisterPage extends Component {
                     axios.post(`${API_URL}/users/register`, data)
                         .then(res => {
                             if (res.data.success) {
-                                this.setState({
-                                    toastOpen: true,
-                                    toastHeader: "Register Success",
-                                    toastMessage: "Check your email!",
-                                    toastIcon: <FaRegSmileBeam style={{fontSize: 20}}/>
+                                Swal.fire({
+                                    title: 'Yeay!',
+                                    text: 'Register Success.',
+                                    icon: 'success',
+                                    confirmButtonText: 'Ok'
                                 })
                                 this.emailRegis.value = ""
                                 this.usernameRegis.value = ""
                                 this.passwordRegis.value = ""
                                 this.confPasswordRegis.value = ""
+                            } else {
+                                Swal.fire({
+                                    title: 'Warning!',
+                                    text: 'Email does exist.',
+                                    icon: 'warning',
+                                    confirmButtonText: 'Ok'
+                                })
                             }
                         }).catch(error => {
                             console.log(error)
                         })
                 } else {
-                    this.setState({
-                        toastOpen: true,
-                        toastHeader: "Register Warning",
-                        toastIcon: "warning",
-                        toastMessage: "Email Incorrect"
+                    Swal.fire({
+                        title: 'Warning!',
+                        text: 'Email incorrect.',
+                        icon: 'warning',
+                        confirmButtonText: 'Ok'
                     })
                 }
             } else {
-                this.setState({
-                    toastOpen: true,
-                    toastHeader: "Register Warning",
-                    toastIcon: "warning",
-                    toastMessage: "Password not match"
+                Swal.fire({
+                    title: 'Warning!',
+                    text: `Password doesn't match.`,
+                    icon: 'warning',
+                    confirmButtonText: 'Ok'
                 })
             }
         }

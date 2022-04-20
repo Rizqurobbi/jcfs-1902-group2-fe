@@ -3,7 +3,7 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import { Modal, ModalBody, Col, Row, Button } from 'reactstrap';
 import { API_URL } from '../helper';
-
+import Swal from 'sweetalert2';
 
 class ModalDetailTransaction extends Component {
     constructor(props) {
@@ -44,7 +44,12 @@ class ModalDetailTransaction extends Component {
                 }
             }).then(res => {
                 console.log(res.data)
-                alert('Upload Success, wait for approval')
+                Swal.fire({
+                    title: 'Yeay!',
+                    text: 'Upload success',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                })
                 window.location.reload();
             }).catch(err => {
                 console.log(err)

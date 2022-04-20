@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Modal, ModalBody, ModalHeader, ModalFooter, Button, FormGroup, Label, Input, Row, Col } from 'reactstrap'
 import { API_URL } from '../helper';
 import { getProductAction } from '../redux/actions';
+import Swal from 'sweetalert2';
+
 
 class ModalEdit extends React.Component {
     constructor(props) {
@@ -35,7 +37,12 @@ class ModalEdit extends React.Component {
         axios.patch(`${API_URL}/products/${this.props.productDetail.idproduct}`, formData)
             .then(res => {
                 console.log(res.data)
-                alert('Edit Product Success')
+                Swal.fire({
+                    title: 'Yeay!',
+                    text: 'Edit success',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                })
                 this.props.btClose()
                 this.setState({ edit: false })
                 this.props.getProductAction()

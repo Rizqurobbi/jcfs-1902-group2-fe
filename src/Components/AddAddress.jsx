@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { FormGroup, Modal, ModalBody, Input, InputGroup, InputGroupText, Label } from 'reactstrap';
 import { API_URL } from '../helper';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import { keepAction } from '../redux/actions/userAction';
+import { connect } from 'react-redux';
 
 class AddAddress extends Component {
     constructor(props) {
@@ -12,18 +15,39 @@ class AddAddress extends Component {
     }
 
     btSubmit = () => {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-right',
+            iconColor: 'white',
+            customClass: {
+                popup: 'colored-toast'
+            },
+            showConfirmButton: false,
+            timer: 2500,
+            timerProgressBar: true
+        })
         if (this.inAddress.value === "") {
-            alert('fill the blank')
+            Toast.fire({
+                icon: 'warning',
+                text: 'Fill all the blank.',
+                title: 'Warning'
+            })
         } else {
             let token = localStorage.getItem("data")
-            axios.post(`${API_URL}/users/addaddress`, {address: this.inAddress.value}, {
+            axios.post(`${API_URL}/users/addaddress`, { address: this.inAddress.value }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             }).then(res => {
                 console.log(res.data)
-                alert('Add new address success')
-                window.location.reload();
+                Swal.fire({
+                    title: 'Yeay!',
+                    text: 'Change address success',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                })
+                this.props.btClose()
+                this.props.keepAction()
             }).catch(err => {
                 console.log(err)
             })
@@ -55,4 +79,4 @@ class AddAddress extends Component {
     }
 }
 
-export default AddAddress;
+export default connect(null, { keepAction })(AddAddress);

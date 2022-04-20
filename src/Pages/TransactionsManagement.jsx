@@ -19,25 +19,28 @@ class TransactionManagement extends Component {
 
     componentDidMount() {
         this.getUserRecipe()
-        this.props.getTransactionsActions()
     }
 
     getUserRecipe = () => {
-        axios.get(`${API_URL}/transactions/recipe`)
-            .then(res => {
-                if (res.data.success) {
-                    console.log('tes', res.data.dataRecipe)
-                    this.setState({
-                        recipe: res.data.dataRecipe
-                    })
-                }
-            }).catch(error => {
-                console.log(error)
-            })
+        let token = localStorage.getItem('data')
+        axios.get(`${API_URL}/transactions/recipe`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            if (res.data.success) {
+                console.log('tes', res.data.dataRecipe)
+                this.setState({
+                    recipe: res.data.dataRecipe
+                })
+            }
+        }).catch(error => {
+            console.log(error)
+        })
     }
 
     onBtArrangeOrder = (value) => {
-        axios.patch(`${API_URL}/transactions/editstatusrecipe`, { status: 'Process', idresep: value.idresep })
+        axios.patch(`${API_URL}/transactions/editstatusrecipe`, { idresep: value.idresep })
             .then(res => {
                 if (res.data.success) {
                     this.setState({ modalAdd: !this.state.modalAdd, detailRecipe: value })
@@ -48,7 +51,7 @@ class TransactionManagement extends Component {
     }
 
     onBtDiscardOrder = (value) => {
-        axios.patch(`${API_URL}/transactions/editstatusrecipe`, { status: 'Discard', idresep: value.idresep })
+        axios.patch(`${API_URL}/transactions/discardstatusrecipe`, { idresep: value.idresep })
             .then(res => {
                 if (res.data.success) {
                     this.setState({ modalAdd: !this.state.modalAdd, detailRecipe: value })
@@ -89,40 +92,10 @@ class TransactionManagement extends Component {
         })
     }
 
-    printTransactions = () => {
-        return this.props.transactions.map((value, index) => {
-            return <div className="shadow pb-3 mb-4 heading4" style={{ borderRadius: 40 }}>
-                <div className="py-3 px-5 NavbarButton" style={{ color: "white", borderTopLeftRadius: 40, borderTopRightRadius: 40 }}>
-                    <span>{value.date}</span>
-                    <b style={{ marginLeft: 10 }}>{value.invoice}</b>
-                    <Badge color='warning' style={{ float: 'right', fontSize: 16 }}>Ongoing</Badge>
-                </div>
-                <div className="row p-3">
-                    <div className="col-md-2">
-                        <img src='https://api.watsons.co.id/medias/zoom-front-10453.jpg?context=bWFzdGVyfGltYWdlc3wxMjM0MDd8aW1hZ2UvanBlZ3xoNDEvaDdjLzEwMTc2OTA1NjQyMDE0L1dUQ0lELTEwNDUzLWZyb250LmpwZ3xkNGZiYzhkNTYyMDc0ZWZiNDE1ZTNlMzZjN2VkZjViYWY0ZWM2ZjBjNGM1Yjg3ZTcwZTI3YTI0N2YzODM3NjUz' width="80%" />
-                    </div>
-                    <div className="col-md-8 d-flex flex-column justify-content-center" style={{ borderRight: "1px solid gray", marginLeft: -50 }}>
-                        <h4 style={{ fontWeight: "bolder" }}>{value.detail[0].nama}</h4>
-                        <p className="text-muted">{value.detail[0].qty} x Rp. {value.detail[0].harga.toLocaleString()}</p>
-                    </div>
-                    <div className="col-md-2 d-flex flex-column justify-content-center">
-                        <p className="text-muted">Total Belanja</p>
-                        <h4 style={{ fontWeight: "bolder" }}>Rp. {value.total_payment.toLocaleString()}</h4>
-                    </div>
-                </div>
-                <div style={{ textAlign: "right", paddingRight: 30 }}>
-                    <Button color="danger" style={{ fontSize: 12 }} >Discard Order</Button>
-                    <Button color="primary" outline style={{ border: "none", fontSize: 12, marginLeft: 10 }}>
-                        Detail Transactions
-                    </Button>
-                </div>
-            </div>
-        })
-    }
-
     render() {
         console.log('detil resep', this.state.detailRecipe)
         console.log('transaksi user', this.props.transactions)
+        console.log('transaksi semua user', this.state.recipe)
         return (
             <div>
                 <ModalAddRecipe
@@ -139,14 +112,10 @@ class TransactionManagement extends Component {
                                     <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>All transactions</Tab>
                                     <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Ongoing transactions</Tab>
                                     <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Past transactions</Tab>
-                                    <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Cancelled transactions</Tab>
                                     <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Doctor's prescription transactions</Tab>
                                 </TabList>
                                 <TabPanels align='start'>
                                     <TabPanel className='p-0'>
-                                        {this.printTransactions()}
-                                    </TabPanel>
-                                    <TabPanel>
 
                                     </TabPanel>
                                     <TabPanel>

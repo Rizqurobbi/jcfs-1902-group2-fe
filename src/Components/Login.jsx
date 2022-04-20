@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { loginAction } from '../redux/actions'
 import { Link } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
 
 
 class LoginComponent extends Component {
@@ -36,13 +38,25 @@ class LoginComponent extends Component {
         try {
             let res = await this.props.loginAction(this.emailLogin.value, this.passwordLogin.value)
             if (this.emailLogin.value === "" || this.passwordLogin.value === "") {
-                alert("Fill the blank");
+                Swal.fire({
+                    title: 'Warning!',
+                    text: 'Fill all the blank',
+                    icon: 'warning',
+                    confirmButtonText: 'Ok',
+                    width: '23%'
+                })
             } else {
                 if (res) {
                     await this.setState({ redirect: true })
                     this.props.btClose()
                 } else {
-                    alert("Account not exist")
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Account not exist.',
+                        icon: 'error',
+                        confirmButtonText: 'Ok',
+                        width: '23%'
+                    })
                 }
             }
         } catch (error) {
@@ -55,7 +69,7 @@ class LoginComponent extends Component {
             this.setState({
                 redirect: false
             })
-            return <Navigate to="/" />    
+            return <Navigate to="/" />
         }
         return (
             <div>

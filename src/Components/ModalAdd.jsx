@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Modal, ModalBody, ModalHeader, ModalFooter, Button, FormGroup, Label, Input, Row, Col } from 'reactstrap'
 import { API_URL } from '../helper';
 import { getProductAction } from '../redux/actions';
+import Swal from 'sweetalert2';
+
 
 class ModalAdd extends React.Component {
     constructor(props) {
@@ -53,7 +55,12 @@ class ModalAdd extends React.Component {
                 if (res) {
                     this.props.btClose()
                     this.setState({images:[]})
-                    alert('Add Product Success')
+                    Swal.fire({
+                        title: 'Yeay!',
+                        text: 'Add product success',
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    })
                     this.props.getProductAction()
                 }
             }).catch(err => {
