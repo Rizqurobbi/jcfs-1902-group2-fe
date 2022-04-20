@@ -17,7 +17,6 @@ class TransactionManagement extends React.Component {
             pageAll: 1,
             pageOngoing: 1,
             pagePast: 1,
-            inNama:''
         }
     }
     componentDidMount() {
@@ -25,52 +24,182 @@ class TransactionManagement extends React.Component {
         this.getOngoingTransactionsAdmin()
         this.getPastTransactionsAdmin()
     }
-    getAllTransactionsAdmin = () => {
+    getAllTransactionsAdmin = (search = null) => {
         let token = localStorage.getItem('data')
+        let res;
         if (token) {
-            axios.get(`${API_URL}/transactions/adminalltransactions`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
+            if (search) {
+                if (search.inName) {
+                    if (search.inDateStart && search.inDateEnd) {
+                        res = axios.get(`${API_URL}/transactions/adminalltransactions?nama=${search.inName}start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        })
+                            .then((res) => {
+                                this.setState({ allTransactionsList: res.data.dataTransactionAdmin, pageAll: 1 })
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
+                    } else {
+                        res = axios.get(`${API_URL}/transactions/adminalltransactions?nama=${search.inName}`, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        })
+                            .then((res) => {
+                                this.setState({ allTransactionsList: res.data.dataTransactionAdmin, pageAll: 1 })
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
+                    }
+
+                } else {
+                    res = axios.get(`${API_URL}/transactions/adminalltransactions?start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                        .then((res) => {
+                            this.setState({ allTransactionsList: res.data.dataTransactionAdmin, pageAll: 1 })
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
                 }
-            })
-                .then((res) => {
-                    this.setState({ allTransactionsList: res.data.dataTransactionAdmin })
+            } else {
+                res = axios.get(`${API_URL}/transactions/adminalltransactions`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
                 })
-                .catch((err) => {
-                    console.log(err)
-                })
+                    .then((res) => {
+                        this.setState({ allTransactionsList: res.data.dataTransactionAdmin, pageAll: 1 })
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
         }
     }
-    getOngoingTransactionsAdmin = () => {
+    getOngoingTransactionsAdmin = (search = null) => {
         let token = localStorage.getItem('data')
+        let res;
         if (token) {
-            axios.get(`${API_URL}/transactions/adminongoingtransactions`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
+            if (search) {
+                if (search.inName) {
+                    if (search.inDateStart && search.inDateEnd) {
+                        res = axios.get(`${API_URL}/transactions/adminongoingtransactions?nama=${search.inName}&start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        })
+                            .then((res) => {
+                                this.setState({ ongoingTransactionsList: res.data.dataTransactionAdmin, pageOngoing: 1 })
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
+                    } else {
+                        res = axios.get(`${API_URL}/transactions/adminongoingtransactions?nama=${search.inName}`, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        })
+                            .then((res) => {
+                                this.setState({ ongoingTransactionsList: res.data.dataTransactionAdmin, pageOngoing: 1 })
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
+                    }
+                } else {
+                    res = axios.get(`${API_URL}/transactions/adminongoingtransactions?start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                        .then((res) => {
+                            this.setState({ ongoingTransactionsList: res.data.dataTransactionAdmin, pageOngoing: 1 })
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
                 }
-            })
-                .then((res) => {
-                    this.setState({ ongoingTransactionsList: res.data.dataTransactionAdmin })
+            } else {
+                res = axios.get(`${API_URL}/transactions/adminongoingtransactions`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
                 })
-                .catch((err) => {
-                    console.log(err)
-                })
+                    .then((res) => {
+                        this.setState({ ongoingTransactionsList: res.data.dataTransactionAdmin, pageOngoing: 1 })
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
         }
     }
-    getPastTransactionsAdmin = () => {
+    getPastTransactionsAdmin = (search = null) => {
         let token = localStorage.getItem('data')
+        let res;
         if (token) {
-            axios.get(`${API_URL}/transactions/adminpasttransactions`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
+            if (search) {
+                if (search.inName) {
+                    if (search.inDateStart && search.inDateEnd) {
+                        res = axios.get(`${API_URL}/transactions/adminpasttransactions?nama=${search.inName}&start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        })
+                            .then((res) => {
+                                this.setState({ pastTransactionsList: res.data.dataTransactionAdmin, pagePast: 1 })
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
+                    } else {
+                        res = axios.get(`${API_URL}/transactions/adminpasttransactions?nama=${search.inName}`, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        })
+                            .then((res) => {
+                                this.setState({ pastTransactionsList: res.data.dataTransactionAdmin, pagePast: 1 })
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
+                    }
+                } else {
+                    res = axios.get(`${API_URL}/transactions/adminpasttransactions?start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                        .then((res) => {
+                            this.setState({ pastTransactionsList: res.data.dataTransactionAdmin, pagePast: 1 })
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
                 }
-            })
-                .then((res) => {
-                    this.setState({ pastTransactionsList: res.data.dataTransactionAdmin })
+            } else {
+                res = axios.get(`${API_URL}/transactions/adminpasttransactions`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
                 })
-                .catch((err) => {
-                    console.log(err)
-                })
+                    .then((res) => {
+                        this.setState({ pastTransactionsList: res.data.dataTransactionAdmin, pagePast: 1 })
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
         }
     }
     printAllTransactionList = () => {
@@ -108,44 +237,53 @@ class TransactionManagement extends React.Component {
             </div>
         })
     }
-    printFilterDate = () => {
+    printFilterNameAll = () => {
+        return (
+            <InputGroup style={{ width: '300px', height: '30px' }}>
+                <Input type='text' placeholder='Search Username' innerRef={(e) => this.inNameAll = e} onChange={this.handleInputAll}>
+                </Input>
+            </InputGroup>
+        )
+    }
+    handleInputAll = () => {
+        if (this.inNameAll.value === '') {
+            this.getAllTransactionsAdmin()
+        } else {
+            this.getAllTransactionsAdmin({
+                inName: this.inNameAll.value,
+            })
+        }
+    }
+    printFilterDateAll = () => {
         return (
             <div>
-                <InputGroup style={{ width: '300px', marginLeft: 'auto', marginBottom: 24 }}>
-                    {/* <Input type='select'>
-                    <option value=""></option>
-                    <option value=""></option>
-                    <option value=""></option>
-                </Input> */}
-                    <Input style={{ marginRight: '10px' }} type='date' innerRef={(e) => this.inDate = e}>
+                <InputGroup style={{ width: '500px', marginLeft: 'auto', marginBottom: 24 }}>
+                    <Input style={{ marginRight: '10px' }} type='date' innerRef={(e) => this.inDateStartAll = e}>
                     </Input>
                     <p style={{ alignSelf: 'center', fontSize: 20 }}>To</p>
-                    <Input style={{ marginLeft: '10px' }} type='date' innerRef={(e) => this.inDate = e}>
+                    <Input style={{ marginLeft: '10px' }} type='date' innerRef={(e) => this.inDateEndAll = e}>
                     </Input>
-                    <Button onClick={this.testFunc}>
-
+                    <Button className='landing1' style={{ border: 'none', marginLeft: '10px' }} onClick={this.btnResetAll}>
+                        Reset
+                    </Button>
+                    <Button className='NavbarButton' style={{ border: 'none', marginLeft: '10px' }} onClick={this.handleDateAll}>
+                        Filter
                     </Button>
                 </InputGroup>
             </div>
         )
     }
-    testFunc = () => {
-        let date = {
-            test: this.inDate.value
-        }
-        console.log(date);
+    handleDateAll = () => {
+        this.getAllTransactionsAdmin({
+            inDateStart: this.inDateStartAll.value,
+            inDateEnd: this.inDateEndAll.value,
+        })
     }
-    printFilterName = () => {
-        return (
-            <InputGroup style={{ width: '300px', height: '30px' }}>
-                <Input type='text' placeholder='Search Username' onChange={(e) => this.handleInput(e.target.value, 'inNama')}>
-                </Input>
-            </InputGroup>
-        )
-    }
-    handleInput = (value, propstate) => {
-        this.setState({ [propstate]: value })
-        console.log(value)
+    btnResetAll = () => {
+        this.inDateStartAll.value = ''
+        this.inDateEndAll.value = ''
+        this.inNameAll.value = ''
+        this.getAllTransactionsAdmin()
     }
     printOngoingTransactionList = () => {
         let { ongoingTransactionsList, pageOngoing } = this.state
@@ -181,6 +319,54 @@ class TransactionManagement extends React.Component {
             </div>
         })
     }
+    printFilterNameOngoing = () => {
+        return (
+            <InputGroup style={{ width: '300px', height: '30px' }}>
+                <Input type='text' placeholder='Search Username' innerRef={(e) => this.inNameOngoing = e} onChange={this.handleInputOngoing}>
+                </Input>
+            </InputGroup>
+        )
+    }
+    handleInputOngoing = () => {
+        if (this.inNameOngoing.value === '') {
+            this.getOngoingTransactionsAdmin()
+        } else {
+            this.getOngoingTransactionsAdmin({
+                inName: this.inNameOngoing.value
+            })
+        }
+    }
+    printFilterDateOngoing = () => {
+        return (
+            <div>
+                <InputGroup style={{ width: '500px', marginLeft: 'auto', marginBottom: 24 }}>
+                    <Input style={{ marginRight: '10px' }} type='date' innerRef={(e) => this.inDateStartOngoing = e}>
+                    </Input>
+                    <p style={{ alignSelf: 'center', fontSize: 20 }}>To</p>
+                    <Input style={{ marginLeft: '10px' }} type='date' innerRef={(e) => this.inDateEndOngoing = e}>
+                    </Input>
+                    <Button className='landing1' style={{ border: 'none', marginLeft: '10px' }} onClick={this.btnResetOngoing}>
+                        Reset
+                    </Button>
+                    <Button className='NavbarButton' style={{ border: 'none', marginLeft: '10px' }} onClick={this.handleDateOngoing}>
+                        Filter
+                    </Button>
+                </InputGroup>
+            </div>
+        )
+    }
+    handleDateOngoing = () => {
+        this.getOngoingTransactionsAdmin({
+            inDateStart: this.inDateStartOngoing.value,
+            inDateEnd: this.inDateEndOngoing.value,
+        })
+    }
+    btnResetOngoing = () => {
+        this.inDateStartOngoing.value = ''
+        this.inDateEndOngoing.value = ''
+        this.inNameOngoing.value = ''
+        this.getOngoingTransactionsAdmin()
+    }
     printPastTransactionList = () => {
         let { pastTransactionsList, pagePast } = this.state
         return pastTransactionsList.slice(pagePast > 1 ? (pagePast - 1) * 3 : pagePast - 1, pagePast * 3).map((value, index) => {
@@ -215,12 +401,60 @@ class TransactionManagement extends React.Component {
             </div>
         })
     }
+    printFilterNamePast = () => {
+        return (
+            <InputGroup style={{ width: '300px', height: '30px' }}>
+                <Input type='text' placeholder='Search Username' innerRef={(e) => this.inNamePast = e} onChange={this.handleInputPast}>
+                </Input>
+            </InputGroup>
+        )
+    }
+    handleInputPast = () => {
+        if (this.inNamePast.value === '') {
+            this.getPastTransactionsAdmin()
+        } else {
+            this.getPastTransactionsAdmin({
+                inName: this.inNamePast.value
+            })
+        }
+    }
+    printFilterDatePast = () => {
+        return (
+            <div>
+                <InputGroup style={{ width: '500px', marginLeft: 'auto', marginBottom: 24 }}>
+                    <Input style={{ marginRight: '10px' }} type='date' innerRef={(e) => this.inDateStartPast = e}>
+                    </Input>
+                    <p style={{ alignSelf: 'center', fontSize: 20 }}>To</p>
+                    <Input style={{ marginLeft: '10px' }} type='date' innerRef={(e) => this.inDateEndPast = e}>
+                    </Input>
+                    <Button className='landing1' style={{ border: 'none', marginLeft: '10px' }} onClick={this.btnResetPast}>
+                        Reset
+                    </Button>
+                    <Button className='NavbarButton' style={{ border: 'none', marginLeft: '10px' }} onClick={this.handleDatePast}>
+                        Filter
+                    </Button>
+                </InputGroup>
+            </div>
+        )
+    }
+    handleDatePast = () => {
+        this.getPastTransactionsAdmin({
+            inDateStart: this.inDateStartPast.value,
+            inDateEnd: this.inDateEndPast.value,
+        })
+    }
+    btnResetPast = () => {
+        this.inDateStartPast.value = ''
+        this.inDateEndPast.value = ''
+        this.inNamePast.value = ''
+        this.getPastTransactionsAdmin()
+    }
     printBtnPaginationAll = () => {
         let btn = []
         for (let i = 0; i < Math.ceil(this.state.allTransactionsList.length / 3); i++) {
             btn.push(
                 <Button
-                    style={{ border: "none" }}
+                    style={{ border: "none", marginRight: 5 }}
                     className='NavbarButton'
                     disabled={this.state.pageAll == i + 1 ? true : false}
                     onClick={() => this.setState({ pageAll: i + 1 })}>{i + 1}
@@ -234,7 +468,7 @@ class TransactionManagement extends React.Component {
         for (let i = 0; i < Math.ceil(this.state.ongoingTransactionsList.length / 3); i++) {
             btn.push(
                 <Button
-                    style={{ border: "none" }}
+                    style={{ border: "none", marginRight: 5 }}
                     className='NavbarButton'
                     disabled={this.state.pageOngoing == i + 1 ? true : false}
                     onClick={() => this.setState({ pageOngoing: i + 1 })}>{i + 1}
@@ -248,7 +482,7 @@ class TransactionManagement extends React.Component {
         for (let i = 0; i < Math.ceil(this.state.pastTransactionsList.length / 3); i++) {
             btn.push(
                 <Button
-                    style={{ border: "none" }}
+                    style={{ border: "none", marginRight: 5 }}
                     className='NavbarButton'
                     disabled={this.state.pagePast == i + 1 ? true : false}
                     onClick={() => this.setState({ pagePast: i + 1 })}>{i + 1}
@@ -258,9 +492,6 @@ class TransactionManagement extends React.Component {
         return btn;
     }
     render() {
-        // console.log(this.state.transactionsList)
-        // console.log(this.inDate.value)
-
         return (
             <div className='container-fluid pt-4' style={{ backgroundColor: '#FCFBFA', paddingBottom: 50 }} >
                 <div className='container shadow px-5' style={{ backgroundColor: 'white', borderRadius: 50, paddingTop: 40, paddingBottom: 40 }}>
@@ -276,22 +507,29 @@ class TransactionManagement extends React.Component {
                             <TabPanels align='start'>
                                 <TabPanel className='p-0'>
                                     <div className='d-flex' style={{ justifyContent: 'space-between' }}>
-                                        {this.printFilterName()}
-                                        {this.printFilterDate()}
+                                        {this.printFilterNameAll()}
+                                        {this.printFilterDateAll()}
                                     </div>
                                     {this.printAllTransactionList()}
                                     <div className="text-center">
                                         {this.printBtnPaginationAll()}
                                     </div>
                                 </TabPanel>
-                                <TabPanel className='p-0'
-                                    onClick={() => this.setState({ status: this.state.transactionsList.map((value) => value.status.includes('Ongoing')) })}>
+                                <TabPanel className='p-0'>
+                                    <div className='d-flex' style={{ justifyContent: 'space-between' }}>
+                                        {this.printFilterNameOngoing()}
+                                        {this.printFilterDateOngoing()}
+                                    </div>
                                     {this.printOngoingTransactionList()}
                                     <div className="text-center">
                                         {this.printBtnPaginationOngoing()}
                                     </div>
                                 </TabPanel>
                                 <TabPanel className='p-0'>
+                                    <div className='d-flex' style={{ justifyContent: 'space-between' }}>
+                                        {this.printFilterNamePast()}
+                                        {this.printFilterDatePast()}
+                                    </div>
                                     {this.printPastTransactionList()}
                                     <div className="text-center">
                                         {this.printBtnPaginationPast()}
