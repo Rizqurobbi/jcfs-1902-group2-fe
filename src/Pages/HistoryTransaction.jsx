@@ -167,7 +167,7 @@ class HistoryTransaction extends Component {
 
     printTransactions = () => {
         let { pageAll } = this.state
-        return this.props.transactions.slice(pageAll > 1 ? (pageAll - 1) * 3 : pageAll - 1, pageAll * 3).map((value, index) => {
+        return this.props.transactions.slice(pageAll > 1 ? (pageAll - 1) * 4 : pageAll - 1, pageAll * 4).map((value, index) => {
             let badgeColor = value.status.includes("Waiting") ? "secondary" : value.status.includes("Process") ? "primary" :
                 value.status.includes("Ongoing") ? "warning" : value.status.includes("Completed") ? "success" : "danger"
             let date = value.date
@@ -186,7 +186,7 @@ class HistoryTransaction extends Component {
                     </div>
                     <div className="col-md-7 d-flex flex-column justify-content-center" style={{ borderRight: "1px solid gray" }}>
                         <h4 style={{ fontWeight: "bolder", fontSize: 18 }}>{value.detail[0].nama}</h4>
-                        <p className="text-muted mb-2" style={{ fontSize: 14 }}>{value.detail[0].qty} x Rp. {value.detail[0].harga.toLocaleString()}</p>
+                        <p className="text-muted mb-2" style={{ fontSize: 14 }}>{value.detail[0].qty} {value.detail[0].satuan} x Rp. {value.detail[0].harga.toLocaleString()}</p>
                         {
                             value.detail.length > 1 ?
                                 <p className='text-muted' style={{ fontSize: 14 }}>+{value.detail.length - 1} other products</p>
@@ -242,7 +242,7 @@ class HistoryTransaction extends Component {
                     </div>
                     <div className="col-md-7 d-flex flex-column justify-content-center" style={{ borderRight: "1px solid gray" }}>
                         <h4 style={{ fontWeight: "bolder", fontSize: 18 }}>{value.detail[0].nama}</h4>
-                        <p className="text-muted mb-2" style={{ fontSize: 14 }}>{value.detail[0].qty} x Rp. {value.detail[0].harga.toLocaleString()}</p>
+                        <p className="text-muted mb-2" style={{ fontSize: 14 }}>{value.detail[0].qty} {value.detail[0].satuan} x Rp. {value.detail[0].harga.toLocaleString()}</p>
                         {
                             value.detail.length > 1 ?
                                 <p className='text-muted' style={{ fontSize: 14 }}>+{value.detail.length - 1} other products</p>
@@ -328,7 +328,7 @@ class HistoryTransaction extends Component {
                     <div className="col-md-7 d-flex flex-column justify-content-center">
                         <h4 style={{ fontWeight: "bolder", paddingLeft: 40 }}>{value.invoice}</h4>
                     </div>
-                    <div className="col-md-2 d-flex align-items-center" style={{ float: "right"}}>
+                    <div className="col-md-2 d-flex align-items-center" style={{ float: "right" }}>
                         <Button color="danger" style={{ fontSize: 16, width: "100%" }}
                             onClick={() => this.onBtDiscardOrder(value)}
                         >Discard order
@@ -344,7 +344,7 @@ class HistoryTransaction extends Component {
         console.log('transaction', this.props.transactions)
         console.log('ongoingtransaction', this.state.ongoingTransactions)
         console.log('pasttransaction', this.state.pastTransactions)
-        console.log('pasttransaction', this.state.doctorTransactions)
+        console.log('doctortransaction', this.state.doctorTransactions)
         return (
             <div className='container-fluid pt-4' style={{ backgroundColor: '#FCFBFA', paddingBottom: 50 }} >
                 <ModalDetailTransaction
@@ -383,10 +383,17 @@ class HistoryTransaction extends Component {
                                     </div>
                                 </TabPanel>
                                 <TabPanel className='p-4'>
-                                    {this.printPastTransactions()}
-                                    <div className='text-center'>
-                                        {this.renderBtnPastPagination()}
-                                    </div>
+                                    {
+                                        this.state.pastTransactions ?
+                                            <div>
+                                                {this.printPastTransactions()}
+                                                <div className='text-center'>
+                                                    {this.renderBtnPastPagination()}
+                                                </div>
+                                            </div> :
+                                            null
+                                    }
+
                                 </TabPanel>
                                 <TabPanel>
                                     {this.printDoctorTransactions()}

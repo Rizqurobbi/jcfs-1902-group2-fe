@@ -1,16 +1,11 @@
-import React, { Component } from 'react';
-import { Modal, ModalBody, Col, Row, Button } from 'reactstrap';
+import React from 'react';
+import { Modal, ModalBody , Row, Col } from 'reactstrap'
 import { API_URL } from '../helper';
-
-
-class ModalDetailPastTransaction extends Component {
+class ModalDetailTransactionManagement extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            images: []
-        }
+        this.state = {}
     }
-
     totalPayment = () => {
         let total = 0
         this.props.detailTransaction.forEach(value => total += value.qty * value.harga)
@@ -27,7 +22,7 @@ class ModalDetailPastTransaction extends Component {
                         </Col>
                         <Col>
                             <p className='heading4' style={{ fontSize: 16 }}>{value.nama}</p>
-                            <p className='heading4' style={{ fontSize: 16 }}>{value.qty} {value.satuan} x Rp. {value.harga.toLocaleString()}</p>
+                            <p className='heading4' style={{ fontSize: 16 }}>{value.qty} x Rp. {value.harga.toLocaleString()}</p>
                         </Col>
                     </Row>
                 </div>
@@ -89,15 +84,15 @@ class ModalDetailPastTransaction extends Component {
                                 </div>
                                 <hr className='my-3' />
                                 <Row style={{ marginTop: 40 }}>
-                                    <Col className='align-self-center mx-3'>
-                                        <p className='heading3'>
+                                    <Col className='align-self-center'>
+                                            <p className='heading3'>
                                             Receipt of payment
-                                        </p>
+                                            </p>
                                     </Col>
                                     <Col>
                                         {
                                             this.props.transaction.payment_url ?
-                                                <div style={{ width: '65%', margin: 'auto' }}>
+                                                <div style={{width:'65%',margin:'auto'}}>
                                                     <img src={API_URL + this.props.transaction.payment_url} style={{ width: '100%' }} />
                                                 </div>
                                                 :
@@ -118,4 +113,4 @@ class ModalDetailPastTransaction extends Component {
     }
 }
 
-export default ModalDetailPastTransaction;
+export default ModalDetailTransactionManagement;

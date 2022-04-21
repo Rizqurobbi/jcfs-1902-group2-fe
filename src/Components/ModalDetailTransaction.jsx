@@ -67,7 +67,7 @@ class ModalDetailTransaction extends Component {
                         </Col>
                         <Col className='d-flex flex-column justify-content-center' style={{ marginLeft: -20 }}>
                             <p className='heading4' style={{ fontSize: 14 }}>{value.nama}</p>
-                            <p className='heading4' style={{ fontSize: 14 }}>{value.qty} x Rp. {value.harga.toLocaleString()}</p>
+                            <p className='heading4' style={{ fontSize: 14 }}>{value.qty} {value.satuan} x Rp. {value.harga.toLocaleString()}</p>
                         </Col>
                     </Row>
                 </div>
