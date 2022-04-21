@@ -14,7 +14,7 @@ class ModalAddRecipe extends Component {
         super(props);
         this.state = {
             AddProduct: [],
-            detail: {},
+            detailProduct: {},
             selectedIdx: null,
             inProduct: 0,
             inUnit: null
@@ -25,7 +25,7 @@ class ModalAddRecipe extends Component {
         this.props.getProductAction()
     }
 
-    onBtAddProduct = () => {
+    onBtAddProduct = (index) => {
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-right',
@@ -51,6 +51,7 @@ class ModalAddRecipe extends Component {
                         idtransaction: this.props.detailRecipe.iduser,
                         idproduct: this.state.inProduct,
                         idunit: this.state.inUnit,
+                        idstock: this.state.detail.stocks[1].idstock,
                         url: this.state.detail.images[0].url,
                         nama: this.state.detail.nama,
                         total_harga: Math.round((this.state.detail.harga / this.state.detail.stocks[1].qty) * this.inQty.value),
@@ -147,15 +148,16 @@ class ModalAddRecipe extends Component {
     onBtCheckout = () => {
         let dataCheckout = {
             iduser: this.props.detailRecipe.iduser,
-            idaddress: this.props.detailRecipe.idaddress,
+            idaddress: 1,
             invoice: this.props.detailRecipe.invoice,
             date: this.props.detailRecipe.date,
             total_price: this.totalPrice(),
             shipping: this.shipping(),
             total_payment: this.totalPayment(),
-            notes: 'Waiting for payment',
+            notes: 'Recipe has been processed',
             detail: this.state.AddProduct,
         }
+        console.log('datachekcout', dataCheckout)
         axios.post(`${API_URL}/transactions/checkoutrecipe`, dataCheckout, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('data')}`
@@ -168,6 +170,7 @@ class ModalAddRecipe extends Component {
                     icon: 'success',
                     confirmButtonText: 'Ok'
                 })
+                this.editStatusTransactions()
                 this.setState({
                     AddProduct: []
                 })
@@ -175,6 +178,15 @@ class ModalAddRecipe extends Component {
         }).catch((err) => {
             console.log(err)
         })
+    }
+
+    editStatusTransactions = () => {
+        axios.patch(`${API_URL}/transactions/editstatusrecipe`, { idresep: this.props.detailRecipe.idresep })
+            .then(res => {
+                console.log(res)
+            }).catch(error => {
+                console.log(error)
+            })
     }
 
     btnRemove = (index) => {
@@ -203,6 +215,8 @@ class ModalAddRecipe extends Component {
     }
 
     render() {
+        console.log('ini produk', this.props.products)
+        console.log('ini recipe detail', this.props.detailRecipe)
         return (
             <div>
                 <Modal size='xl' isOpen={this.props.modalOpen} toggle={this.onBtClose} centered >
