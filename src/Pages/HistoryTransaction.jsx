@@ -393,7 +393,6 @@ class HistoryTransaction extends Component {
                                             </div> :
                                             null
                                     }
-
                                 </TabPanel>
                                 <TabPanel>
                                     {this.printDoctorTransactions()}
