@@ -57,9 +57,9 @@ class TransactionManagement extends Component {
         let res;
         if (token) {
             if (search) {
-                if (search.inName) {
+                if (search.inInvoice) {
                     if (search.inDateStart && search.inDateEnd) {
-                        res = axios.get(`${API_URL}/transactions/adminalltransactions?nama=${search.inName}start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
+                        res = axios.get(`${API_URL}/transactions/adminalltransactions?invoice=${search.inInvoice}start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             }
@@ -71,7 +71,7 @@ class TransactionManagement extends Component {
                                 console.log(err)
                             })
                     } else {
-                        res = axios.get(`${API_URL}/transactions/adminalltransactions?nama=${search.inName}`, {
+                        res = axios.get(`${API_URL}/transactions/adminalltransactions?invoice=${search.inInvoice}`, {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             }
@@ -117,9 +117,9 @@ class TransactionManagement extends Component {
         let res;
         if (token) {
             if (search) {
-                if (search.inName) {
+                if (search.inInvoice) {
                     if (search.inDateStart && search.inDateEnd) {
-                        res = axios.get(`${API_URL}/transactions/adminongoingtransactions?nama=${search.inName}&start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
+                        res = axios.get(`${API_URL}/transactions/adminongoingtransactions?invoice=${search.inInvoice}&start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             }
@@ -131,7 +131,7 @@ class TransactionManagement extends Component {
                                 console.log(err)
                             })
                     } else {
-                        res = axios.get(`${API_URL}/transactions/adminongoingtransactions?nama=${search.inName}`, {
+                        res = axios.get(`${API_URL}/transactions/adminongoingtransactions?invoice=${search.inInvoice}`, {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             }
@@ -176,9 +176,9 @@ class TransactionManagement extends Component {
         let res;
         if (token) {
             if (search) {
-                if (search.inName) {
+                if (search.inInvoice) {
                     if (search.inDateStart && search.inDateEnd) {
-                        res = axios.get(`${API_URL}/transactions/adminpasttransactions?nama=${search.inName}&start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
+                        res = axios.get(`${API_URL}/transactions/adminpasttransactions?invoice=${search.inInvoice}&start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             }
@@ -190,7 +190,7 @@ class TransactionManagement extends Component {
                                 console.log(err)
                             })
                     } else {
-                        res = axios.get(`${API_URL}/transactions/adminpasttransactions?nama=${search.inName}`, {
+                        res = axios.get(`${API_URL}/transactions/adminpasttransactions?invoice=${search.inInvoice}`, {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             }
@@ -266,22 +266,23 @@ class TransactionManagement extends Component {
             </div>
         })
     }
-    printFilterNameAll = () => {
+    printFilterInvoiceAll = () => {
         return (
             <InputGroup style={{ width: '300px', height: '30px' }}>
-                <Input type='text' placeholder='Search Username' innerRef={(e) => this.inNameAll = e} onChange={this.handleInputAll}>
+                <Input type='text' placeholder='Search Invoice' innerRef={(e) => this.inInvoiceAll = e} onChange={this.handleInputAll}>
                 </Input>
             </InputGroup>
         )
     }
     handleInputAll = () => {
-        if (this.inNameAll.value === '') {
+        if (this.inInvoiceAll.value === '') {
             this.getAllTransactionsAdmin()
         } else {
             this.getAllTransactionsAdmin({
-                inName: this.inNameAll.value,
+                inInvoice: this.inInvoiceAll.value,
             })
         }
+        console.log(this.inInvoiceAll.value)
     }
     printFilterDateAll = () => {
         return (
@@ -311,7 +312,7 @@ class TransactionManagement extends Component {
     btnResetAll = () => {
         this.inDateStartAll.value = ''
         this.inDateEndAll.value = ''
-        this.inNameAll.value = ''
+        this.inInvoiceAll.value = ''
         this.getAllTransactionsAdmin()
     }
     printOngoingTransactionList = () => {
@@ -322,6 +323,7 @@ class TransactionManagement extends Component {
             return <div className="shadow pb-3 mb-4 heading4" style={{ borderRadius: 40 }}>
                 <div className="py-3 px-5 NavbarButton d-flex" style={{ color: "white", borderTopLeftRadius: 40, borderTopRightRadius: 40 }}>
                     <span>{newDate}</span>
+                    <b style={{ marginLeft: 10 }}>{value.invoice}</b>
                     <div className='d-flex ' style={{ marginLeft: 'auto' }}>
                         <b style={{ paddingRight: 20 }}>{value.username}</b>
                         <Badge color={badgeColor} style={{ fontSize: 16 }}>{value.status}</Badge>
@@ -348,20 +350,20 @@ class TransactionManagement extends Component {
             </div>
         })
     }
-    printFilterNameOngoing = () => {
+    printFilterInvoiceOngoing = () => {
         return (
             <InputGroup style={{ width: '300px', height: '30px' }}>
-                <Input type='text' placeholder='Search Username' innerRef={(e) => this.inNameOngoing = e} onChange={this.handleInputOngoing}>
+                <Input type='text' placeholder='Search Invoice' innerRef={(e) => this.inInvoiceOngoing = e} onChange={this.handleInputOngoing}>
                 </Input>
             </InputGroup>
         )
     }
     handleInputOngoing = () => {
-        if (this.inNameOngoing.value === '') {
+        if (this.inInvoiceOngoing.value === '') {
             this.getOngoingTransactionsAdmin()
         } else {
             this.getOngoingTransactionsAdmin({
-                inName: this.inNameOngoing.value
+                inInvoice: this.inInvoiceOngoing.value
             })
         }
     }
@@ -393,7 +395,7 @@ class TransactionManagement extends Component {
     btnResetOngoing = () => {
         this.inDateStartOngoing.value = ''
         this.inDateEndOngoing.value = ''
-        this.inNameOngoing.value = ''
+        this.inInvoiceOngoing.value = ''
         this.getOngoingTransactionsAdmin()
     }
     printPastTransactionList = () => {
@@ -404,6 +406,7 @@ class TransactionManagement extends Component {
             return <div className="shadow pb-3 mb-4 heading4" style={{ borderRadius: 40 }}>
                 <div className="py-3 px-5 NavbarButton d-flex" style={{ color: "white", borderTopLeftRadius: 40, borderTopRightRadius: 40 }}>
                     <span>{newDate}</span>
+                    <b style={{ marginLeft: 10 }}>{value.invoice}</b>
                     <div className='d-flex ' style={{ marginLeft: 'auto' }}>
                         <b style={{ paddingRight: 20 }}>{value.username}</b>
                         <Badge color={badgeColor} style={{ fontSize: 16 }}>{value.status}</Badge>
@@ -430,20 +433,20 @@ class TransactionManagement extends Component {
             </div>
         })
     }
-    printFilterNamePast = () => {
+    printFilterInvoicePast = () => {
         return (
             <InputGroup style={{ width: '300px', height: '30px' }}>
-                <Input type='text' placeholder='Search Username' innerRef={(e) => this.inNamePast = e} onChange={this.handleInputPast}>
+                <Input type='text' placeholder='Search Invoice' innerRef={(e) => this.inInvoicePast = e} onChange={this.handleInputPast}>
                 </Input>
             </InputGroup>
         )
     }
     handleInputPast = () => {
-        if (this.inNamePast.value === '') {
+        if (this.inInvoicePast.value === '') {
             this.getPastTransactionsAdmin()
         } else {
             this.getPastTransactionsAdmin({
-                inName: this.inNamePast.value
+                inInvoice: this.inInvoicePast.value
             })
         }
     }
@@ -475,7 +478,7 @@ class TransactionManagement extends Component {
     btnResetPast = () => {
         this.inDateStartPast.value = ''
         this.inDateEndPast.value = ''
-        this.inNamePast.value = ''
+        this.inInvoicePast.value = ''
         this.getPastTransactionsAdmin()
     }
     printBtnPaginationAll = () => {
@@ -605,7 +608,7 @@ class TransactionManagement extends Component {
                                 <TabPanels align='start'>
                                     <TabPanel className='p-0'>
                                         <div className='d-flex' style={{ justifyContent: 'space-between' }}>
-                                            {this.printFilterNameAll()}
+                                            {this.printFilterInvoiceAll()}
                                             {this.printFilterDateAll()}
                                         </div>
                                         {this.printAllTransactionList()}
@@ -615,7 +618,7 @@ class TransactionManagement extends Component {
                                     </TabPanel>
                                     <TabPanel className='p-0'>
                                         <div className='d-flex' style={{ justifyContent: 'space-between' }}>
-                                            {this.printFilterNameOngoing()}
+                                            {this.printFilterInvoiceOngoing()}
                                             {this.printFilterDateOngoing()}
                                         </div>
                                         {this.printOngoingTransactionList()}
@@ -625,7 +628,7 @@ class TransactionManagement extends Component {
                                     </TabPanel>
                                     <TabPanel className='p-0'>
                                         <div className='d-flex' style={{ justifyContent: 'space-between' }}>
-                                            {this.printFilterNamePast()}
+                                            {this.printFilterInvoicePast()}
                                             {this.printFilterDatePast()}
                                         </div>
                                         {this.printPastTransactionList()}

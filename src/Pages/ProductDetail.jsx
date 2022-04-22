@@ -1,9 +1,9 @@
 import React from 'react';
-import { Tabs, TabList, TabPanels, Tab, TabPanel,Input, } from '@chakra-ui/react'
+import { Tabs, TabList, TabPanels, Tab, TabPanel, Input, } from '@chakra-ui/react'
 import axios from 'axios';
 import { API_URL } from '../helper';
 import { Link } from 'react-router-dom';
-import { IoRemoveCircleOutline, IoAddCircleOutline} from "react-icons/io5";
+import { IoRemoveCircleOutline, IoAddCircleOutline } from "react-icons/io5";
 import { connect } from 'react-redux';
 import { Navigate } from 'react-router';
 import { addToCartAction } from '../redux/actions';
@@ -32,28 +32,38 @@ class ProductDetail extends React.Component {
             })
     }
     btnAddToCart = async () => {
-        let { detail, counter } = this.state
-        let dataCart = {
-            idproduct: detail.idproduct,
-            idstock: detail.stocks[0].idstock,
-            qty: counter,
-        }
-        if (this.props.username) {
-            let res = await this.props.addToCartAction(dataCart)
-            if (res.success) {
-                this.setState({ redirect: true })
+        if (this.props.role == 'User') {
+
+            let { detail, counter } = this.state
+            let dataCart = {
+                idproduct: detail.idproduct,
+                idstock: detail.stocks[0].idstock,
+                qty: counter,
+            }
+            if (this.props.username) {
+                let res = await this.props.addToCartAction(dataCart)
+                if (res.success) {
+                    this.setState({ redirect: true })
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Stock empty',
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    })
+                }
             } else {
                 Swal.fire({
-                    title: 'Error!',
-                    text: 'Stock empty',
-                    icon: 'error',
+                    title: 'Warning!',
+                    text: 'Please login first',
+                    icon: 'warning',
                     confirmButtonText: 'Ok'
                 })
             }
         } else {
             Swal.fire({
                 title: 'Warning!',
-                text: 'Please login first',
+                text: 'You are an Admin',
                 icon: 'warning',
                 confirmButtonText: 'Ok'
             })
@@ -81,19 +91,6 @@ class ProductDetail extends React.Component {
             })
         }
     }
-    renderImages = () => {
-        let { detail } = this.state
-        let { images } = detail
-        return images.map((value, index) => {
-            return (
-                <img className="select-image mb-1 my-2 rounded" style={{ border: this.state.thumbnail == index && "2px solid", marginRight: 10, cursor: 'pointer' }} src={API_URL + value.url}
-                    key={index}
-                    width="100%"
-                    onClick={() => this.setState({ thumbnail: index })}
-                />
-            )
-        })
-    }
     printDetail = () => {
         let { detail } = this.state
         return (
@@ -104,9 +101,6 @@ class ProductDetail extends React.Component {
                         <div className='col-6' style={{ paddingLeft: 105 }}>
                             <div style={{ width: '80%' }}>
                                 <img style={{ borderRadius: 8 }} src={API_URL + detail.images[0].url} width="100%" alt="" />
-                                <div className='col-4 d-flex'>
-                                    {this.renderImages()}
-                                </div>
                             </div>
                         </div>
                         <div className='col-6' style={{ paddingTop: 20 }}>
@@ -116,17 +110,19 @@ class ProductDetail extends React.Component {
                                 <p style={{ color: '#231953', fontWeight: 'bolder', fontSize: '30px' }}>Rp. {detail.harga.toLocaleString()}</p>
                                 <p style={{ fontWeight: 'bolder', marginTop: '14px' }} className='heading4'>{detail.deskripsi}</p>
                                 <p style={{ paddingTop: 15, paddingBottom: 15, fontSize: 15, color: '#231953', fontWeight: 'bold' }}>Available : {detail.stocks[0].qty} {detail.stocks[0].satuan}</p>
-                                <div>
-
-                                </div>
                             </div>
-                            <div className='d-flex'>
-                                <div className='d-flex'>
-                                    <IoRemoveCircleOutline style={{ fontSize: 30, marginTop: 5, color: '#1E144F', cursor: 'pointer' }} onClick={() => this.btnDecrement(1)} />
-                                    <Input textAlign='center' value={this.state.counter} type="number" width='12' style={{ borderRadius: 2.9 }} border='none'></Input>
-                                    <IoAddCircleOutline style={{ fontSize: 30, marginTop: 5, color: '#1E144F', cursor: 'pointer' }} onClick={() => this.btnIncrement(1)} />
+                            <div className='row'>
+                                <div className="col-6">
+
+                                    <div className='d-flex'>
+                                        <IoRemoveCircleOutline style={{ fontSize: 30, marginTop: 5, color: '#1E144F', cursor: 'pointer' }} onClick={() => this.btnDecrement(1)} />
+                                        <Input textAlign='center' value={this.state.counter} type="number" width='12' style={{ borderRadius: 2.9 }} border='none'></Input>
+                                        <IoAddCircleOutline style={{ fontSize: 30, marginTop: 5, color: '#1E144F', cursor: 'pointer' }} onClick={() => this.btnIncrement(1)} />
+                                    </div>
                                 </div>
-                                <button onClick={this.btnAddToCart} style={{ marginLeft: 'auto', width: '200px' }} className='landing1'>Add To Cart</button>
+                                <div className="col-6">
+                                    <button onClick={this.btnAddToCart} style={{ float: 'right', width: '200px' }} className='landing1 py-2'>Add To Cart</button>
+                                </div>
                             </div>
 
                         </div>
@@ -143,8 +139,8 @@ class ProductDetail extends React.Component {
             return <Navigate to='/cart-user' />
         }
         return (
-            <div style={{ background: '#F6F7FB' }}>
-                <div style={{ backgroundColor: '#F6F7FB', height: 50 }}>
+            <div style={{ background: 'white' }}>
+                <div style={{ backgroundColor: 'white', height: 50 }}>
                     <div style={{ paddingLeft: '20px', paddingTop: '10px' }} className='container'>
                         <div style={{ display: 'flex' }}>
                             <p className='mx-2' style={{ color: '#231953', cursor: 'pointer' }}>Home {'>'}</p>
@@ -161,12 +157,12 @@ class ProductDetail extends React.Component {
                         {detail.idproduct &&
                             <>
                                 <TabList>
-                                    <Tab >Penyajian</Tab>
-                                    <Tab >Dosis</Tab>
-                                    <Tab>Cara Penyimpanan</Tab>
-                                    <Tab>Kegunaan</Tab>
-                                    <Tab>Kommposisi</Tab>
-                                    <Tab>Perhatian</Tab>
+                                    <Tab>Serving</Tab>
+                                    <Tab>Dose</Tab>
+                                    <Tab>How to keep</Tab>
+                                    <Tab>Benefits</Tab>
+                                    <Tab>Composition</Tab>
+                                    <Tab>Cautions</Tab>
                                 </TabList>
                                 <TabPanels align='start'>
                                     <TabPanel>
@@ -198,7 +194,8 @@ class ProductDetail extends React.Component {
 }
 const mapToProps = (state) => {
     return {
-        username: state.userReducer.username
+        username: state.userReducer.username,
+        role: state.userReducer.role
     }
 }
 export default connect(mapToProps, { addToCartAction })(ProductDetail);

@@ -39,7 +39,7 @@ class ModalDetailPastTransaction extends Component {
         return (
             <div>
                 {
-                    this.props.detailTransaction.length &&
+                    this.props.detailTransaction.length > 0 &&
                     <Modal size='lg' isOpen={this.props.modalOpen} toggle={this.props.btClose} centered >
                         <div className='container px-2' >
                             <ModalBody className='px-5 pt-5'>

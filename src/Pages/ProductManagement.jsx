@@ -81,8 +81,8 @@ class ProductManagement extends React.Component {
         return (
             <div className='container-fluid'>
                 <div className='container'>
-                    <div style={{ backgroundPosition: '20% 30%', backgroundSize: 'cover', backgroundImage: "url(" + PM + ")", backgroundRepeat: 'no-repeat', width: '100%', height: '40vh', borderRadius: '15px' }}>
-                        <div style={{ paddingTop: '13vh', paddingLeft: '260px' }}>
+                    <div style={{ backgroundPosition: '20% 30%', backgroundSize: 'cover', backgroundImage: "url(" + PM + ")", backgroundRepeat: 'no-repeat', width: '100%', height: '32vh', borderRadius: '15px' }}>
+                        <div style={{ paddingTop: '11vh', paddingLeft: '260px' }}>
                             <h1 className='heading1' style={{ color: 'white', fontWeight: 900 }}>Products Management</h1>
                         </div>
                        
