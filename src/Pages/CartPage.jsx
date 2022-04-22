@@ -23,7 +23,7 @@ class CartPage extends React.Component {
         const d = new Date()
         axios.post(`${API_URL}/transactions/checkout`, {
             idaddress: 1,
-            invoice: `#INV/${d.getTime()}`,
+            invoice: `INV/${d.getTime()}`,
             date: d.toLocaleDateString(),
             total_price: this.totalPrice(),
             shipping: this.shipping(),
@@ -63,17 +63,17 @@ class CartPage extends React.Component {
     printCart = () => {
         return this.props.carts.map((value, index) => {
             return (
-                <div className='row' style={{ height: '20vh', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px', borderRadius: 15, marginBottom: '20px', background: 'white' }}>
-                    <div className='col-4' style={{ width: '30%' }}>
-                        <img src={API_URL + value.url} style={{ width: '100%', height: '100%' }} alt="" />
+                <div className='row p-3' style={{ height: '20vh', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px', borderRadius: 20, marginBottom: '23px', background: 'white' }}>
+                    <div className='col-3' style={{ width: '30%' }}>
+                        <img src={API_URL + value.url} style={{ width: '70%' }} alt="" />
                     </div>
-                    <div className='col-5 p-4' style={{}}>
-                        <p className='heading3' style={{ fontSize: 28 }}>{value.nama}</p>
+                    <div className='col-5 py-4' style={{marginLeft:-30}}>
+                        <p className='heading3' style={{ fontSize: 24 }}>{value.nama}</p>
                         <p>Category: {value.category}</p>
                     </div>
-                    <div className='col-3'>
+                    <div className='col-3' style={{marginLeft:30}}>
                         <div>
-                            <p className='heading3' style={{ marginTop: 27, fontSize: 25 }}>Rp.{value.total_harga.toLocaleString()}</p>
+                            <p className='heading3' style={{ marginTop: 23, fontSize: 24 }}>Rp.{value.total_harga.toLocaleString()}</p>
                             <p style={{ marginTop: -10 }}>{value.berat}{value.satuan}</p>
                         </div>
                         <div className="d-flex" style={{ marginTop: 20 }}>
@@ -120,34 +120,34 @@ class CartPage extends React.Component {
     }
     render() {
         return (
-            <div className='container-fluid' style={{ background: '#F6F7FB' }}>
-                <div className='container'>
+            <div className='container-fluid' style={{ background: '#FCFBFA' }}>
+                
                     <div className='container p-4'>
-                        <div style={{ backgroundPosition: '20% 30%', backgroundSize: 'cover', backgroundImage: `url('${cartmedicine}')`, backgroundRepeat: 'no-repeat', width: '100%', height: '40vh', borderRadius: '15px' }}>
-                            <div style={{ paddingTop: '13vh', paddingLeft: '860px' }}>
+                        <div style={{ backgroundPosition: '20% 30%', backgroundSize: 'cover', backgroundImage: `url('${cartmedicine}')`, backgroundRepeat: 'no-repeat', width: '100%', height: '32vh', borderRadius: '15px' }}>
+                            <div style={{ paddingTop: '11vh', paddingLeft: '860px' }}>
                                 <h1 className='heading1' style={{ color: 'white', fontWeight: 900 }}>Carts</h1>
                             </div>
                         </div>
                         {
                             this.props.carts.length ?
                                 <div className='row'>
-                                    <div className='col-7 p-4'>
+                                    <div className='col-8 p-4'>
                                         {this.printCart()}
                                     </div>
-                                    <div className='col-5 p-4'>
-                                        <div style={{ borderRadius: 20, background: 'white', height: 'auto', width: 340, marginLeft: 'auto', padding: 23, boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px', marginBottom: '4%' }}>
+                                    <div className='col-4 py-4'>
+                                        <div style={{ borderRadius: 20, background: 'white', height: 'auto', width: 340, marginLeft: 'auto', padding: 23, boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px', marginBottom: '20px' }}>
                                             <div style={{ height: 'auto' }}>
                                                 <p className='heading3' style={{ fontSize: '' }}>ADDRESS</p>
                                             </div>
                                             <div style={{ height: 'auto' }}>
                                                 {
                                                     /*Ganti this.props.carts.length dengan this.props.address.length jika sudah mendapatkan reducer address*/
-                                                    this.props.carts.length ?
+                                                    this.props.address.length ?
                                                         <>
                                                             <div className='container py-2 my-4 d-flex heading4 justify-content-between' style={{ backgroundColor: 'white', border: '2px solid gray', borderRadius: 15 }}>
                                                                 <div className='d-flex py-2' style={{ width: '' }}>
                                                                     <p className='mx-2'>1. </p>
-                                                                    <p>jl.Garuda II Block T2 sau banget </p>
+                                                                    <p>{this.props.address.address} </p>
                                                                 </div>
                                                             </div>
                                                             <div style={{ paddingBottom: 20 }}>
@@ -210,14 +210,15 @@ class CartPage extends React.Component {
                                 </div>
                         }
                     </div>
-                </div>
+                
             </div>
         );
     }
 }
 const mapToProps = (state) => {
     return {
-        carts: state.transactionsReducer.carts
+        carts: state.transactionsReducer.carts,
+        address: state.userReducer.address
     }
 }
 export default connect(mapToProps, { getCartAction, deleteCartActions, updateQtyActions, getProductAction })(CartPage)

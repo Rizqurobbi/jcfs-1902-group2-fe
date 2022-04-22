@@ -58,11 +58,15 @@ class ProductPage extends React.Component {
         return btn;
     }
 
-    btnSearch = () => {
-        this.props.getProductAction({
-            nama: this.state.inputNama,
-            idcategory: this.inCategory.value
-        })
+    btnFilter= () => {
+        if(this.inCategory.value=='All Products'&&this.state.inputNama==''){
+            this.props.getProductAction()
+        }else{
+            this.props.getProductAction({
+                nama: this.state.inputNama,
+                idcategory: this.inCategory.value
+            })
+        }
         console.log(this.inCategory.value)
 
     }
@@ -73,26 +77,23 @@ class ProductPage extends React.Component {
         })
     }
     btnReset = () => {
+        this.inCategory.value='All Products'
+        this.setState({inputNama:''})
         this.props.getProductAction()
+        console.log(this.state.inputNama)
     }
 
     render() {
 
         return (
-            <div className='container-fluid' style={{ background: '#F6F7FB', paddingTop: 20 }}>
+            <div className='container-fluid' style={{ background: '#FCFBFA', paddingTop: 20 }}>
                 <div className='container'>
-                    <div style={{ backgroundPosition: 'center', backgroundSize: 'cover', backgroundImage: "url(" + header + ")", backgroundRepeat: 'no-repeat', width: '100%', height: '40vh', borderRadius: '15px',marginBottom:10 }}>
-                        <div style={{ paddingTop: '13vh', paddingLeft: '260px' }}>
+                    <div style={{ backgroundPosition: 'center', backgroundSize: 'cover', backgroundImage: "url(" + header + ")", backgroundRepeat: 'no-repeat', width: '100%', height: '32vh', borderRadius: '15px',marginBottom:10 }}>
+                        <div style={{ paddingTop: '11vh', paddingLeft: '260px' }}>
                             <h1 className='heading1' style={{ color: 'white', fontWeight: 900 }}>Our Product</h1>
                         </div>
                     </div>
                     <div className="row" >
-                        {/* <div className='d-flex heading3' style={{ justifyContent: 'space-between',padding:'2%'}}>
-                            <p value={null}>All Products</p>
-                            {
-                                this.props.category.map((value, index) => <p onChange={this.btnSearch} value={value.idcategory} key={value.idcategory}>{value.category}</p>)
-                            }
-                        </div> */}
                         <div className='col-3 py-4'>
                             <div style={{ background: 'white', height: '33vh', borderRadius: '15px', padding: 10 }}>
                                 <div style={{ display: 'flex', borderBottom: '2px solid #1E144F', width: '85px', height: '40px', fontSize: 20 }}>
@@ -121,7 +122,7 @@ class ProductPage extends React.Component {
                                             pointerEvents='none'
                                             children={<SearchIcon color='gray.300' />}
                                         />
-                                        <I type='tel' placeholder='Search' onChange={(text) => this.setState({ inputNama: text.target.value })} />
+                                        <I type='tel' placeholder='Search' value={this.state.inputNama} onChange={(text) => this.setState({ inputNama: text.target.value })} />
                                     </IG>
                                     <FormGroup>
                                         <Label>Category</Label>
@@ -135,7 +136,7 @@ class ProductPage extends React.Component {
                                     </FormGroup>
                                     <div style={{ marginLeft: '148px', marginTop: '15px' }}>
                                         <Button className='landing1' onClick={this.btnReset} style={{ border: 'none' }}>Reset</Button>
-                                        <Button className='NavbarButton' style={{ marginLeft: '10px', border: 'none' }} onClick={this.btnSearch}>Filter</Button>
+                                        <Button className='NavbarButton' style={{ marginLeft: '10px', border: 'none' }} onClick={this.btnFilter}>Filter</Button>
                                     </div>
                                 </div>
                             </div>
