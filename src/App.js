@@ -20,6 +20,7 @@ import NotFoundPage from './Pages/NotFoundPage';
 import DoctorPrescriptionPage from './Pages/DoctorPrescription';
 import HistoryTransaction from './Pages/HistoryTransaction';
 import TransactionManagement from './Pages/TransactionsManagement';
+import AboutUs from './Pages/Aboutus';
 
 class App extends Component {
   constructor(props) {
@@ -56,6 +57,7 @@ class App extends Component {
           <Route path='/products' element={<ProductPage />} />
           <Route path='/products-detail' element={<ProductDetail />} />
           <Route path='/doctorsprescription' element={<DoctorPrescriptionPage/>}/>
+          <Route path='/aboutus' element={<AboutUs/>}/>
           {
             this.props.role == "User" ?
               <>

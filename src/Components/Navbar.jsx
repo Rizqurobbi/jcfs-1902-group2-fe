@@ -58,7 +58,9 @@ class NavbarComponent extends Component {
                             </Link>
                         </NavItem>
                         <NavItem>
-                            <p className='NavbarHeader'>About Us</p>
+                            <Link to='/aboutus'>
+                                <p className='NavbarHeader'>About Us</p>
+                            </Link>
                         </NavItem>
                     </Nav>
                     {
@@ -76,16 +78,16 @@ class NavbarComponent extends Component {
                                                     My Cart
                                                 </DropdownItem>
                                             </Link>
-                                            <DropdownItem>
-                                                <Link to='/history'>
+                                            <Link to='/history'>
+                                                <DropdownItem>
                                                     Transaction History
-                                                </Link>
-                                            </DropdownItem>
-                                            <DropdownItem>
-                                                <Link to='/edit'>
+                                                </DropdownItem>
+                                            </Link>
+                                            <Link to='/edit'>
+                                                <DropdownItem>
                                                     My Profile
-                                                </Link>
-                                            </DropdownItem>
+                                                </DropdownItem>
+                                            </Link>
                                             <DropdownItem divider />
                                             <Link to='/'>
                                                 <DropdownItem onClick={() => {
@@ -111,12 +113,14 @@ class NavbarComponent extends Component {
                                                 </Link>
                                             </DropdownItem>
                                             <DropdownItem divider />
-                                            <DropdownItem onClick={() => {
-                                                localStorage.removeItem("data");
-                                                this.props.logOutAction();
-                                            }}>
-                                                Logout
-                                            </DropdownItem>
+                                            <Link to='/'>
+                                                <DropdownItem onClick={() => {
+                                                    localStorage.removeItem("data");
+                                                    this.props.logOutAction();
+                                                }}>
+                                                    Logout
+                                                </DropdownItem>
+                                            </Link>
                                         </DropdownMenu>
                                     }
                                 </UncontrolledDropdown>

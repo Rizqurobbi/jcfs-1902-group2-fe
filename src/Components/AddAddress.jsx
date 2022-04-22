@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, Modal, ModalBody, Input, InputGroup, InputGroupText, Label } from 'reactstrap';
+import { FormGroup, Modal, ModalBody, Input, InputGroup, InputGroupText, Label, Row, Col } from 'reactstrap';
 import { API_URL } from '../helper';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -10,8 +10,14 @@ class AddAddress extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            province: [],
+            city: [],
+            idprovince: 0
         }
+    }
+
+    componentDidMount() {
+        this.getProvince()
     }
 
     btSubmit = () => {
@@ -26,15 +32,24 @@ class AddAddress extends Component {
             timer: 2500,
             timerProgressBar: true
         })
-        if (this.inAddress.value === "") {
+        if (this.inAddressLabel.value === "" || this.inName.value === ""  || this.inPhone.value === "" || this.inCity.value === "" || this.inAddressDetail.value === ""  ) {
             Toast.fire({
                 icon: 'warning',
                 text: 'Fill all the blank.',
                 title: 'Warning'
             })
         } else {
+            let data = {
+                address_label: this.inAddressLabel.value,
+                name: this.inName.value,
+                handphone: this.inPhone.value,
+                idprovince: this.state.idprovince,
+                idcity: this.inCity.value,
+                address: this.inAddressDetail.value
+            }
+            console.log('ini data', data)
             let token = localStorage.getItem("data")
-            axios.post(`${API_URL}/users/addaddress`, { address: this.inAddress.value }, {
+            axios.post(`${API_URL}/users/addaddress`, data, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -54,20 +69,108 @@ class AddAddress extends Component {
         }
     }
 
+    getProvince = () => {
+        axios.get(`${API_URL}/api/provinsi`)
+            .then(res => {
+                console.log(res.data.dataProvinsi.rajaongkir.results)
+                this.setState({
+                    province: res.data.dataProvinsi.rajaongkir.results
+                })
+            }).catch(err => {
+                console.log(err)
+            })
+    }
+
+    printGetProvince = () => {
+        return this.state.province.map((item, index) => {
+            return (
+                <option key={index} value={item.province_id}>{item.province}</option>
+            )
+        })
+    }
+
+    handleCity = async (event) => {
+        let res = await axios.get(`${API_URL}/api/city/${event.target.value}`)
+        if (res.data.success) {
+            this.setState({
+                city: res.data.dataCity,
+                idprovince: event.target.value
+            })
+        }
+    }
+
+    printGetCity = () => {
+        return this.state.city.map((item, index) => {
+            return (
+                <option key={index} value={item.city_id}>{item.city_name}</option>
+            )
+        })
+    }
+
     render() {
+        console.log('province', this.state.province)
+        console.log('province', this.state.city)
         return (
             <div>
                 <Modal size='md' isOpen={this.props.modalOpen} toggle={this.props.btClose} centered >
                     <div className='container px-5' style={{ backgroundColor: '#FCFBFA' }} >
                         <ModalBody className='px-5 py-5'>
-                            <p className='heading2 m-0 pb-4' style={{ fontSize: 24 }}>Add new address</p>
-                            <p className='heading4 text-muted' style={{ fontSize: 12 }}>Input your new address below</p>
-                            <FormGroup style={{ width: '100%', margin: 'auto' }}>
+                            <p className='heading2 m-0 text-center' style={{ fontSize: 24 }}>Add new address</p>
+                            <p className='heading4 pb-4 text-muted text-center' style={{ fontSize: 12 }}>Input your new address below</p>
+                            <FormGroup className='pb-2' style={{ width: '100%', margin: 'auto' }}>
+                                <p className='heading2 m-0 pb-2' style={{ fontSize: 16 }}>Address Label</p>
                                 <InputGroup>
-                                    <Input size='sm' type="text" id="textAddress" placeholder="Your address"
-                                        innerRef={(element) => this.inAddress = element} />
+                                    <Input size='sm' type="text" id="textAddress" placeholder="Your address label"
+                                        innerRef={(element) => this.inAddressLabel = element} />
                                 </InputGroup>
                             </FormGroup>
+                            <Row>
+                                <Col>
+                                    <FormGroup className='pb-2' style={{ width: '100%', margin: 'auto' }}>
+                                        <p className='heading2 m-0 pb-2' style={{ fontSize: 16 }}>Recipient's name</p>
+                                        <InputGroup>
+                                            <Input size='sm' type="text" id="textAddress" placeholder="Name"
+                                                innerRef={(element) => this.inName = element} />
+                                        </InputGroup>
+                                    </FormGroup>
+                                </Col>
+                                <Col>
+                                    <FormGroup className='pb-2' style={{ width: '100%', margin: 'auto' }}>
+                                        <p className='heading2 m-0 pb-2' style={{ fontSize: 16 }}>No. Handphone</p>
+                                        <InputGroup>
+                                            <Input size='sm' type="number" id="textAddress" placeholder="Phone"
+                                                innerRef={(element) => this.inPhone = element} />
+                                        </InputGroup>
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+                            <p className='heading2 m-0 pb-2' style={{ fontSize: 16 }}>Province</p>
+                            <FormGroup className='pb-2' style={{ width: '100%', margin: 'auto' }}>
+                                <InputGroup>
+                                    <Input size='sm' type="select" id="selectProvince" placeholder='Choose Province'
+                                        onChange={(event) => this.handleCity(event)}>
+                                        <option value='' selected="" disabled="" placeholder='Choose Province'>Choose Province...</option>
+                                        {this.printGetProvince()}
+                                    </Input>
+                                </InputGroup>
+                            </FormGroup>
+                            <p className='heading2 m-0 pb-2' style={{ fontSize: 16 }}>City</p>
+                            <FormGroup className='pb-2' style={{ width: '100%', margin: 'auto' }}>
+                                <InputGroup>
+                                    <Input size='sm' type="select" id="selectProvince" placeholder='Choose City'
+                                        innerRef={(element) => this.inCity = element}>
+                                        <option value='' selected="" disabled="">Choose city...</option>
+                                        {this.printGetCity()}
+                                    </Input>
+                                </InputGroup>
+                            </FormGroup>
+                            <FormGroup className='pb-2' style={{ width: '100%', margin: 'auto' }}>
+                                        <p className='heading2 m-0 pb-2' style={{ fontSize: 16 }}>Detail Address</p>
+                                        <InputGroup>
+                                            <Input size='sm' style={{width: '200%'}} type="textarea" id="textAddress" placeholder=""
+                                                innerRef={(element) => this.inAddressDetail = element} />
+                                        </InputGroup>
+                                    </FormGroup>
                             <div className='NavbarButton mt-4' style={{ margin: 'auto', textAlign: 'center', cursor: 'pointer', style: "20%" }} onClick={this.btSubmit}>
                                 <button className='py-2' >Submit</button>
                             </div>
