@@ -40,26 +40,50 @@ class ProductManagement extends React.Component {
     printProduct = () => {
         let { page } = this.state
         return this.props.products.slice(page > 1 ? (page - 1) * 5 : page - 1, page * 5).map((value, index) => {
-            return (
-                <tr>
-                    <td>{index + 1}</td>
-                    <td style={{ width: '13%' }}>
-                        <img src={value.images[0].url.includes('http') ? value.images[0].url : API_URL + value.images[0].url} style={{ objectFit: 'cover', width: '100%', height: '100%' }} alt="" />
-                    </td>
-                    <td style={{ paddingTop: 42 }}><p className='heading3'>{value.nama}</p></td>
-                    <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.stocks[1].qty}</p></td>
-                    <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.stocks[2].satuan}</p></td>
-                    <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.category}</p></td>
-                    <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>Rp.{value.harga.toLocaleString()}</p></td>
-                    <td style={{ paddingTop: 50 }}>
-                        <div className='d-flex' style={{ justifyContent: 'space-evenly' }}>
-                            {/* <span title='Add Product' style={{ fontSize: 25 }} onClick={() => this.setState({ modalOpenAdd: !this.state.modalOpenAdd })}><CgAddR /></span> */}
-                            <span title='Remove Product' style={{ fontSize: 25, color: '#E63E54' }} onClick={() => this.deleteProduct(value.idproduct)}><FiTrash2 /></span>
-                            <span title='Edit Product' style={{ fontSize: 25, }} onClick={() => this.setState({ modalOpenEdit: !this.state.modalOpenEdit, productDetail: value })}><FiEdit /></span>
-                        </div>
-                    </td>
-                </tr>
-            )
+            if (value.stocks[0].qty > 0) {
+                return (
+                    <tr>
+                        <td>{index + 1}</td>
+                        <td style={{ width: '13%' }}>
+                            <img src={value.images[0].url.includes('http') ? value.images[0].url : API_URL + value.images[0].url} style={{ objectFit: 'cover', width: '100%', height: '100%' }} alt="" />
+                        </td>
+                        <td style={{ paddingTop: 42 }}><p className='heading3'>{value.nama}</p></td>
+                        <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.stocks[1].qty}</p></td>
+                        <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.stocks[2].satuan}</p></td>
+                        <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.category}</p></td>
+                        <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>Rp.{value.harga.toLocaleString()}</p></td>
+                        <td style={{ paddingTop: 50 }}>
+                            <div className='d-flex' style={{ justifyContent: 'space-evenly' }}>
+                                {/* <span title='Add Product' style={{ fontSize: 25 }} onClick={() => this.setState({ modalOpenAdd: !this.state.modalOpenAdd })}><CgAddR /></span> */}
+                                <span title='Remove Product' style={{ fontSize: 25, color: '#E63E54' }} onClick={() => this.deleteProduct(value.idproduct)}><FiTrash2 /></span>
+                                <span title='Edit Product' style={{ fontSize: 25, }} onClick={() => this.setState({ modalOpenEdit: !this.state.modalOpenEdit, productDetail: value })}><FiEdit /></span>
+                            </div>
+                        </td>
+                    </tr>
+                )
+            }else{
+                return (
+                    <tr>
+                        <td>{index + 1}</td>
+                        <td style={{ width: '13%' }}>
+                            <p style={{ zIndex: 10, position: 'absolute', color: 'white', fontSize: 22, marginTop: 60, backgroundColor: '#E63E54', paddingLeft: 20, paddingRight: 13 }}>Stock Empty</p>
+                            <img src={value.images[0].url.includes('http') ? value.images[0].url : API_URL + value.images[0].url} style={{ objectFit: 'cover', width: '100%', height: '100%', position: 'relative' }} alt="" />
+                        </td>
+                        <td style={{ paddingTop: 42 }}><p className='heading3'>{value.nama}</p></td>
+                        <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.stocks[1].qty}</p></td>
+                        <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.stocks[2].satuan}</p></td>
+                        <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.category}</p></td>
+                        <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>Rp.{value.harga.toLocaleString()}</p></td>
+                        <td style={{ paddingTop: 50 }}>
+                            <div className='d-flex' style={{ justifyContent: 'space-evenly' }}>
+                                {/* <span title='Add Product' style={{ fontSize: 25 }} onClick={() => this.setState({ modalOpenAdd: !this.state.modalOpenAdd })}><CgAddR /></span> */}
+                                <span title='Remove Product' style={{ fontSize: 25, color: '#E63E54' }} onClick={() => this.deleteProduct(value.idproduct)}><FiTrash2 /></span>
+                                <span title='Edit Product' style={{ fontSize: 25, }} onClick={() => this.setState({ modalOpenEdit: !this.state.modalOpenEdit, productDetail: value })}><FiEdit /></span>
+                            </div>
+                        </td>
+                    </tr>
+                )
+            }
         })
     }
     printBtnPagination = () => {
@@ -85,14 +109,14 @@ class ProductManagement extends React.Component {
                         <div style={{ paddingTop: '11vh', paddingLeft: '260px' }}>
                             <h1 className='heading1' style={{ color: 'white', fontWeight: 900 }}>Products Management</h1>
                         </div>
-                       
+
                     </div>
-                    <div className='d-flex' style={{marginTop:'2vh',marginLeft:'57vw'}}>
-                            <p className='heading4' style={{marginTop:'1vh', fontWeight: 900,fontSize:18}}>ADD PRODUCT</p>
-                            <div style={{ marginLeft: '1vw', height: '40px', backgroundColor: 'lightgreen', width: '40px', borderRadius: 800 }}>
-                                <IoAddCircleOutline title='Add Product' onClick={() => this.setState({ modalOpenAdd: !this.state.modalOpenAdd })} style={{fontSize:40,cursor:'pointer'}}/>
-                            </div>
+                    <div className='d-flex' style={{ marginTop: '2vh', marginLeft: '57vw' }}>
+                        <p className='heading4' style={{ marginTop: '1vh', fontWeight: 900, fontSize: 18 }}>ADD PRODUCT</p>
+                        <div style={{ marginLeft: '1vw', height: '40px', backgroundColor: 'lightgreen', width: '40px', borderRadius: 800 }}>
+                            <IoAddCircleOutline title='Add Product' onClick={() => this.setState({ modalOpenAdd: !this.state.modalOpenAdd })} style={{ fontSize: 40, cursor: 'pointer' }} />
                         </div>
+                    </div>
                     <div style={{ marginTop: 20 }}>
                         <Table bordered style={{ textAlign: 'center', }}>
                             <thead>

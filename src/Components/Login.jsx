@@ -3,7 +3,7 @@ import { FormGroup, Modal, ModalBody, Input, InputGroup, InputGroupText, Label }
 import logo from '../img/logofix.png'
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { connect } from 'react-redux';
-import { loginAction } from '../redux/actions'
+import { getCartAction, loginAction } from '../redux/actions'
 import { Link } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -48,6 +48,7 @@ class LoginComponent extends Component {
             } else {
                 if (res) {
                     await this.setState({ redirect: true })
+                    this.props.getCartAction()
                     this.props.btClose()
                 } else {
                     Swal.fire({
@@ -124,4 +125,4 @@ const mapToProps = (state) => {
     }
 }
 
-export default connect(mapToProps, { loginAction })(LoginComponent);
+export default connect(mapToProps, { loginAction,getCartAction })(LoginComponent);

@@ -140,54 +140,66 @@ class ProductDetail extends React.Component {
         }
         return (
             <div style={{ background: 'white' }}>
-                <div style={{ backgroundColor: 'white', height: 50 }}>
-                    <div style={{ paddingLeft: '20px', paddingTop: '10px' }} className='container'>
-                        <div style={{ display: 'flex' }}>
-                            <p className='mx-2' style={{ color: '#231953', cursor: 'pointer' }}>Home {'>'}</p>
-                            <Link to='/products'>
-                                <p style={{ color: '#231953', cursor: 'pointer' }}>Products {'>'}</p>
-                            </Link>
-                            <p className='mx-2' style={{ color: '#231953', fontWeight: 'bolder', cursor: 'pointer' }}>{detail.nama}</p>
+                {
+                    detail.idproduct &&
+                        detail.stocks[0].qty > 0 ?
+                        <>
+                            <div style={{ backgroundColor: 'white', height: 50 }}>
+                                <div style={{ paddingLeft: '20px', paddingTop: '10px' }} className='container'>
+                                    <div style={{ display: 'flex' }}>
+                                        <p className='mx-2' style={{ color: '#231953', cursor: 'pointer' }}>Home {'>'}</p>
+                                        <Link to='/products'>
+                                            <p style={{ color: '#231953', cursor: 'pointer' }}>Products {'>'}</p>
+                                        </Link>
+                                        <p className='mx-2' style={{ color: '#231953', fontWeight: 'bolder', cursor: 'pointer' }}>{detail.nama}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style={{ padding: 100 }} className="container">
+                                {this.printDetail()}
+                                <Tabs size='md' align='center' colorScheme='#231953' style={{ marginTop: 80 }}>
+                                    {detail.idproduct &&
+                                        <>
+                                            <TabList>
+                                                <Tab>Serving</Tab>
+                                                <Tab>Dose</Tab>
+                                                <Tab>How to keep</Tab>
+                                                <Tab>Benefits</Tab>
+                                                <Tab>Composition</Tab>
+                                                <Tab>Cautions</Tab>
+                                            </TabList>
+                                            <TabPanels align='start'>
+                                                <TabPanel>
+                                                    <p>{detail.penyajian}</p>
+                                                </TabPanel>
+                                                <TabPanel>
+                                                    <p>{detail.dosis}</p>
+                                                </TabPanel>
+                                                <TabPanel>
+                                                    <p>{detail.caraPenyimpanan}</p>
+                                                </TabPanel>
+                                                <TabPanel>
+                                                    <p>{detail.kegunaan}</p>
+                                                </TabPanel>
+                                                <TabPanel>
+                                                    <p>{detail.komposisi}</p>
+                                                </TabPanel>
+                                                <TabPanel>
+                                                    <p>{detail.efekSamping}</p>
+                                                </TabPanel>
+                                            </TabPanels>
+                                        </>
+                                    }
+                                </Tabs>
+                            </div>
+                        </>
+                        :
+                        <div className='m-auto container' style={{ height: '72vh',  }}>
+                            <h1 className='heading1' style={{ paddingTop: 100, paddingBottom: 10,textAlign:"center"}}>
+                                STOCK IS EMPTY
+                            </h1>
                         </div>
-                    </div>
-                </div>
-                <div style={{ padding: 100 }} className="container">
-                    {this.printDetail()}
-                    <Tabs size='md' align='center' colorScheme='#231953' style={{ marginTop: 80 }}>
-                        {detail.idproduct &&
-                            <>
-                                <TabList>
-                                    <Tab>Serving</Tab>
-                                    <Tab>Dose</Tab>
-                                    <Tab>How to keep</Tab>
-                                    <Tab>Benefits</Tab>
-                                    <Tab>Composition</Tab>
-                                    <Tab>Cautions</Tab>
-                                </TabList>
-                                <TabPanels align='start'>
-                                    <TabPanel>
-                                        <p>{detail.penyajian}</p>
-                                    </TabPanel>
-                                    <TabPanel>
-                                        <p>{detail.dosis}</p>
-                                    </TabPanel>
-                                    <TabPanel>
-                                        <p>{detail.caraPenyimpanan}</p>
-                                    </TabPanel>
-                                    <TabPanel>
-                                        <p>{detail.kegunaan}</p>
-                                    </TabPanel>
-                                    <TabPanel>
-                                        <p>{detail.komposisi}</p>
-                                    </TabPanel>
-                                    <TabPanel>
-                                        <p>{detail.efekSamping}</p>
-                                    </TabPanel>
-                                </TabPanels>
-                            </>
-                        }
-                    </Tabs>
-                </div>
+                }
             </div>
         );
     }
