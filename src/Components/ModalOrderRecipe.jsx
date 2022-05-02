@@ -7,7 +7,7 @@ import { FiTrash2, FiEdit, FiCheck } from "react-icons/fi";
 import { IoAddCircleOutline } from "react-icons/io5";
 import axios from 'axios';
 import Swal from 'sweetalert2';
-
+import moment from 'moment';
 
 class ModalAddRecipe extends Component {
     constructor(props) {
@@ -57,6 +57,7 @@ class ModalAddRecipe extends Component {
                         total_harga: Math.round((this.state.detail.harga / this.state.detail.stocks[1].qty) * this.inQty.value),
                         unit: this.inUnit.value,
                         qty: parseInt(this.inQty.value),
+                        date: moment().format('YYYY-MM-DD')
                     }
                     let temp = [...this.state.AddProduct]
                     let { AddProduct } = this.state
