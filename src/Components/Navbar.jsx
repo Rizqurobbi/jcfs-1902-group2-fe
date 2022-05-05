@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { logOutAction } from '../redux/actions';
-
+import { BsCart4 } from "react-icons/bs";
 class NavbarComponent extends Component {
     constructor(props) {
         super(props);
@@ -74,8 +74,8 @@ class NavbarComponent extends Component {
                                         <DropdownMenu DropdownMenu className='heading4'
                                         >
                                             <Link to="/cart-user" style={{ color: "#2d3436", textDecoration: "none" }}>
-                                                <DropdownItem>
-                                                    My Cart
+                                                <DropdownItem className='d-flex'>
+                                                    Carts <BsCart4 style={{ marginLeft: '2px', marginTop: '3.8px' }} /> <span style={{ backgroundColor: '#E63E54', color: 'white', borderRadius: '50%', paddingLeft: '5.3px', paddingRight: '5.3px', paddingTop: '1.4px', fontSize: 11, textAlign: 'center' }}>{this.props.carts.length > 0 ? this.props.carts.length : null}</span>
                                                 </DropdownItem>
                                             </Link>
                                             <Link to='/history'>
@@ -141,6 +141,7 @@ class NavbarComponent extends Component {
 
 const mapToProps = (state) => {
     return {
+        carts: state.transactionsReducer.carts,
         username: state.userReducer.username,
         role: state.userReducer.role,
         imageurl: state.userReducer.imageurl
