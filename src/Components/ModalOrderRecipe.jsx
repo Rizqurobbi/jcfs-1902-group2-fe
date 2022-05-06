@@ -3,7 +3,7 @@ import { Modal, ModalBody, FormGroup, InputGroup, Input, Row, Col, Label } from 
 import { API_URL } from '../helper';
 import { getProductAction } from '../redux/actions';
 import { connect } from 'react-redux';
-import { FiTrash2, FiEdit, FiCheck } from "react-icons/fi";
+import { FiTrash2, FiEdit, FiCheck, FiMapPin } from "react-icons/fi";
 import { IoAddCircleOutline } from "react-icons/io5";
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -17,7 +17,8 @@ class ModalAddRecipe extends Component {
             detailProduct: {},
             selectedIdx: null,
             inProduct: 0,
-            inUnit: null
+            inUnit: null,
+            cost: {}
         }
     }
 
@@ -149,7 +150,7 @@ class ModalAddRecipe extends Component {
     onBtCheckout = () => {
         let dataCheckout = {
             iduser: this.props.detailRecipe.iduser,
-            idaddress: 1,
+            idaddress: this.props.detailRecipe.idaddress,
             invoice: this.props.detailRecipe.invoice,
             date: this.props.detailRecipe.date,
             total_price: this.totalPrice(),
@@ -205,6 +206,30 @@ class ModalAddRecipe extends Component {
         this.props.btClose()
     }
 
+    selectCourier = async (event) => {
+        let data = {
+            origin: 457,
+            destination: this.props.detailRecipe.idcity,
+            weight: 1000,
+            courier: event.target.value
+        }
+        try {
+            let token = localStorage.getItem('data')
+            let res = await axios.post(`${API_URL}/api/ongkir`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            if (res.success) {
+               this.setState({
+                   cost: res.data
+               })
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     onRenderInputUnit = (product) => {
         for (let i = 0; i < product.length; i++) {
             if (this.state.inProduct == this.props.products[i].idproduct) {
@@ -218,6 +243,7 @@ class ModalAddRecipe extends Component {
     render() {
         console.log('ini produk', this.props.products)
         console.log('ini recipe detail', this.props.detailRecipe)
+        console.log('ini cost', this.state.cost)
         return (
             <div>
                 <Modal size='xl' isOpen={this.props.modalOpen} toggle={this.onBtClose} centered >
@@ -226,7 +252,29 @@ class ModalAddRecipe extends Component {
                             <p className='heading2 m-0 pb-5 text-center' style={{ fontSize: 32 }}>Arrange user's order</p>
                             <Row>
                                 <Col className='px-3'>
+                                    <p className='heading2 my-2' style={{ fontSize: 20 }}>Picture</p>
+                                    <hr className='my-2' />
                                     <img src={API_URL + this.props.detailRecipe.url} width="100%" className='m-auto' />
+                                    <p className='heading2 my-2' style={{ fontSize: 20 }}>Address Detail</p>
+                                    <hr className='my-2' />
+                                    <div className='p-4' style={{ border: '1px solid lightgray' }}>
+                                        <div className='d-flex'>
+                                            <p className='heading3' style={{ fontSize: 14, marginRight: 20 }}>{this.props.detailRecipe.address_label}</p>
+                                        </div>
+                                        <p className='heading3 m-0' style={{ fontSize: 16 }}>{this.props.detailRecipe.nama_penerima}</p>
+                                        <p className='heading4' style={{ fontSize: 16 }}>{this.props.detailRecipe.handphone}</p>
+                                        <div className='d-flex'>
+                                            <p className='heading4' style={{ fontSize: 20, color: 'gray', marginRight: 10 }}><FiMapPin /></p>
+                                            <p className='heading4' style={{ fontSize: 14 }}>{this.props.detailRecipe.address}, {this.props.detailRecipe.city}, {this.props.detailRecipe.province}</p>
+                                        </div>
+                                        <p className='heading2 my-2' style={{ fontSize: 20 }}>Select courier</p>
+                                        <hr className='my-2' />
+                                        <Input type='select' placeholder='Choose courier' onClick={(event) => this.selectCourier(event)}>
+                                            <option value='jne'>JNE</option>
+                                            <option value='tiki'>TIKI</option>
+                                        </Input>
+                                        <hr className='my-2' />
+                                    </div>
                                 </Col>
                                 <Col>
                                     <div className='d-flex'>

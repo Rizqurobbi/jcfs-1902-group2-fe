@@ -112,6 +112,11 @@ class NavbarComponent extends Component {
                                                     Transactions Management
                                                 </Link>
                                             </DropdownItem>
+                                            <DropdownItem>
+                                                <Link to='/data-logging'>
+                                                    Data Logging
+                                                </Link>
+                                            </DropdownItem>
                                             <DropdownItem divider />
                                             <Link to='/'>
                                                 <DropdownItem onClick={() => {

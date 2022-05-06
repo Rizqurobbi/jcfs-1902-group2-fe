@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { deleteCartActions, getCartAction, getProductAction, updateQtyActions } from '../redux/actions';
+import { deleteCartActions, getCartAction, getProductAction, updateQtyActions, outStockAction } from '../redux/actions';
 import { Badge, Button, Input, Row, Col } from 'reactstrap';
 import { AiOutlineCloseSquare } from 'react-icons/ai'
 import cartmedicine from '../img/cartmedicine.png'
@@ -41,6 +41,10 @@ class CartPage extends React.Component {
             }
         })
             .then((res) => {
+                this.props.outStockAction({
+                    detail: this.props.carts,
+                    date: moment().format('YYYY-MM-DD')
+                })
                 Swal.fire({
                     title: 'Yeay!',
                     text: 'Checkout Success.',
@@ -48,6 +52,7 @@ class CartPage extends React.Component {
                     confirmButtonText: 'Ok'
                 })
                 this.props.getCartAction()
+
             })
     }
     btnIncrement = (index) => {
@@ -139,7 +144,7 @@ class CartPage extends React.Component {
             <div className='container-fluid' style={{ background: '#FCFBFA' }}>
 
                 <div className='container p-4'>
-                    <div style={{ backgroundPosition: '20% 30%', backgroundSize: 'cover', backgroundImage: `url('${cartmedicine}')`, backgroundRepeat: 'no-repeat', width: '100%', height: '32vh', borderRadius: '15px' }}>
+                    <div style={{ backgroundPosition: '20% 30%', backgroundSize: 'cover', backgroundImage: `url('${cartmedicine}')`, backgroundRepeat: 'no-repeat', width: '100%', height: '32vh', borderRadius: '50px' }}>
                         <div style={{ paddingTop: '11vh', paddingLeft: '860px' }}>
                             <h1 className='heading1' style={{ color: 'white', fontWeight: 900 }}>Carts</h1>
                         </div>
@@ -187,7 +192,7 @@ class CartPage extends React.Component {
                                         <div style={{ height: '26vh' }}>
                                             <div className='d-flex'>
                                                 <p className='heading3' style={{ fontSize: 20 }}>Cart Total :</p>
-                                                <p className='heading3' style={{fontSize:20,marginLeft:6}}>{this.props.carts.length > 0 ? this.props.carts.length : null}</p>
+                                                <p className='heading3' style={{ fontSize: 20, marginLeft: 6 }}>{this.props.carts.length > 0 ? this.props.carts.length : null}</p>
                                             </div>
                                             <div style={{ marginTop: 40 }}>
                                                 <div className='d-flex' style={{ justifyContent: 'space-between' }}>
@@ -232,4 +237,4 @@ const mapToProps = (state) => {
         address: state.userReducer.address
     }
 }
-export default connect(mapToProps, { getCartAction, deleteCartActions, updateQtyActions, getProductAction })(CartPage)
+export default connect(mapToProps, { getCartAction, deleteCartActions, updateQtyActions, getProductAction, outStockAction })(CartPage)

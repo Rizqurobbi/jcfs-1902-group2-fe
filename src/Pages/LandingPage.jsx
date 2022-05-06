@@ -4,115 +4,42 @@ import bannerphoto1 from '../img/landingpagecrop.png';
 import recipes from '../img/recipes.jpg';
 import Slider from "react-slick";
 import { Link } from 'react-router-dom';
-
+import { connect } from 'react-redux';
+import { getProductAction } from '../redux/actions/productsAction';
+import { API_URL } from '../helper';
 
 class LandingPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            product: [
-                {
-                    url: 'https://api.watsons.co.id/medias/zoom-front-10453.jpg?context=bWFzdGVyfGltYWdlc3wxMjM0MDd8aW1hZ2UvanBlZ3xoNDEvaDdjLzEwMTc2OTA1NjQyMDE0L1dUQ0lELTEwNDUzLWZyb250LmpwZ3xkNGZiYzhkNTYyMDc0ZWZiNDE1ZTNlMzZjN2VkZjViYWY0ZWM2ZjBjNGM1Yjg3ZTcwZTI3YTI0N2YzODM3NjUz',
-                    nama: 'Vicks',
-                    harga: 12000
-                },
-                {
-                    url: 'https://api.watsons.co.id/medias/zoom-front-11361.jpg?context=bWFzdGVyfGZyb250L3pvb218MTIzNTg0fGltYWdlL2pwZWd8ZnJvbnQvem9vbS9oYzkvaGQ5LzkyMTM0MjI3OTY4MzAuanBnfDM5ZDc0NzE3Nzg1ZDhkYmQxMzlmY2YxNGQzZDlhMjA0MzdhNjgxOGNlOGNkZGFjYjUzODY5YWIzZWVkNmVlN2Y',
-                    nama: 'Konidin',
-                    harga: 2500
-                },
-                {
-                    url: 'https://api.watsons.co.id/medias/zoom-front-16250.jpg?context=bWFzdGVyfGZyb250L3pvb218MTQ3NzczfGltYWdlL2pwZWd8ZnJvbnQvem9vbS9oZDMvaDYyLzkyMTQ2ODcyMTU2NDYuanBnfDk3NGVlMWNhZGZiZjk5NmZjZWM4MmVjMWQ4ZDAyNzUxMWU3MGYzYjgwODI3MzYzMjdhZGEwZjRmOWZjMWI3ZjY',
-                    nama: 'Komix',
-                    harga: 22000
-                },
-                {
-                    url: 'https://api.watsons.co.id/medias/WOODS-HERBAL-COUGH-SYRUP-60ML-13081.jpg?context=bWFzdGVyfGZyb250L3pvb218MTUwMzAxfGltYWdlL2pwZWd8ZnJvbnQvem9vbS84ODkxMjYyNjY0NzM0LmpwZ3w4N2VkY2JjZWI5NWM5NzgyNDk5ZjI3YTk4NDY0NjYzYmM3ZjI3OTFlOTkzNDIxNTIyMjQ1NDMyMDZiMzRhMzk3',
-                    nama: 'Woods',
-                    harga: 20000
-                },
-                {
-                    url: 'https://api.watsons.co.id/medias/BENADRYL-BATUK-BERDAHAK-SYRUP-50ML-14278.jpg?context=bWFzdGVyfGZyb250L3pvb218NzIwNDh8aW1hZ2UvanBlZ3xmcm9udC96b29tLzg5MDcwODg2OTEyMzAuanBnfGU0N2EzYmZiM2FjMDkxNWNiZTJhMWQ2ZTBkMjI5YWM0MDNmNzRmN2I5NGFmNWEzMDc4NWZkNzIxY2U5MzU5NzI',
-                    nama: 'Benadryl',
-                    harga: 25000
-                },
-                {
-                    url: 'https://api.watsons.co.id/medias/MEXTRIL-TABLET-25X4S-STR-11197.jpg?context=bWFzdGVyfGZyb250L3pvb218MjQ1MjQxfGltYWdlL2pwZWd8ZnJvbnQvem9vbS84ODkxODQ3NDA5Njk0LmpwZ3w5NzlkMzY5NzczNzNhYzUxYmRmYmRhYjAxMTcyZjdlOGQ0ZDAyMzYzM2E5ZmUxZWU1Mjk2NDEzNTZlNjI5MTNm',
-                    nama: 'Mextril',
-                    harga: 18000
-                },
-                {
-                    url: 'https://api.watsons.co.id/medias/BISOLVON-KID-4MG5ML-SYRUP-60ML-10473.jpg?context=bWFzdGVyfGZyb250L3pvb218OTM1MTB8aW1hZ2UvanBlZ3xmcm9udC96b29tLzg5MDcxMjk4NDc4MzguanBnfDYyN2JhNWY2OGJhNTRmZjAzZThlNzU2NzAzM2U2MjIzMTlhYWI2M2FhZTRlNzk4NzAwNjNiZDNhMzVkYzRkZGE',
-                    nama: 'Bisolvon',
-                    harga: 32000
-                },
-                {
-                    url: 'https://api.watsons.co.id/medias/zoom-front-12402.jpg?context=bWFzdGVyfGZyb250L3pvb218ODExODV8aW1hZ2UvanBlZ3xmcm9udC96b29tL2hkZi9oZWEvOTAzNjA1ODYyNDAzMC5qcGd8NjAzYTlhMTRmZDJiMDk4OGFhOTY3MDc4NmRkOWNiZDkwZDJjOWRlNWIwMWRjYzY4NDQ3OWI1NzMyYjUxZjcyNA',
-                    nama: 'A.Vogel',
-                    harga: 28000
-                },
-                {
-                    url: 'https://api.watsons.co.id/medias/zoom-front-12402.jpg?context=bWFzdGVyfGZyb250L3pvb218ODExODV8aW1hZ2UvanBlZ3xmcm9udC96b29tL2hkZi9oZWEvOTAzNjA1ODYyNDAzMC5qcGd8NjAzYTlhMTRmZDJiMDk4OGFhOTY3MDc4NmRkOWNiZDkwZDJjOWRlNWIwMWRjYzY4NDQ3OWI1NzMyYjUxZjcyNA',
-                    nama: 'A.Vogel',
-                    harga: 28000
-                },
-                {
-                    url: 'https://api.watsons.co.id/medias/BISOLVON-KID-4MG5ML-SYRUP-60ML-10473.jpg?context=bWFzdGVyfGZyb250L3pvb218OTM1MTB8aW1hZ2UvanBlZ3xmcm9udC96b29tLzg5MDcxMjk4NDc4MzguanBnfDYyN2JhNWY2OGJhNTRmZjAzZThlNzU2NzAzM2U2MjIzMTlhYWI2M2FhZTRlNzk4NzAwNjNiZDNhMzVkYzRkZGE',
-                    nama: 'Bisolvon',
-                    harga: 32000
-                },
-                {
-                    url: 'https://api.watsons.co.id/medias/MEXTRIL-TABLET-25X4S-STR-11197.jpg?context=bWFzdGVyfGZyb250L3pvb218MjQ1MjQxfGltYWdlL2pwZWd8ZnJvbnQvem9vbS84ODkxODQ3NDA5Njk0LmpwZ3w5NzlkMzY5NzczNzNhYzUxYmRmYmRhYjAxMTcyZjdlOGQ0ZDAyMzYzM2E5ZmUxZWU1Mjk2NDEzNTZlNjI5MTNm',
-                    nama: 'Mextril',
-                    harga: 18000
-                },
-                {
-                    url: 'https://api.watsons.co.id/medias/BENADRYL-BATUK-BERDAHAK-SYRUP-50ML-14278.jpg?context=bWFzdGVyfGZyb250L3pvb218NzIwNDh8aW1hZ2UvanBlZ3xmcm9udC96b29tLzg5MDcwODg2OTEyMzAuanBnfGU0N2EzYmZiM2FjMDkxNWNiZTJhMWQ2ZTBkMjI5YWM0MDNmNzRmN2I5NGFmNWEzMDc4NWZkNzIxY2U5MzU5NzI',
-                    nama: 'Benadryl',
-                    harga: 25000
-                },
-                {
-                    url: 'https://api.watsons.co.id/medias/WOODS-HERBAL-COUGH-SYRUP-60ML-13081.jpg?context=bWFzdGVyfGZyb250L3pvb218MTUwMzAxfGltYWdlL2pwZWd8ZnJvbnQvem9vbS84ODkxMjYyNjY0NzM0LmpwZ3w4N2VkY2JjZWI5NWM5NzgyNDk5ZjI3YTk4NDY0NjYzYmM3ZjI3OTFlOTkzNDIxNTIyMjQ1NDMyMDZiMzRhMzk3',
-                    nama: 'Woods',
-                    harga: 20000
-                },
-                {
-                    url: 'https://api.watsons.co.id/medias/zoom-front-16250.jpg?context=bWFzdGVyfGZyb250L3pvb218MTQ3NzczfGltYWdlL2pwZWd8ZnJvbnQvem9vbS9oZDMvaDYyLzkyMTQ2ODcyMTU2NDYuanBnfDk3NGVlMWNhZGZiZjk5NmZjZWM4MmVjMWQ4ZDAyNzUxMWU3MGYzYjgwODI3MzYzMjdhZGEwZjRmOWZjMWI3ZjY',
-                    nama: 'Komix',
-                    harga: 22000
-                },
-                {
-                    url: 'https://api.watsons.co.id/medias/zoom-front-11361.jpg?context=bWFzdGVyfGZyb250L3pvb218MTIzNTg0fGltYWdlL2pwZWd8ZnJvbnQvem9vbS9oYzkvaGQ5LzkyMTM0MjI3OTY4MzAuanBnfDM5ZDc0NzE3Nzg1ZDhkYmQxMzlmY2YxNGQzZDlhMjA0MzdhNjgxOGNlOGNkZGFjYjUzODY5YWIzZWVkNmVlN2Y',
-                    nama: 'Konidin',
-                    harga: 2500
-                },
-                {
-                    url: 'https://api.watsons.co.id/medias/zoom-front-10453.jpg?context=bWFzdGVyfGltYWdlc3wxMjM0MDd8aW1hZ2UvanBlZ3xoNDEvaDdjLzEwMTc2OTA1NjQyMDE0L1dUQ0lELTEwNDUzLWZyb250LmpwZ3xkNGZiYzhkNTYyMDc0ZWZiNDE1ZTNlMzZjN2VkZjViYWY0ZWM2ZjBjNGM1Yjg3ZTcwZTI3YTI0N2YzODM3NjUz',
-                    nama: 'Vicks',
-                    harga: 12000
-                },
-            ],
+
         }
     }
 
+    componentDidMount() {
+        this.props.getProductAction()
+    }
+
     printProduct = () => {
-        return this.state.product.map((val, idx) => {
+        return this.props.products.map((val, idx) => {
             return (
-                <div>
-                    <div width="100%">
-                        <img src={val.url} width="80%" style={{ borderRadius: 20, margin: 0 }} />
-                        <div className='my-4  text-center' >
-                            <p >{val.nama}</p>
-                            <p className='heading3' >Rp. {val.harga.toLocaleString()}</p>
+                <Link className='zoom' to={`/products-detail?idproduct=${val.idproduct}`}>
+                    <div>
+                        <div width="70%">
+                            <img src={API_URL + val.images[0].url} width="80%" style={{ borderRadius: 20, margin: 0 }} />
+                            <div className='my-4  text-center' style={{ marginRight: 40 }} >
+                                <p >{val.nama}</p>
+                                <p className='heading3' style={{fontSize: 16}}>Rp. {val.harga.toLocaleString()}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </Link>
             )
         })
     }
 
-
     render() {
+        console.log('props', this.props.products)
         const settings = {
             arrows: true,
             infinite: true,
@@ -204,4 +131,10 @@ class LandingPage extends Component {
     }
 }
 
-export default LandingPage;
+const mapToProps = (state) => {
+    return {
+        products: state.productsReducer.products
+    }
+}
+
+export default connect(mapToProps, { getProductAction })(LandingPage);

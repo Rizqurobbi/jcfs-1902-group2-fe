@@ -5,6 +5,7 @@ import { Modal, ModalBody, ModalHeader, ModalFooter, Button, FormGroup, Label, I
 import { API_URL } from '../helper';
 import { getProductAction } from '../redux/actions';
 import Swal from 'sweetalert2';
+import moment from 'moment';
 
 
 class ModalAdd extends React.Component {
@@ -29,6 +30,9 @@ class ModalAdd extends React.Component {
             caraPenyimpanan: this.inKeep.value,
             kegunaan: this.inBenefit.value,
             komposisi: this.inCompos.value,
+            idunit: this.inUnit.value,
+            qty: this.inQty.value,
+            date: moment().format('YYYY-MM-DD'),
             efekSamping: this.inSide.value,
             stocks: [
                 {

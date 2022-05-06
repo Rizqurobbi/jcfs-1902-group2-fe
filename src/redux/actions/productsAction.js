@@ -82,6 +82,22 @@ export const getUnit = () => {
         }
     }
 }
+
+export const outStockAction = (stock) => {
+    return async (dispatch) => {
+        try {
+            let res = await axios.post(`${API_URL}/products/outstock`, stock)
+            dispatch({
+                type: "OUT_PRODUCT",
+                payload: res.data.success
+            })
+            return { success: true }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
 // export const getUnitCategory = () => {
 //     return async (dispatch) => {
 //         try {
