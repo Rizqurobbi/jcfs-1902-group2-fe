@@ -42,7 +42,7 @@ class ProductManagement extends React.Component {
         return this.props.products.slice(page > 1 ? (page - 1) * 5 : page - 1, page * 5).map((value, index) => {
             return (
                 <tr>
-                    <td>{index + 1}</td>
+                    <td>{page > 1 ? (page - 1) * 5 + index + 1 : index + 1}</td>
                     <td style={{ width: '13%' }}>
                         <img src={value.images[0].url.includes('http') ? value.images[0].url : API_URL + value.images[0].url} style={{ objectFit: 'cover', width: '100%', height: '100%' }} alt="" />
                     </td>

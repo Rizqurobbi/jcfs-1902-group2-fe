@@ -84,11 +84,10 @@ class ProductPage extends React.Component {
     }
 
     render() {
-
         return (
             <div className='container-fluid' style={{ background: '#FCFBFA', paddingTop: 20 }}>
                 <div className='container'>
-                    <div style={{ backgroundPosition: 'center', backgroundSize: 'cover', backgroundImage: "url(" + header + ")", backgroundRepeat: 'no-repeat', width: '100%', height: '32vh', borderRadius: '15px',marginBottom:10 }}>
+                    <div style={{ backgroundPosition: 'center', backgroundSize: 'cover', backgroundImage: "url(" + header + ")", backgroundRepeat: 'no-repeat', width: '100%', height: '32vh', borderRadius: '50px',marginBottom:10 }}>
                         <div style={{ paddingTop: '11vh', paddingLeft: '260px' }}>
                             <h1 className='heading1' style={{ color: 'white', fontWeight: 900 }}>Our Product</h1>
                         </div>
