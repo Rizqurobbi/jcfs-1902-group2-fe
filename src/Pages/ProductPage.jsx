@@ -23,24 +23,47 @@ class ProductPage extends React.Component {
     printProduct = () => {
         let { page, product } = this.state
         return this.props.products.slice(page > 1 ? (page - 1) * 8 : page - 1, page * 8).map((value, index) => {
-            return (
-                <div className="col-3" >
-                    <Card style={{ border: 'none', borderRadius: '14px', cursor: 'pointer', height: '350px' }} className='producthover mt-4 '>
-                        <Link to={`/products-detail?idproduct=${value.idproduct}`}>
-                            <CardImg
-                                src={value.images[0].url.includes("http") ? value.images[0].url : API_URL + value.images[0].url}
-                                width='100%'
-                                style={{ padding: 20 }}
-                                className='zoom'
-                            />
-                            <CardBody style={{ textAlign: 'center' }}>
-                                <CardTitle className='heading3' style={{ fontSize: 16 }}>{value.nama}</CardTitle>
-                                <CardTitle className='heading3' style={{ fontSize: 18 }}>Rp. {value.harga.toLocaleString()}</CardTitle>
-                            </CardBody>
-                        </Link>
-                    </Card>
-                </div>
-            )
+            if (value.stocks[0].qty > 0) {
+                return (
+                    <div className="col-3" >
+                        <Card style={{ border: 'none', borderRadius: '14px', cursor: 'pointer', height: '350px' }} className='producthover mt-4 '>
+                            <Link to={`/products-detail?idproduct=${value.idproduct}`}>
+                                <CardImg
+                                    src={value.images[0].url.includes("http") ? value.images[0].url : API_URL + value.images[0].url}
+                                    width='100%'
+                                    style={{ padding: 20 }}
+                                    className='zoom'
+                                />
+                                <CardBody style={{ textAlign: 'center' }}>
+                                    <CardTitle className='heading3' style={{ fontSize: 16 }}>{value.nama}</CardTitle>
+                                    <CardTitle className='heading3' style={{ fontSize: 18 }}>Rp. {value.harga.toLocaleString()}</CardTitle>
+                                </CardBody>
+                            </Link>
+                        </Card>
+                    </div>
+                )
+            } else {
+                return (
+                    <div className="col-3" >
+                        <Card style={{ border: 'none', borderRadius: '14px', cursor: 'pointer', height: '350px' }} className='producthover mt-4 '>
+                            <Link to={`/products-detail?idproduct=${value.idproduct}`}>
+                                <div className='zoom'>
+                                    <p style={{ zIndex: 10, position: 'absolute', color: 'white', fontSize: 22, marginLeft: 21.2, marginTop: 100, backgroundColor: '#E63E54', paddingLeft: 30, paddingRight: 30 }}>Stock Empty</p>
+                                    <CardImg
+                                        src={value.images[0].url.includes("http") ? value.images[0].url : API_URL + value.images[0].url}
+                                        width='100%'
+                                        style={{ padding: 20, position: 'relative', display: 'inline-block' }}
+                                    />
+                                </div>
+                                <CardBody style={{ textAlign: 'center' }}>
+                                    <CardTitle className='heading3' style={{ fontSize: 16 }}>{value.nama}</CardTitle>
+                                    <CardTitle className='heading3' style={{ fontSize: 18 }}>Rp. {value.harga.toLocaleString()}</CardTitle>
+                                </CardBody>
+                            </Link>
+                        </Card>
+                    </div>
+                )
+            }
         })
     }
     printBtnPagination = () => {
@@ -58,10 +81,10 @@ class ProductPage extends React.Component {
         return btn;
     }
 
-    btnFilter= () => {
-        if(this.inCategory.value=='All Products'&&this.state.inputNama==''){
+    btnFilter = () => {
+        if (this.inCategory.value == 'All Products' && this.state.inputNama == '') {
             this.props.getProductAction()
-        }else{
+        } else {
             this.props.getProductAction({
                 nama: this.state.inputNama,
                 idcategory: this.inCategory.value
@@ -77,8 +100,8 @@ class ProductPage extends React.Component {
         })
     }
     btnReset = () => {
-        this.inCategory.value='All Products'
-        this.setState({inputNama:''})
+        this.inCategory.value = 'All Products'
+        this.setState({ inputNama: '' })
         this.props.getProductAction()
         console.log(this.state.inputNama)
     }
@@ -88,6 +111,7 @@ class ProductPage extends React.Component {
             <div className='container-fluid' style={{ background: '#FCFBFA', paddingTop: 20 }}>
                 <div className='container'>
                     <div style={{ backgroundPosition: 'center', backgroundSize: 'cover', backgroundImage: "url(" + header + ")", backgroundRepeat: 'no-repeat', width: '100%', height: '32vh', borderRadius: '50px',marginBottom:10 }}>
+
                         <div style={{ paddingTop: '11vh', paddingLeft: '260px' }}>
                             <h1 className='heading1' style={{ color: 'white', fontWeight: 900 }}>Our Product</h1>
                         </div>
@@ -100,7 +124,7 @@ class ProductPage extends React.Component {
                                         <FaFilter />
                                     </span>
                                     <p className='heading3' style={{ marginBottom: 5.5, marginTop: 4, fontWeight: 'bolder' }}>FILTER</p>
-                                    <FormGroup style={{ marginTop: 4 ,marginLeft:'100%'}}>
+                                    <FormGroup style={{ marginTop: 4, marginLeft: '100%' }}>
                                         <InputGroup>
                                             <Input type='select' style={{ width: "100px", borderRadius: 10 }}
                                                 onChange={this.btnClick}>
