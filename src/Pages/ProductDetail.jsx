@@ -194,8 +194,8 @@ class ProductDetail extends React.Component {
                             </div>
                         </>
                         :
-                        <div className='m-auto container' style={{ height: '72vh',  }}>
-                            <h1 className='heading1' style={{ paddingTop: 100, paddingBottom: 10,textAlign:"center"}}>
+                        <div className='m-auto container' style={{ height: '72vh', }}>
+                            <h1 className='heading1' style={{ paddingTop: 100, paddingBottom: 10, textAlign: "center" }}>
                                 STOCK IS EMPTY
                             </h1>
                         </div>
