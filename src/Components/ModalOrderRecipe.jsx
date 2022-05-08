@@ -166,6 +166,10 @@ class ModalAddRecipe extends Component {
             }
         }).then((res) => {
             if (res.data.success) {
+                let dataOutRecipe = {
+                    detail: this.state.AddProduct
+                }
+                axios.post(`${API_URL}/products/outstockrecipe`, dataOutRecipe)
                 Swal.fire({
                     title: 'Yeay!',
                     text: 'Checkout success',
