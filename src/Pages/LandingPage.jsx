@@ -58,11 +58,11 @@ class LandingPage extends Component {
                                 </h1>
                                 <p className='heading4'>Our in-house pharmachist ensure your medicines. Positioned to help every human being to invest in their whole health.</p>
                                 <div className='d-flex mt-4'>
-                                    <div className='NavbarButton text-center' style={{ paddingTop: 5, paddingBottom: 15 }}>
+                                    <div className='NavbarButton text-center shadow' style={{ paddingTop: 5, paddingBottom: 15 }}>
                                         <p style={{ fontSize: 32, margin: 'auto' }}>100% </p>
                                         <p>Delivery Success</p>
                                     </div>
-                                    <div className='landing1 text-center py-2 mx-3' style={{ paddingTop: 5, paddingBottom: 15 }}>
+                                    <div className='landing1 text-center py-2 mx-3 shadow' style={{ paddingTop: 5, paddingBottom: 15 }}>
                                         <p style={{ fontSize: 32, margin: 'auto' }}>5.0 </p>
                                         <p>Customer Review</p>
                                     </div>

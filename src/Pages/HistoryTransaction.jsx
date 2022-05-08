@@ -79,7 +79,7 @@ class HistoryTransaction extends Component {
         try {
             let token = localStorage.getItem('data')
             if (token) {
-                let res = await axios.get(`${API_URL}/transactions/recipe`, {
+                let res = await axios.get(`${API_URL}/transactions/recipebyuser`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -312,13 +312,14 @@ class HistoryTransaction extends Component {
 
     printDoctorTransactions = () => {
         return this.state.doctorTransactions.map((value, index) => {
+            let badgeColor = value.status.includes("Process") ? "primary" : value.status.includes("Completed") ? "success" : "danger"
             let date = value.date
             let newDate = moment(date).format("LLL")
             return <div className="shadow pb-3 mb-4 heading4" style={{ borderRadius: 40 }}>
                 <div className="py-3 px-5 NavbarButton" style={{ color: "white", borderTopLeftRadius: 40, borderTopRightRadius: 40 }}>
                     <span>{newDate}</span>
                     <b style={{ marginLeft: 10 }}>{value.fullname}</b>
-                    <Badge color='secondary' style={{ float: 'right', fontSize: 16 }}>{value.status}</Badge>
+                    <Badge color={badgeColor} style={{ float: 'right', fontSize: 16 }}>{value.status}</Badge>
                 </div>
                 <div className="row py-3 px-5">
                     <div className="col-md-3 d-flex justify-content-center align-items-center">
@@ -329,15 +330,43 @@ class HistoryTransaction extends Component {
                         <h4 style={{ fontWeight: "bolder", paddingLeft: 40 }}>{value.invoice}</h4>
                     </div>
                     <div className="col-md-2 d-flex align-items-center" style={{ float: "right" }}>
-                        <Button color="danger" style={{ fontSize: 16, width: "100%" }}
-                            onClick={() => this.onBtDiscardOrder(value)}
-                        >Discard order
-                        </Button>
+                        {
+                            value.status.includes('Process') ?
+                                <Button color="danger" style={{ fontSize: 16, width: "100%" }}
+                                    onClick={() => this.onBtnDiscardRecipe(value.idresep)}
+                                >Discard order
+                                </Button> :
+                                null
+                        }
                     </div>
                 </div>
 
             </div>
         })
+    }
+    onBtnDiscardRecipe = async (idresep) => {
+        try {
+            let token = localStorage.getItem('data')
+            if (token) {
+                let res = await axios.patch(`${API_URL}/transactions/discardstatusrecipe`, { idresep: idresep }, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                if (res.data.success) {
+                    await Swal.fire({
+                        title: 'Yeay!',
+                        text: 'Discard Success',
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    })
+                    this.props.getTransactionsActions()
+                    this.getDoctorTransactions()
+                }
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     render() {

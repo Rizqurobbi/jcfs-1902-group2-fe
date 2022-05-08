@@ -68,23 +68,6 @@ class DataLogging extends Component {
         })
     }
 
-    printDataLoggingOut = () => {
-        return this.state.dataLogOut.map((value, index) => {
-            return (
-                <tr>
-                    <td>{index + 1}</td>
-                    <td style={{ width: '13%' }}>
-                        <img src={value.url.includes('http') ? value.url : API_URL + value.url} style={{ objectFit: 'cover', width: '100%', height: '100%' }} alt="" />
-                    </td>
-                    <td>{value.nama}</td>
-                    <td>{value.qty} {value.satuan}</td>
-                    <td>{value.date}</td>
-                    <td>{value.description}</td>
-                </tr>
-            )
-        })
-    }
-
     printDataLoggingIn = () => {
         return this.state.dataLogIn.map((value, index) => {
             return (

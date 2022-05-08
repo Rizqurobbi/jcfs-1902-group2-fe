@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, ModalBody, Col, Row, Button } from 'reactstrap';
 import { API_URL } from '../helper';
+import { FiMapPin } from "react-icons/fi";
 
 
 class ModalDetailPastTransaction extends Component {
@@ -85,7 +86,15 @@ class ModalDetailPastTransaction extends Component {
                                     <p className='heading3' style={{ fontSize: 20 }}>
                                         Address info
                                     </p>
-                                    <p className='heading4' style={{ fontSize: 16 }}>{this.props.transaction.address}</p>
+                                    <div className='' style={{ backgroundColor: 'white', }}>
+                                        <p className='heading3' style={{ fontSize: 16 }}>{this.props.transaction.address_label}</p>
+                                        <p className='heading3 m-0' style={{ fontSize: 16 }}>{this.props.transaction.nama_penerima}</p>
+                                        <p className='heading4' style={{ fontSize: 16 }}>{this.props.transaction.handphone}</p>
+                                        <div className='d-flex' style={{ width: '100%' }}>
+                                            <p className='heading4' style={{ fontSize: 20, color: 'gray', marginRight: 10 }}><FiMapPin /></p>
+                                            <p className='heading4' style={{ fontSize: 14 }}>{this.props.transaction.address}, {this.props.transaction.city}, {this.props.transaction.province}</p>
+                                        </div>
+                                    </div>
                                 </div>
                                 <hr className='my-3' />
                                 <Row style={{ marginTop: 40 }}>

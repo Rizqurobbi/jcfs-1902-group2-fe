@@ -110,6 +110,7 @@ class ModalEdit extends React.Component {
         let data = {
             idproduct: this.props.productDetail.idproduct,
             idunit: this.props.productDetail.stocks[0].idunit,
+            idstock: this.props.productDetail.stocks[0].idstock,
             qty: parseInt(this.stockIn.value),
             date: moment().format('YYYY-MM-DD')
         }
@@ -118,7 +119,7 @@ class ModalEdit extends React.Component {
                 if (res.data.success) {
                     Swal.fire({
                         title: 'Yeay!',
-                        text: 'Edit success',
+                        text: 'Add new stock success',
                         icon: 'success',
                         confirmButtonText: 'Ok'
                     })
