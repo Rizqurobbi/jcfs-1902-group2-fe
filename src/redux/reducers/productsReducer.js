@@ -14,6 +14,8 @@ export const productsReducer = (state = INTIAL_STATE, action) => {
         case "GET_DATA_UNIT":
             console.log("cek unit", action.payload)
             return { ...state, ...action.payload };
+        case "OUT_PRODUCT":
+            return { ...state, ...action.payload}
         default:
             return state;
     }

@@ -22,6 +22,8 @@ import HistoryTransaction from './Pages/HistoryTransaction';
 import TransactionManagement from './Pages/TransactionsManagement';
 import AboutUs from './Pages/Aboutus';
 import SalesReport from './Pages/SalesReport';
+import DataLogging from './Pages/DataLogging';
+
 
 class App extends Component {
   constructor(props) {
@@ -72,6 +74,7 @@ class App extends Component {
                   <Route path="/product-management" element={<ProductManagement />} />
                   <Route path="/transactions-management" element={<TransactionManagement />} />
                   <Route path="/sales-report" element={<SalesReport />} />
+                  <Route path="/data-logging" element={<DataLogging />} />
                 </>
                 :
                 <Route path="*" element={<NotFoundPage />} />

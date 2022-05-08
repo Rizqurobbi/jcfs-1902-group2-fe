@@ -184,11 +184,12 @@
   font-size: 16px;
   cursor: pointer;
   color: #1E144F;
+  transition-property: border-bottom;
+  transition-duration: 0.1s;
 }
 
 .NavbarHeader:hover {
-  animation-name: navbarheader;
-  animation-duration: 2s;
+  border-bottom: 1px solid #1E144F;
 }
 
 .footerFont{
@@ -289,12 +290,6 @@
 
 .colored-toast.swal2-icon-warning {
   background-color: #f8bb86 !important;
-}
-
-@keyframes navbarheader {
-  0% {border-bottom: 1px solid white}
-  25% {border-bottom: 1px solid #1E144F;}
-  100% {border-bottom: 1px solid #1E144F;}
 }
 
 @keyframes navbarbutton {

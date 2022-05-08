@@ -20,7 +20,7 @@ class DoctorPrescriptionPage extends Component {
         const d = new Date();
         let formData = new FormData()
         let data = {
-            invoice: `#INV/${d.getTime()}`
+            invoice: `INV/REC${d.getTime()}`
         }
         formData.append('Images', this.state.images.file)
         formData.append('data', JSON.stringify(data));

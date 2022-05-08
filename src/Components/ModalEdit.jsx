@@ -5,6 +5,8 @@ import { Modal, ModalBody, ModalHeader, ModalFooter, Button, FormGroup, Label, I
 import { API_URL } from '../helper';
 import { getProductAction } from '../redux/actions';
 import Swal from 'sweetalert2';
+import { TabList, Tabs, Tab, TabPanel, TabPanels } from '@chakra-ui/react';
+import moment from 'moment';
 
 
 class ModalEdit extends React.Component {
@@ -103,8 +105,34 @@ class ModalEdit extends React.Component {
         temp[index].qty = parseInt(e.target.value)
         this.setState({ stocks: temp })
     }
+
+    btnSaveStock = () => {
+        let data = {
+            idproduct: this.props.productDetail.idproduct,
+            idunit: this.props.productDetail.stocks[0].idunit,
+            qty: parseInt(this.stockIn.value),
+            date: moment().format('YYYY-MM-DD')
+        }
+        axios.post(`${API_URL}/products/instock`, data)
+            .then(res => {
+                if (res.data.success) {
+                    Swal.fire({
+                        title: 'Yeay!',
+                        text: 'Edit success',
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    })
+                    this.props.btClose()
+                    this.props.getProductAction()
+                }
+            }).catch(err => {
+                console.log(err)
+            })
+    }
+
     render() {
         let { idcategory, nama, category, harga, deskripsi, penyajian, dosis, caraPenyimpanan, kegunaan, komposisi, efekSamping } = this.props.productDetail
+        console.log('iniproductdetail', this.props.productDetail)
         return (
             <div>
                 <Modal
@@ -118,72 +146,90 @@ class ModalEdit extends React.Component {
                         <p className='heading3' style={{ marginLeft: '16.6vw', marginTop: '10px' }}>Edit Product</p>
                     </ModalHeader>
                     <ModalBody>
-                        <div className='row'>
-                            <div className='col-6'>
-                                <FormGroup>
-                                    <Label>Product Name</Label>
-                                    <Input disabled={!this.state.edit} defaultValue={nama} type='text' innerRef={e => this.inName = e}></Input>
-                                </FormGroup>
-                                <div className='row'>
-                                    <div className='col-6'>
-                                        <FormGroup>
-                                            <Label>Price</Label>
-                                            <Input disabled={!this.state.edit} defaultValue={harga} type='Number' innerRef={e => this.inPrice = e}></Input>
-                                        </FormGroup>
-                                    </div>
-                                    <div className='col-6'>
-                                        <FormGroup>
-                                            <Label>Category</Label>
-                                            <Input type='select' innerRef={e => this.inCategory = e}
-                                                disabled={!this.state.edit}>
-                                                <option value={idcategory}>{category}</option>
-                                                {
-                                                    this.props.category.map((value, index) => <option value={value.idcategory} key={value.idcategory}>{value.category}</option>)
-                                                }
-                                            </Input>
-                                        </FormGroup>
-                                    </div>
-                                </div>
-                                <FormGroup>
-                                    <Label>Description</Label>
-                                    <Input disabled={!this.state.edit} defaultValue={deskripsi} type='textarea' innerRef={e => this.inDesc = e}></Input>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label>Serving Method</Label>
-                                    <Input disabled={!this.state.edit} defaultValue={penyajian} type='text' innerRef={e => this.inServ = e}></Input>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label>Stocks</Label>
-                                    {this.printStock()}
-                                </FormGroup>
-                            </div>
-                            <div className='col-6'>
-                                <FormGroup>
-                                    <Label>Dose</Label>
-                                    <Input disabled={!this.state.edit} defaultValue={dosis} type='textarea' innerRef={e => this.inDose = e}></Input>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label>How to Keep</Label>
-                                    <Input disabled={!this.state.edit} defaultValue={caraPenyimpanan} type='text' innerRef={e => this.inKeep = e}></Input>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label>Composition</Label>
-                                    <Input disabled={!this.state.edit} defaultValue={komposisi} type='text' innerRef={e => this.inCompos = e}></Input>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label>Benefit</Label>
-                                    <Input disabled={!this.state.edit} defaultValue={kegunaan} type='text' innerRef={e => this.inBenefit = e}></Input>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label>Side Effects</Label>
-                                    <Input disabled={!this.state.edit} defaultValue={efekSamping} type='text' innerRef={e => this.inSide = e}></Input>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label>Images</Label>
-                                    {this.printImages()}
-                                </FormGroup>
-                            </div>
-                        </div>
+                        <Tabs size='md' colorScheme='#231953'>
+                            <>
+                                <TabList style={{ marginBottom: 5 }}>
+                                    <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Edit Product</Tab>
+                                    <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Add Product Stock</Tab>
+                                </TabList>
+                                <TabPanels>
+                                    <TabPanel className='p-4'>
+                                        <div className='row'>
+                                            <div className='col-6'>
+                                                <FormGroup>
+                                                    <Label>Product Name</Label>
+                                                    <Input disabled={!this.state.edit} defaultValue={nama} type='text' innerRef={e => this.inName = e}></Input>
+                                                </FormGroup>
+                                                <div className='row'>
+                                                    <div className='col-6'>
+                                                        <FormGroup>
+                                                            <Label>Price</Label>
+                                                            <Input disabled={!this.state.edit} defaultValue={harga} type='Number' innerRef={e => this.inPrice = e}></Input>
+                                                        </FormGroup>
+                                                    </div>
+                                                    <div className='col-6'>
+                                                        <FormGroup>
+                                                            <Label>Category</Label>
+                                                            <Input type='select' innerRef={e => this.inCategory = e}
+                                                                disabled={!this.state.edit}>
+                                                                <option value={idcategory}>{category}</option>
+                                                                {
+                                                                    this.props.category.map((value, index) => <option value={value.idcategory} key={value.idcategory}>{value.category}</option>)
+                                                                }
+                                                            </Input>
+                                                        </FormGroup>
+                                                    </div>
+                                                </div>
+                                                <FormGroup>
+                                                    <Label>Description</Label>
+                                                    <Input disabled={!this.state.edit} defaultValue={deskripsi} type='textarea' innerRef={e => this.inDesc = e}></Input>
+                                                </FormGroup>
+                                                <FormGroup>
+                                                    <Label>Serving Method</Label>
+                                                    <Input disabled={!this.state.edit} defaultValue={penyajian} type='text' innerRef={e => this.inServ = e}></Input>
+                                                </FormGroup>
+                                                <FormGroup>
+                                                    <Label>Stocks</Label>
+                                                    {this.printStock()}
+                                                </FormGroup>
+                                            </div>
+                                            <div className='col-6'>
+                                                <FormGroup>
+                                                    <Label>Dose</Label>
+                                                    <Input disabled={!this.state.edit} defaultValue={dosis} type='textarea' innerRef={e => this.inDose = e}></Input>
+                                                </FormGroup>
+                                                <FormGroup>
+                                                    <Label>How to Keep</Label>
+                                                    <Input disabled={!this.state.edit} defaultValue={caraPenyimpanan} type='text' innerRef={e => this.inKeep = e}></Input>
+                                                </FormGroup>
+                                                <FormGroup>
+                                                    <Label>Composition</Label>
+                                                    <Input disabled={!this.state.edit} defaultValue={komposisi} type='text' innerRef={e => this.inCompos = e}></Input>
+                                                </FormGroup>
+                                                <FormGroup>
+                                                    <Label>Benefit</Label>
+                                                    <Input disabled={!this.state.edit} defaultValue={kegunaan} type='text' innerRef={e => this.inBenefit = e}></Input>
+                                                </FormGroup>
+                                                <FormGroup>
+                                                    <Label>Side Effects</Label>
+                                                    <Input disabled={!this.state.edit} defaultValue={efekSamping} type='text' innerRef={e => this.inSide = e}></Input>
+                                                </FormGroup>
+                                                <FormGroup>
+                                                    <Label>Images</Label>
+                                                    {this.printImages()}
+                                                </FormGroup>
+                                            </div>
+                                        </div>
+                                    </TabPanel>
+                                    <TabPanel style={{ height: '52vh' }}>
+                                        <div className='d-flex'>
+                                            <Input type="number" placeholder='Stock' style={{ width: '30%' }} innerRef={(element) => this.stockIn = element} />
+                                            <button type="button" className='NavbarButton py-2 mx-2' onClick={this.btnSaveStock}>Save</button>
+                                        </div>
+                                    </TabPanel>
+                                </TabPanels>
+                            </>
+                        </Tabs>
                     </ModalBody>
                     <ModalFooter>
                         {

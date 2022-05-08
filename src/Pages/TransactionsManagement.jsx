@@ -548,11 +548,12 @@ class TransactionManagement extends Component {
 
     printUserRecipe = () => {
         return this.state.recipe.map((value, index) => {
+            let newDate = moment(value.date).format('LLL')
             let badgeColor = value.status.includes("Cancel") ? "danger" : value.status.includes("Process") ? "primary" : "warning"
             return <div className="shadow pb-3 mb-4 heading4" style={{ borderRadius: 40 }}>
                 <div className="py-3 px-5 NavbarButton" style={{ color: "white", borderTopLeftRadius: 40, borderTopRightRadius: 40 }}>
-                    <span>{value.date.substr(0, 10)}</span>
-                    <b style={{ marginLeft: 10 }}>{value.fullname}</b>
+                    <span>{newDate}</span>
+                    <b style={{ marginLeft: 10 }}>{value.username}</b>
                     <Badge color={badgeColor} style={{ float: 'right', fontSize: 16 }}>{value.status}</Badge>
                 </div>
                 <div className="row py-3 px-5">
