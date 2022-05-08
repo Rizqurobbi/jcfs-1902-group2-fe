@@ -75,7 +75,14 @@ class NavbarComponent extends Component {
                                         >
                                             <Link to="/cart-user" style={{ color: "#2d3436", textDecoration: "none" }}>
                                                 <DropdownItem className='d-flex'>
-                                                    Carts <BsCart4 style={{ marginLeft: '2px', marginTop: '3.8px' }} /> <span style={{ backgroundColor: '#E63E54', color: 'white', borderRadius: '50%', paddingLeft: '5.3px', paddingRight: '5.3px', paddingTop: '1.4px', fontSize: 11, textAlign: 'center' }}>{this.props.carts.length > 0 ? this.props.carts.length : null}</span>
+                                                    Carts {
+                                                        this.props.carts.length > 0 ?
+                                                            <>
+                                                                < BsCart4 style={{ marginLeft: '2px', marginTop: '3.8px' }} /> <span style={{ backgroundColor: '#E63E54', color: 'white', borderRadius: '50%', paddingLeft: '5.3px', paddingRight: '5.3px', paddingTop: '1.4px', fontSize: 11, textAlign: 'center' }}>{this.props.carts.length}</span>
+                                                            </>
+                                                            :
+                                                            null
+                                                    }
                                                 </DropdownItem>
                                             </Link>
                                             <Link to='/history'>
@@ -112,6 +119,11 @@ class NavbarComponent extends Component {
                                                     Transactions Management
                                                 </Link>
                                             </DropdownItem>
+                                            <Link to='/sales-report'>
+                                                <DropdownItem>
+                                                    Sales Report
+                                                </DropdownItem>
+                                            </Link>
                                             <DropdownItem>
                                                 <Link to='/data-logging'>
                                                     Data Logging

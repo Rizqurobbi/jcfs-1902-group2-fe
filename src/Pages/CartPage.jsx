@@ -29,7 +29,6 @@ class CartPage extends React.Component {
             idaddress: this.props.idaddress,
             invoice: `INV/CP${d.getTime()}`,
             date: moment().format('YYYY-MM-DD'),
-            // date: d.toISOString().slice(0,19).replace('T',' '),
             total_price: this.totalPrice(),
             shipping: this.shipping(),
             total_payment: this.totalPayment(),
