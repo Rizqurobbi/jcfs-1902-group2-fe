@@ -67,7 +67,7 @@ class NavbarComponent extends Component {
                         this.props.username ?
                             <div>
                                 <UncontrolledDropdown className='d-flex'>
-                                    <DropdownToggle outline caret className='NavbarButton' style={{ border: 0, borderRadius: 10 }}>
+                                    <DropdownToggle outline caret className='NavbarButton py-2' style={{ border: 0, borderRadius: 10 }}>
                                         Hello, <b className='mx-1' style={{ fontSize: 16 }}>{this.props.username}</b>
                                     </DropdownToggle>
                                     {this.props.role == 'User' ?
