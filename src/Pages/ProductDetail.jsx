@@ -60,10 +60,17 @@ class ProductDetail extends React.Component {
                     confirmButtonText: 'Ok'
                 })
             }
-        } else {
+        } else if (this.props.role == 'Admin') {
             Swal.fire({
                 title: 'Warning!',
                 text: 'You are an Admin',
+                icon: 'warning',
+                confirmButtonText: 'Ok'
+            })
+        } else {
+            Swal.fire({
+                title: 'Warning!',
+                text: 'Please login first',
                 icon: 'warning',
                 confirmButtonText: 'Ok'
             })
@@ -157,35 +164,36 @@ class ProductDetail extends React.Component {
                             </div>
                             <div style={{ padding: 100 }} className="container">
                                 {this.printDetail()}
-                                <Tabs size='md' align='center' colorScheme='#231953' style={{ marginTop: 80 }}>
+                                <p className='heading2' style={{fontSize: 26, marginTop: 80, textAlign: 'center'}}>Information :</p>
+                                <Tabs size='md' align='center' colorScheme='#231953' className='my-3'>
                                     {detail.idproduct &&
                                         <>
                                             <TabList>
-                                                <Tab>Serving</Tab>
-                                                <Tab>Dose</Tab>
-                                                <Tab>How to keep</Tab>
-                                                <Tab>Benefits</Tab>
-                                                <Tab>Composition</Tab>
-                                                <Tab>Cautions</Tab>
+                                                <Tab className='heading2 px-5' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Serving</Tab>
+                                                <Tab className='heading2 px-5' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Dose</Tab>
+                                                <Tab className='heading2 px-5' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>How to keep</Tab>
+                                                <Tab className='heading2 px-5' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Benefits</Tab>
+                                                <Tab className='heading2 px-5' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Composition</Tab>
+                                                <Tab className='heading2 px-5' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Cautions</Tab>
                                             </TabList>
-                                            <TabPanels align='start'>
+                                            <TabPanels align='center'>
                                                 <TabPanel>
-                                                    <p>{detail.penyajian}</p>
+                                                    <p className='heading4'>{detail.penyajian}</p>
                                                 </TabPanel>
                                                 <TabPanel>
-                                                    <p>{detail.dosis}</p>
+                                                    <p className='heading4'>{detail.dosis}</p>
                                                 </TabPanel>
                                                 <TabPanel>
-                                                    <p>{detail.caraPenyimpanan}</p>
+                                                    <p className='heading4'>{detail.caraPenyimpanan}</p>
                                                 </TabPanel>
                                                 <TabPanel>
-                                                    <p>{detail.kegunaan}</p>
+                                                    <p className='heading4'>{detail.kegunaan}</p>
                                                 </TabPanel>
                                                 <TabPanel>
-                                                    <p>{detail.komposisi}</p>
+                                                    <p className='heading4'>{detail.komposisi}</p>
                                                 </TabPanel>
                                                 <TabPanel>
-                                                    <p>{detail.efekSamping}</p>
+                                                    <p className='heading4'>{detail.efekSamping}</p>
                                                 </TabPanel>
                                             </TabPanels>
                                         </>

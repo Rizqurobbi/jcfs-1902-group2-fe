@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { API_URL } from '../helper';
 import Swal from 'sweetalert2';
+import { connect } from 'react-redux';
 
 
 class DoctorPrescriptionPage extends Component {
@@ -17,31 +18,40 @@ class DoctorPrescriptionPage extends Component {
     }
 
     btSubmit = () => {
-        const d = new Date();
-        let formData = new FormData()
-        let data = {
-            invoice: `INV/REC${d.getTime()}`
-        }
-        formData.append('Images', this.state.images.file)
-        formData.append('data', JSON.stringify(data));
+        if (this.props.role == 'User') {
+            const d = new Date();
+            let formData = new FormData()
+            let data = {
+                invoice: `INV/REC${d.getTime()}`
+            }
+            formData.append('Images', this.state.images.file)
+            formData.append('data', JSON.stringify(data));
 
-        let token = localStorage.getItem("data")
-        if (token) {
-            axios.post(`${API_URL}/users/uploadrecipe`, formData, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                console.log(res.data)
-                Swal.fire({
-                    title: 'Yeay!',
-                    text: 'Upload success',
-                    icon: 'success',
-                    confirmButtonText: 'Ok'
+            let token = localStorage.getItem("data")
+            if (token) {
+                axios.post(`${API_URL}/users/uploadrecipe`, formData, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }).then(res => {
+                    console.log(res.data)
+                    Swal.fire({
+                        title: 'Yeay!',
+                        text: 'Upload success',
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    })
+                    window.location.reload();
+                }).catch(err => {
+                    console.log(err)
                 })
-                window.location.reload();
-            }).catch(err => {
-                console.log(err)
+            }
+        } else if (this.props.role == 'Admin') {
+            Swal.fire({
+                title: 'Warning!',
+                text: 'You are an Admin',
+                icon: 'warning',
+                confirmButtonText: 'Ok'
             })
         } else {
             Swal.fire({
@@ -51,10 +61,10 @@ class DoctorPrescriptionPage extends Component {
                 confirmButtonText: 'Ok'
             })
         }
-
     }
 
     render() {
+        console.log('asd', this.props.role)
         return (
             <div className='container-fluid px-0' style={{ backgroundColor: '#FCFBFA' }}>
                 <div className='container py-4'>
@@ -103,4 +113,10 @@ class DoctorPrescriptionPage extends Component {
     }
 }
 
-export default DoctorPrescriptionPage;
+const mapToProps = (state) => {
+    return {
+        role: state.userReducer.role
+    }
+}
+
+export default connect(mapToProps)(DoctorPrescriptionPage);

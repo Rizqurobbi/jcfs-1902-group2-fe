@@ -535,11 +535,11 @@ class TransactionManagement extends Component {
             })
     }
 
-    onBtDiscardOrder = (value) => {
-        axios.patch(`${API_URL}/transactions/discardstatusrecipe`, { idresep: value.idresep })
+    onBtDiscardOrder = (idresep) => {
+        axios.patch(`${API_URL}/transactions/discardstatusrecipe`, { idresep: idresep })
             .then(res => {
                 if (res.data.success) {
-                    this.setState({ modalAdd: !this.state.modalAdd, detailRecipe: value })
+                    this.getUserRecipe()
                 }
             }).catch(error => {
                 console.log(error)
@@ -569,7 +569,7 @@ class TransactionManagement extends Component {
                             onClick={() => this.setState({ modalAdd: !this.state.modalAdd, detailRecipe: value })}
                         >Arrange order</Button>
                         <Button color="danger" style={{ fontSize: 16, width: "100%" }}
-                            onClick={() => this.onBtDiscardOrder(value)}
+                            onClick={() => this.onBtDiscardOrder(value.idresep)}
                         >Discard order</Button>
                     </div>
                 </div>
@@ -582,6 +582,7 @@ class TransactionManagement extends Component {
         console.log('detil resep', this.state.detailRecipe)
         console.log('transaksi user', this.props.transactions)
         console.log('transaksi semua user', this.state.recipe)
+        console.log('state transaction', this.state.transaction)
         return (
             <div>
                 <ModalAddRecipe

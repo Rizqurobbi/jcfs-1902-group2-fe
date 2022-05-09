@@ -43,18 +43,18 @@ class ProductManagement extends React.Component {
             if (value.stocks[0].qty > 0) {
                 return (
                     <tr>
-                        <td>{index + 1}</td>
+                        <td>{page > 1 ? (page - 1) * 5 + index + 1 : index + 1}</td>
                         <td style={{ width: '13%' }}>
                             <img src={value.images[0].url.includes('http') ? value.images[0].url : API_URL + value.images[0].url} style={{ objectFit: 'cover', width: '100%', height: '100%' }} alt="" />
                         </td>
                         <td style={{ paddingTop: 42 }}><p className='heading3'>{value.nama}</p></td>
                         <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.stocks[1].qty}</p></td>
                         <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.stocks[2].satuan}</p></td>
+                        <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.stocks[0].qty}</p></td>
                         <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.category}</p></td>
                         <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>Rp.{value.harga.toLocaleString()}</p></td>
                         <td style={{ paddingTop: 50 }}>
                             <div className='d-flex' style={{ justifyContent: 'space-evenly' }}>
-                                {/* <span title='Add Product' style={{ fontSize: 25 }} onClick={() => this.setState({ modalOpenAdd: !this.state.modalOpenAdd })}><CgAddR /></span> */}
                                 <span title='Remove Product' style={{ fontSize: 25, color: '#E63E54' }} onClick={() => this.deleteProduct(value.idproduct)}><FiTrash2 /></span>
                                 <span title='Edit Product' style={{ fontSize: 25, }} onClick={() => this.setState({ modalOpenEdit: !this.state.modalOpenEdit, productDetail: value })}><FiEdit /></span>
                             </div>
@@ -72,11 +72,11 @@ class ProductManagement extends React.Component {
                         <td style={{ paddingTop: 42 }}><p className='heading3'>{value.nama}</p></td>
                         <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.stocks[1].qty}</p></td>
                         <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.stocks[2].satuan}</p></td>
+                        <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.stocks[0].qty}</p></td>
                         <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>{value.category}</p></td>
                         <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>Rp.{value.harga.toLocaleString()}</p></td>
                         <td style={{ paddingTop: 50 }}>
                             <div className='d-flex' style={{ justifyContent: 'space-evenly' }}>
-                                {/* <span title='Add Product' style={{ fontSize: 25 }} onClick={() => this.setState({ modalOpenAdd: !this.state.modalOpenAdd })}><CgAddR /></span> */}
                                 <span title='Remove Product' style={{ fontSize: 25, color: '#E63E54' }} onClick={() => this.deleteProduct(value.idproduct)}><FiTrash2 /></span>
                                 <span title='Edit Product' style={{ fontSize: 25, }} onClick={() => this.setState({ modalOpenEdit: !this.state.modalOpenEdit, productDetail: value })}><FiEdit /></span>
                             </div>
@@ -124,8 +124,9 @@ class ProductManagement extends React.Component {
                                     <th>#</th>
                                     <th>Image</th>
                                     <th>Product</th>
-                                    <th>Weight</th>
+                                    <th>Netto</th>
                                     <th>Unit</th>
+                                    <th>Qty</th>
                                     <th>Category</th>
                                     <th>Price</th>
                                     <th>Action</th>

@@ -62,7 +62,7 @@ class ModalDetailTransaction extends Component {
     printDetail = () => {
         return this.props.detailTransaction.map((value) => {
             return (
-                <div className='m-4'>
+                <div className='m-2'>
                     <Row>
                         <Col xs='4'>
                             <img src={API_URL + value.url} style={{ width: '80%' }} alt="" />
