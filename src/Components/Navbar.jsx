@@ -31,15 +31,6 @@ class NavbarComponent extends Component {
                                 <img src={logo} width="100%" />
                             </Link>
                         </div>
-                        <Nav className='mx-3'>
-                            <InputGroup style={{ borderRadius: 50 }} >
-                                <InputLeftElement
-                                    pointerEvents='none'
-                                    children={<SearchIcon color='gray.300' />}
-                                />
-                                <Input type='tel' placeholder='Search' />
-                            </InputGroup>
-                        </Nav>
                     </NavbarBrand>
                     <Nav style={{ marginRight: -40 }}>
                         <NavItem>

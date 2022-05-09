@@ -157,9 +157,9 @@ class ProductPage extends React.Component {
                                             }
                                         </Input>
                                     </FormGroup>
-                                    <div style={{ marginLeft: '148px', marginTop: '15px' }}>
-                                        <Button className='landing1' onClick={this.btnReset} style={{ border: 'none' }}>Reset</Button>
-                                        <Button className='NavbarButton' style={{ marginLeft: '10px', border: 'none' }} onClick={this.btnFilter}>Filter</Button>
+                                    <div style={{ marginTop: '40px' }}>
+                                        <Button className='NavbarButton' style={{ border: 'none' }} onClick={this.btnFilter}>Filter</Button>
+                                        <Button className='landing1' onClick={this.btnReset} style={{ marginLeft: '10px', border: 'none', padding: "5px 15px" }}>Reset</Button>
                                     </div>
                                 </div>
                             </div>

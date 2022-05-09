@@ -13,67 +13,6 @@
   }
 }
 
-.NavbarButton {
-  background: rgb(77,223,255)!important;
-  background: linear-gradient(146deg, rgba(77,223,255,1) 0%, rgba(0,206,244,1) 54%, rgba(0,176,255,1) 96%)!important;
-  color: white !important;
-  font-weight: 600 !important;
-  border: 1.5px solid;
-  padding: 0px 15px 0px 15px;
-  border-radius: 10px
-}
-.slick-prev:before,
-.slick-next:before {
-  color: rgb(77,223,255);
-}
-.NavbarButton:hover {
-  animation-name: navbarbutton;
-  animation-duration: 2s;
-}
-.landing1 {
-  background: rgb(254,207,137)!important;
-  background: linear-gradient(153deg, rgba(254,207,137,1) 0%, rgba(255,179,67,1) 54%, rgba(255,157,11,1) 96%)!important;
-  color: white !important;
-  font-weight: 600 !important;
-  border: 1.5px solid;
-  padding: 0px 15px 0px 15px;
-  border-radius: 10px
-}
-.heading1 {
-  font-family: 'Nunito', sans-serif;
-  font-weight: 900;
-  font-size: 60px;
-  color: #1E144F;
-}
-.heading2 {
-  font-family: 'Nunito', sans-serif;
-  font-weight: 500;
-  font-size: 36px;
-  margin-bottom: 10px;
-  color: #1E144F
-}
-.heading3 {
-  font-family: 'Roboto', sans-serif;
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 10px;
-  color: #1E144F
-}
-.heading4 {
-  font-family: 'Nunito', sans-serif;
-  font-size: 16px;
-  font-weight: 300;
-  margin-bottom: 10px;
-  color: #1E144F
-}
-.NavbarHeader{
-  font-family: 'Nunito', sans-serif;
-  font-weight: 600;
-  padding: 10px 10px;
-  margin-bottom: 0px;
-  font-size: 16px;
-  color: #1E144F;
-}
 .footerFont{
   font-family: 'Nunito', sans-serif;
   font-weight: 600;  
@@ -125,15 +64,32 @@
   color: white !important;
   font-weight: 600 !important;
   border: 1.5px solid;
-  padding: 0px 15px 0px 15px;
+  padding: 5px 15px 5px 15px;
   border-radius: 10px
+}
+.NavbarButton:hover {
+  animation-name: navbarbutton;
+  animation-duration: 2s;
+}
+.NavbarHeader{
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  padding: 8px 10px;
+  margin-bottom: 0px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #1E144F;
+  transition-property: border-bottom;
+  transition-duration: 0.1s;
+}
+.NavbarHeader:hover {
+  border-bottom: 1px solid #1E144F;
 }
 
 .slick-prev:before,
 .slick-next:before {
   color: rgb(77,223,255);
 }
-
 
 .landing1 {
   background: rgb(254,207,137)!important;
@@ -156,7 +112,6 @@
   font-family: 'Nunito', sans-serif;
   font-weight: 900;
   font-size: 36px;
-  margin-bottom: 10px;
   color: #1E144F
 }
 
@@ -174,22 +129,6 @@
   font-weight: 400;
   margin-bottom: 10px;
   color: #1E144F
-}
-
-.NavbarHeader{
-  font-family: 'Nunito', sans-serif;
-  font-weight: 600;
-  padding: 8px 10px;
-  margin-bottom: 0px;
-  font-size: 16px;
-  cursor: pointer;
-  color: #1E144F;
-  transition-property: border-bottom;
-  transition-duration: 0.1s;
-}
-
-.NavbarHeader:hover {
-  border-bottom: 1px solid #1E144F;
 }
 
 .footerFont{
@@ -210,7 +149,6 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
 
 .App-link {
   color: #61dafb;
