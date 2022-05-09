@@ -31,15 +31,6 @@ class NavbarComponent extends Component {
                                 <img src={logo} width="100%" />
                             </Link>
                         </div>
-                        <Nav className='mx-3'>
-                            <InputGroup style={{ borderRadius: 50 }} >
-                                <InputLeftElement
-                                    pointerEvents='none'
-                                    children={<SearchIcon color='gray.300' />}
-                                />
-                                <Input type='tel' placeholder='Search' />
-                            </InputGroup>
-                        </Nav>
                     </NavbarBrand>
                     <Nav style={{ marginRight: -40 }}>
                         <NavItem>
@@ -67,7 +58,7 @@ class NavbarComponent extends Component {
                         this.props.username ?
                             <div>
                                 <UncontrolledDropdown className='d-flex'>
-                                    <DropdownToggle outline caret className='NavbarButton' style={{ border: 0, borderRadius: 10 }}>
+                                    <DropdownToggle outline caret className='NavbarButton py-2' style={{ border: 0, borderRadius: 10 }}>
                                         Hello, <b className='mx-1' style={{ fontSize: 16 }}>{this.props.username}</b>
                                     </DropdownToggle>
                                     {this.props.role == 'User' ?

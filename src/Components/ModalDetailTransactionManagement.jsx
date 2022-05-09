@@ -4,7 +4,6 @@ import React from 'react';
 import { Modal, ModalBody, Row, Col, Button } from 'reactstrap'
 import { API_URL } from '../helper';
 import { FiMapPin } from "react-icons/fi";
-import moment from 'moment';
 import Swal from 'sweetalert2';
 
 class ModalDetailTransactionManagement extends React.Component {

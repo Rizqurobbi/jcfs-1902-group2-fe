@@ -23,7 +23,7 @@ class LandingPage extends Component {
     printProduct = () => {
         return this.props.products.map((val, idx) => {
             return (
-                <Link className='zoom' to={`/products-detail?idproduct=${val.idproduct}`}>
+                <Link to={`/products-detail?idproduct=${val.idproduct}`}>
                     <div>
                         <div width="70%">
                             <img src={API_URL + val.images[0].url} width="80%" style={{ borderRadius: 20, margin: 0 }} />

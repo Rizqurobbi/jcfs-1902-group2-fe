@@ -310,7 +310,7 @@ class ModalAddRecipe extends Component {
                                         </div>
                                     </div>
                                     <p className='heading2 m-0' style={{ fontSize: 20 }}>Carts</p>
-                                    <div className='container pt-3 scrollbar' style={{ backgroundColor: '#FCFBFA', maxHeight: '40vh' }} >
+                                    <div className='container pt-3 scrollbar' style={{ backgroundColor: '#FCFBFA', maxHeight: '70vh' }} >
                                         {this.state.AddProduct.length > 0 ?
                                             this.printCart()
                                             : null
