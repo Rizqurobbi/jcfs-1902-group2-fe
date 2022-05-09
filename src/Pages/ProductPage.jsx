@@ -45,9 +45,9 @@ class ProductPage extends React.Component {
             } else {
                 return (
                     <div className="col-3" >
-                        <Card style={{ border: 'none', borderRadius: '14px', cursor: 'pointer', height: '350px' }} className='producthover mt-4 '>
+                        <Card style={{ border: 'none', borderRadius: '14px', cursor: 'pointer', height: '350px', opacity: '50%' }} className='mt-4 '>
                             <Link to={`/products-detail?idproduct=${value.idproduct}`}>
-                                <div className='zoom'>
+                                <div>
                                     <p style={{ zIndex: 10, position: 'absolute', color: 'white', fontSize: 22, marginLeft: 21.2, marginTop: 100, backgroundColor: '#E63E54', paddingLeft: 30, paddingRight: 30 }}>Stock Empty</p>
                                     <CardImg
                                         src={value.images[0].url.includes("http") ? value.images[0].url : API_URL + value.images[0].url}

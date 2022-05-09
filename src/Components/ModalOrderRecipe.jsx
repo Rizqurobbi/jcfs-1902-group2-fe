@@ -271,13 +271,6 @@ class ModalAddRecipe extends Component {
                                             <p className='heading4' style={{ fontSize: 20, color: 'gray', marginRight: 10 }}><FiMapPin /></p>
                                             <p className='heading4' style={{ fontSize: 14 }}>{this.props.detailRecipe.address}, {this.props.detailRecipe.city}, {this.props.detailRecipe.province}</p>
                                         </div>
-                                        <p className='heading2 my-2' style={{ fontSize: 20 }}>Select courier</p>
-                                        <hr className='my-2' />
-                                        <Input type='select' placeholder='Choose courier' onClick={(event) => this.selectCourier(event)}>
-                                            <option value='jne'>JNE</option>
-                                            <option value='tiki'>TIKI</option>
-                                        </Input>
-                                        <hr className='my-2' />
                                     </div>
                                 </Col>
                                 <Col>
