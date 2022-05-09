@@ -71,7 +71,7 @@ class ProductPage extends React.Component {
         for (let i = 0; i < Math.ceil(this.props.products.length / 8); i++) {
             btn.push(
                 <Button
-                    style={{ border: "none" }}
+                    style={{ border: "none", marginRight: 5 }}
                     className='NavbarButton'
                     disabled={this.state.page == i + 1 ? true : false}
                     onClick={() => this.setState({ page: i + 1 })}>{i + 1}
@@ -89,6 +89,7 @@ class ProductPage extends React.Component {
                 nama: this.state.inputNama,
                 idcategory: this.inCategory.value
             })
+            this.setState({ page: 1 })
         }
         console.log(this.inCategory.value)
 
@@ -110,7 +111,7 @@ class ProductPage extends React.Component {
         return (
             <div className='container-fluid' style={{ background: '#FCFBFA', paddingTop: 20 }}>
                 <div className='container'>
-                    <div style={{ backgroundPosition: 'center', backgroundSize: 'cover', backgroundImage: "url(" + header + ")", backgroundRepeat: 'no-repeat', width: '100%', height: '32vh', borderRadius: '50px',marginBottom:10 }}>
+                    <div style={{ backgroundPosition: 'center', backgroundSize: 'cover', backgroundImage: "url(" + header + ")", backgroundRepeat: 'no-repeat', width: '100%', height: '32vh', borderRadius: '50px', marginBottom: 10 }}>
 
                         <div style={{ paddingTop: '11vh', paddingLeft: '260px' }}>
                             <h1 className='heading1' style={{ color: 'white', fontWeight: 900 }}>Our Product</h1>
@@ -157,9 +158,9 @@ class ProductPage extends React.Component {
                                             }
                                         </Input>
                                     </FormGroup>
-                                    <div style={{ marginTop: '40px' }}>
-                                        <Button className='NavbarButton' style={{ border: 'none' }} onClick={this.btnFilter}>Filter</Button>
-                                        <Button className='landing1' onClick={this.btnReset} style={{ marginLeft: '10px', border: 'none', padding: "5px 15px" }}>Reset</Button>
+                                    <div style={{ marginTop:'10%',float:'right' }}>
+                                        <Button className='landing1' onClick={this.btnReset} style={{ border: 'none', padding: "5px 15px" }}>Reset</Button>
+                                        <Button className='NavbarButton' style={{  marginLeft: '10px',border: 'none' }} onClick={this.btnFilter}>Filter</Button>
                                     </div>
                                 </div>
                             </div>

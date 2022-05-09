@@ -19,6 +19,7 @@ class TransactionManagement extends Component {
             pastTransactionsList: [],
             modalOpenDetail: false,
             detailTransaction: [],
+            transaction:[],
             pageAll: 1,
             pageOngoing: 1,
             pagePast: 1,
@@ -57,9 +58,9 @@ class TransactionManagement extends Component {
         let res;
         if (token) {
             if (search) {
-                if (search.inInvoice) {
+                if (search.inFilter) {
                     if (search.inDateStart && search.inDateEnd) {
-                        res = axios.get(`${API_URL}/transactions/adminalltransactions?invoice=${search.inInvoice}start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
+                        res = axios.get(`${API_URL}/transactions/adminalltransactions?invoice=${search.inFilter}start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             }
@@ -71,7 +72,7 @@ class TransactionManagement extends Component {
                                 console.log(err)
                             })
                     } else {
-                        res = axios.get(`${API_URL}/transactions/adminalltransactions?invoice=${search.inInvoice}`, {
+                        res = axios.get(`${API_URL}/transactions/adminalltransactions?invoice=${search.inFilter}`, {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             }
@@ -117,9 +118,9 @@ class TransactionManagement extends Component {
         let res;
         if (token) {
             if (search) {
-                if (search.inInvoice) {
+                if (search.inFilter) {
                     if (search.inDateStart && search.inDateEnd) {
-                        res = axios.get(`${API_URL}/transactions/adminongoingtransactions?invoice=${search.inInvoice}&start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
+                        res = axios.get(`${API_URL}/transactions/adminongoingtransactions?invoice=${search.inFilter}&start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             }
@@ -131,7 +132,7 @@ class TransactionManagement extends Component {
                                 console.log(err)
                             })
                     } else {
-                        res = axios.get(`${API_URL}/transactions/adminongoingtransactions?invoice=${search.inInvoice}`, {
+                        res = axios.get(`${API_URL}/transactions/adminongoingtransactions?invoice=${search.inFilter}`, {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             }
@@ -176,9 +177,9 @@ class TransactionManagement extends Component {
         let res;
         if (token) {
             if (search) {
-                if (search.inInvoice) {
+                if (search.inFilter) {
                     if (search.inDateStart && search.inDateEnd) {
-                        res = axios.get(`${API_URL}/transactions/adminpasttransactions?invoice=${search.inInvoice}&start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
+                        res = axios.get(`${API_URL}/transactions/adminpasttransactions?invoice=${search.inFilter}&start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             }
@@ -190,7 +191,7 @@ class TransactionManagement extends Component {
                                 console.log(err)
                             })
                     } else {
-                        res = axios.get(`${API_URL}/transactions/adminpasttransactions?invoice=${search.inInvoice}`, {
+                        res = axios.get(`${API_URL}/transactions/adminpasttransactions?invoice=${search.inFilter}`, {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             }
@@ -266,23 +267,23 @@ class TransactionManagement extends Component {
             </div>
         })
     }
-    printFilterInvoiceAll = () => {
+    printFilterAll = () => {
         return (
             <InputGroup style={{ width: '300px', height: '30px' }}>
-                <Input type='text' placeholder='Search Invoice' innerRef={(e) => this.inInvoiceAll = e} onChange={this.handleInputAll}>
+                <Input type='text' placeholder='Search Invoice Or Username' innerRef={(e) => this.inFilterAll = e} onChange={this.handleInputAll}>
                 </Input>
             </InputGroup>
         )
     }
     handleInputAll = () => {
-        if (this.inInvoiceAll.value === '') {
+        if (this.inFilterAll.value === '') {
             this.getAllTransactionsAdmin()
         } else {
             this.getAllTransactionsAdmin({
-                inInvoice: this.inInvoiceAll.value,
+                inFilter: this.inFilterAll.value,
             })
         }
-        console.log(this.inInvoiceAll.value)
+        console.log(this.inFilterAll.value)
     }
     printFilterDateAll = () => {
         return (
@@ -312,7 +313,7 @@ class TransactionManagement extends Component {
     btnResetAll = () => {
         this.inDateStartAll.value = ''
         this.inDateEndAll.value = ''
-        this.inInvoiceAll.value = ''
+        this.inFilterAll.value = ''
         this.getAllTransactionsAdmin()
     }
     printOngoingTransactionList = () => {
@@ -350,20 +351,20 @@ class TransactionManagement extends Component {
             </div>
         })
     }
-    printFilterInvoiceOngoing = () => {
+    printFilterOngoing = () => {
         return (
             <InputGroup style={{ width: '300px', height: '30px' }}>
-                <Input type='text' placeholder='Search Invoice' innerRef={(e) => this.inInvoiceOngoing = e} onChange={this.handleInputOngoing}>
+                <Input type='text' placeholder='Search Invoice Or Username' innerRef={(e) => this.inFilterOngoing = e} onChange={this.handleInputOngoing}>
                 </Input>
             </InputGroup>
         )
     }
     handleInputOngoing = () => {
-        if (this.inInvoiceOngoing.value === '') {
+        if (this.inFilterOngoing.value === '') {
             this.getOngoingTransactionsAdmin()
         } else {
             this.getOngoingTransactionsAdmin({
-                inInvoice: this.inInvoiceOngoing.value
+                inFilter: this.inFilterOngoing.value
             })
         }
     }
@@ -395,7 +396,7 @@ class TransactionManagement extends Component {
     btnResetOngoing = () => {
         this.inDateStartOngoing.value = ''
         this.inDateEndOngoing.value = ''
-        this.inInvoiceOngoing.value = ''
+        this.inFilterOngoing.value = ''
         this.getOngoingTransactionsAdmin()
     }
     printPastTransactionList = () => {
@@ -433,20 +434,20 @@ class TransactionManagement extends Component {
             </div>
         })
     }
-    printFilterInvoicePast = () => {
+    printFilterPast = () => {
         return (
             <InputGroup style={{ width: '300px', height: '30px' }}>
-                <Input type='text' placeholder='Search Invoice' innerRef={(e) => this.inInvoicePast = e} onChange={this.handleInputPast}>
+                <Input type='text' placeholder='Search Invoice Or Username' innerRef={(e) => this.inFilterPast = e} onChange={this.handleInputPast}>
                 </Input>
             </InputGroup>
         )
     }
     handleInputPast = () => {
-        if (this.inInvoicePast.value === '') {
+        if (this.inFilterPast.value === '') {
             this.getPastTransactionsAdmin()
         } else {
             this.getPastTransactionsAdmin({
-                inInvoice: this.inInvoicePast.value
+                inFilter: this.inFilterPast.value
             })
         }
     }
@@ -478,7 +479,7 @@ class TransactionManagement extends Component {
     btnResetPast = () => {
         this.inDateStartPast.value = ''
         this.inDateEndPast.value = ''
-        this.inInvoicePast.value = ''
+        this.inFilterPast.value = ''
         this.getPastTransactionsAdmin()
     }
     printBtnPaginationAll = () => {
@@ -583,6 +584,7 @@ class TransactionManagement extends Component {
         console.log('transaksi user', this.props.transactions)
         console.log('transaksi semua user', this.state.recipe)
         console.log('state transaction', this.state.transaction)
+        console.log('halo',this.state.transaction)
         return (
             <div>
                 <ModalAddRecipe
@@ -610,7 +612,7 @@ class TransactionManagement extends Component {
                                 <TabPanels align='start'>
                                     <TabPanel className='p-0'>
                                         <div className='d-flex' style={{ justifyContent: 'space-between' }}>
-                                            {this.printFilterInvoiceAll()}
+                                            {this.printFilterAll()}
                                             {this.printFilterDateAll()}
                                         </div>
                                         {this.printAllTransactionList()}
@@ -620,7 +622,7 @@ class TransactionManagement extends Component {
                                     </TabPanel>
                                     <TabPanel className='p-0'>
                                         <div className='d-flex' style={{ justifyContent: 'space-between' }}>
-                                            {this.printFilterInvoiceOngoing()}
+                                            {this.printFilterOngoing()}
                                             {this.printFilterDateOngoing()}
                                         </div>
                                         {this.printOngoingTransactionList()}
@@ -630,7 +632,7 @@ class TransactionManagement extends Component {
                                     </TabPanel>
                                     <TabPanel className='p-0'>
                                         <div className='d-flex' style={{ justifyContent: 'space-between' }}>
-                                            {this.printFilterInvoicePast()}
+                                            {this.printFilterPast()}
                                             {this.printFilterDatePast()}
                                         </div>
                                         {this.printPastTransactionList()}

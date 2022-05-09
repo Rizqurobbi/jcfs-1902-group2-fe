@@ -223,7 +223,7 @@ class HistoryTransaction extends Component {
 
     printOngoingTransactions = () => {
         let { pageOngoing } = this.state
-        return this.state.ongoingTransactions.slice(pageOngoing > 1 ? (pageOngoing - 1) * 3 : pageOngoing - 1, pageOngoing * 3).map((value, index) => {
+        return this.state.ongoingTransactions.slice(pageOngoing > 1 ? (pageOngoing - 1) * 4 : pageOngoing - 1, pageOngoing * 4).map((value, index) => {
             let badgeColor = value.status.includes("Waiting") ? "secondary" : value.status.includes("Process") ? "primary" :
                 value.status.includes("Ongoing") ? "warning" : value.status.includes("Completed") ? "success" : "danger"
             let date = value.date
@@ -268,7 +268,7 @@ class HistoryTransaction extends Component {
 
     printPastTransactions = () => {
         let { pagePast } = this.state
-        return this.state.pastTransactions.slice(pagePast > 1 ? (pagePast - 1) * 3 : pagePast - 1, pagePast * 3).map((value, index) => {
+        return this.state.pastTransactions.slice(pagePast > 1 ? (pagePast - 1) * 4 : pagePast - 1, pagePast * 4).map((value, index) => {
             let badgeColor = value.status.includes("Waiting") ? "secondary" : value.status.includes("Process") ? "primary" :
                 value.status.includes("Ongoing") ? "warning" : value.status.includes("Completed") ? "success" : "danger"
             let date = value.date
