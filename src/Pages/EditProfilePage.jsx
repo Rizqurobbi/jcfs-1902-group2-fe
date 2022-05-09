@@ -397,13 +397,13 @@ class ProfileManagement extends Component {
                         <Col xs='4'>
                             {
                                 this.props.status.includes('Active') ?
-                                    <div style={{marginLeft: 30}}>
-                                        <Badge className='heading4' style={{fontSize: 16}} color='success'>{this.props.status}</Badge>
+                                    <div style={{ marginLeft: 30 }}>
+                                        <Badge className='heading4' style={{ fontSize: 16, color: 'white' }} color='success'>{this.props.status}</Badge>
                                     </div>
                                     :
-                                    <div style={{marginLeft: 30, display: 'flex'}}>
-                                        <Badge className='heading4' style={{fontSize: 16}} color='secondary'>{this.props.status}</Badge>
-                                        <p className='heading4 mx-3' style={{fontSize: 14, marginTop: 5}}>Please verify your email</p>
+                                    <div style={{ marginLeft: 30 }}>
+                                        <Badge className='heading4' style={{ fontSize: 16, color: 'white' }} color='secondary'>{this.props.status}</Badge>
+                                        <p className='heading4 text-muted' style={{ fontSize: 12 }}>Please kindly check your email to verify.</p>
                                     </div>
                             }
 
@@ -426,9 +426,9 @@ class ProfileManagement extends Component {
                             <Tabs size='md' colorScheme='#231953'>
                                 <>
                                     <TabList>
-                                        <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Personal Data</Tab>
-                                        <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Addresses</Tab>
-                                        <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Change password</Tab>
+                                        <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10, fontSize: 16 }}>Personal Data</Tab>
+                                        <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10, fontSize: 16 }}>Addresses</Tab>
+                                        <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10, fontSize: 16 }}>Change password</Tab>
                                     </TabList>
                                     <TabPanels align='start'>
                                         <TabPanel>
@@ -438,9 +438,17 @@ class ProfileManagement extends Component {
                                             <button className='NavbarButton text-center py-2' style={{ width: '20%', float: 'right', marginBottom: 20 }} onClick={() => this.setState({ modalAdd: !this.state.modalAdd })}>
                                                 <p style={{ fontSize: 15, fontWeight: 'bold', margin: 'auto' }}>Add new address</p>
                                             </button>
-                                            <div style={{ marginTop: 70, height: '53vh', paddingRight: 20 }} className='scrollbar'>
-                                                {this.printAddress()}
-                                            </div>
+                                            {
+                                                this.props.address.length > 0 ?
+                                                    <div style={{ marginTop: 70, height: '53vh', paddingRight: 20 }} className='scrollbar'>
+                                                        {this.printAddress()} 
+                                                    </div>
+                                                    :
+                                                    <div className='heading4' style={{ marginTop: 70, height: '53vh', paddingRight: 20, textAlign:'center' }}>
+                                                        No address lists, please add new address.
+                                                    </div>
+                                            }
+
                                         </TabPanel>
                                         <TabPanel>
                                             {this.printChangePassword()}

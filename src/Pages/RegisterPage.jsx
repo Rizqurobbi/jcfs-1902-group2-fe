@@ -8,6 +8,7 @@ import { FaRegSmileBeam } from "react-icons/fa";
 import LoginComponent from '../Components/Login';
 import Swal from 'sweetalert2';
 import PasswordStrengthBar from 'react-password-strength-bar';
+import { Navigate } from 'react-router-dom';
 
 
 class RegisterPage extends Component {
@@ -17,7 +18,8 @@ class RegisterPage extends Component {
             regPassType: "password",
             regPassShow: <MdVisibilityOff style={{ fontSize: 16 }} />,
             modalLogin: false,
-            password: ''
+            password: '',
+            redirect: false
         }
     }
 
@@ -73,10 +75,10 @@ class RegisterPage extends Component {
                                     icon: 'success',
                                     confirmButtonText: 'Ok'
                                 })
-                                this.setState({ password: "" })
                                 this.emailRegis.value = ""
                                 this.usernameRegis.value = ""
                                 this.confPasswordRegis.value = ""
+                                this.setState({ password: "", redirect: true })
                             } else {
                                 Swal.fire({
                                     title: 'Warning!',
@@ -108,6 +110,9 @@ class RegisterPage extends Component {
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Navigate to='/'/>
+        }
         return (
             <div className='container-fluid pt-3 pb-5' style={{ backgroundColor: '#FCFBFA' }} >
                 <LoginComponent
@@ -159,8 +164,8 @@ class RegisterPage extends Component {
                                         </InputGroupText>
                                     </InputGroup>
                                 </FormGroup>
-                                <div className='NavbarButton' style={{ textAlign: 'center', width: '70%', marginTop: 40, cursor: 'pointer' }} onClick={this.btRegister}>
-                                    <button className='py-2' >Submit</button>
+                                <div className='NavbarButton' style={{ textAlign: 'center', width: '50%', marginTop: 40, cursor: 'pointer' }} onClick={this.btRegister}>
+                                    <button className='py-1'>Submit</button>
                                 </div>
                             </div>
                         </Col>

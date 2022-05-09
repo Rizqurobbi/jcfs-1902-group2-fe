@@ -96,7 +96,7 @@ class DataLogging extends Component {
                 <Button
                     className='NavbarButton'
                     style={{ border: 'none', marginRight: 5 }}
-                    disabled={this.state.pageAll == i + 1 ? true : false}
+                    disabled={this.state.pageOut == i + 1 ? true : false}
                     onClick={() => this.setState({ pageOut: i + 1 })}>{i + 1}
                 </Button>
             )
@@ -111,7 +111,7 @@ class DataLogging extends Component {
                 <Button
                     className='NavbarButton'
                     style={{ border: 'none', marginRight: 5 }}
-                    disabled={this.state.pageAll == i + 1 ? true : false}
+                    disabled={this.state.pageIn == i + 1 ? true : false}
                     onClick={() => this.setState({ pageIn: i + 1 })}>{i + 1}
                 </Button>
             )

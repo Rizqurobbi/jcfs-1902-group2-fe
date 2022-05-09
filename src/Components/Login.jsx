@@ -101,8 +101,8 @@ class LoginComponent extends Component {
                                     <p className='heading4' style={{ fontSize: 12, cursor: 'pointer' }}>Forgot password?</p>
                                 </div>
                             </Link>
-                            <div className='NavbarButton' style={{ margin: 'auto', textAlign: 'center', cursor: 'pointer' }} onClick={this.btLogin}>
-                                <button className='py-2' >Submit</button>
+                            <div className='NavbarButton' style={{ margin: 'auto', textAlign: 'center', cursor: 'pointer',  }} onClick={this.btLogin}>
+                                <button>Submit</button>
                             </div>
                             <div className='d-flex my-2' style={{ justifyContent: 'center' }}>
                                 <p className='heading4' style={{ fontSize: 12, marginRight: 5 }}>Don't have account? </p>
