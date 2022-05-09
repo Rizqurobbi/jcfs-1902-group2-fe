@@ -23,11 +23,8 @@ import TransactionManagement from './Pages/TransactionsManagement';
 import AboutUs from './Pages/Aboutus';
 import SalesReport from './Pages/SalesReport';
 import DataLogging from './Pages/DataLogging';
-<<<<<<< HEAD
 import ContactUs from './Pages/ContactUs';
-=======
 import RevenuePage from './Pages/Revenue';
->>>>>>> 8f8677ecb29e7d3c2394003d6a1abf4db2ac66a7
 
 
 class App extends Component {
