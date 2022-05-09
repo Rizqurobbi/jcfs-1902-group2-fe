@@ -33,29 +33,30 @@ class ProductDetail extends React.Component {
     }
     btnAddToCart = async () => {
         if (this.props.role == 'User') {
-
-            let { detail, counter } = this.state
-            let dataCart = {
-                idproduct: detail.idproduct,
-                idstock: detail.stocks[0].idstock,
-                qty: counter,
-            }
-            if (this.props.username) {
-                let res = await this.props.addToCartAction(dataCart)
-                if (res.success) {
-                    this.setState({ redirect: true })
-                } else {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'Stock empty',
-                        icon: 'error',
-                        confirmButtonText: 'Ok'
-                    })
+            if (this.props.status.includes('Active')) {
+                let { detail, counter } = this.state
+                let dataCart = {
+                    idproduct: detail.idproduct,
+                    idstock: detail.stocks[0].idstock,
+                    qty: counter,
                 }
+                if (this.props.username) {
+                    let res = await this.props.addToCartAction(dataCart)
+                    if (res.success) {
+                        this.setState({ redirect: true })
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Stock empty',
+                            icon: 'error',
+                            confirmButtonText: 'Ok'
+                        })
+                    }
+                } 
             } else {
                 Swal.fire({
-                    title: 'Warning!',
-                    text: 'Please login first',
+                    title: '',
+                    text: 'Please verify your email before shopping',
                     icon: 'warning',
                     confirmButtonText: 'Ok'
                 })
@@ -164,7 +165,7 @@ class ProductDetail extends React.Component {
                             </div>
                             <div style={{ padding: 100 }} className="container">
                                 {this.printDetail()}
-                                <p className='heading2' style={{fontSize: 26, marginTop: 80, textAlign: 'center'}}>Information :</p>
+                                <p className='heading2' style={{ fontSize: 26, marginTop: 80, textAlign: 'center' }}>Information :</p>
                                 <Tabs size='md' align='center' colorScheme='#231953' className='my-3'>
                                     {detail.idproduct &&
                                         <>
@@ -215,7 +216,8 @@ class ProductDetail extends React.Component {
 const mapToProps = (state) => {
     return {
         username: state.userReducer.username,
-        role: state.userReducer.role
+        role: state.userReducer.role,
+        status: state.userReducer.status
     }
 }
 export default connect(mapToProps, { addToCartAction })(ProductDetail);

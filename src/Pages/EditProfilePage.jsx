@@ -18,11 +18,6 @@ class ProfileManagement extends Component {
         this.state = {
             newPassType: "password",
             newPassShow: <MdVisibilityOff style={{ fontSize: 16 }} />,
-            toastOpen: "",
-            toastHeader: "",
-            toastMessage: "",
-            toastIcon: "",
-            newPassword: "",
             edit: false,
             images: [''],
             modalAdd: false,
@@ -383,17 +378,9 @@ class ProfileManagement extends Component {
     render() {
         console.log('address', this.props.address)
         console.log('idaddress', this.props.idaddress)
+        console.log('idaddress', this.props.status)
         return (
             <div className='container-fluid pb-5' style={{ backgroundColor: '#FCFBFA', height: '93vh', paddingTop: 30 }} >
-                <Toast isOpen={this.state.toastOpen} style={{ float: 'right', marginRight: 40 }}>
-                    <ToastHeader icon={this.state.toastIcon}
-                        toggle={() => this.setState({ toastOpen: false })}>
-                        {this.state.toastHeader}
-                    </ToastHeader>
-                    <ToastBody>
-                        {this.state.toastMessage}
-                    </ToastBody>
-                </Toast>
                 <AddAddress
                     modalOpen={this.state.modalAdd}
                     btClose={() => this.setState({ modalAdd: !this.state.modalAdd })}
@@ -404,10 +391,22 @@ class ProfileManagement extends Component {
                     address={this.state.address}
                     idx={this.state.idx}
                 />
-                <div className='container shadow px-5' style={{ backgroundColor: 'white', borderRadius: 50, paddingTop: 30, paddingBottom: 30 }}>
+                <div className='container shadow px-5' style={{ backgroundColor: 'white', borderRadius: 50, paddingTop: 50, paddingBottom: 30 }}>
                     <p className='heading2 pb-2' style={{ paddingLeft: 30 }}>Profile Management</p>
                     <Row>
                         <Col xs='4'>
+                            {
+                                this.props.status.includes('Active') ?
+                                    <div style={{marginLeft: 30}}>
+                                        <Badge className='heading4' style={{fontSize: 16}} color='success'>{this.props.status}</Badge>
+                                    </div>
+                                    :
+                                    <div style={{marginLeft: 30, display: 'flex'}}>
+                                        <Badge className='heading4' style={{fontSize: 16}} color='secondary'>{this.props.status}</Badge>
+                                        <p className='heading4 mx-3' style={{fontSize: 14, marginTop: 5}}>Please verify your email</p>
+                                    </div>
+                            }
+
                             {
                                 this.state.images.file ?
                                     <img src={URL.createObjectURL(this.state.images.file)} className='m-auto' style={{ width: '80%', paddingBottom: 20, paddingTop: 80 }} />
@@ -469,7 +468,8 @@ const mapToProps = (state) => {
         gender: state.userReducer.gender,
         age: state.userReducer.age,
         email: state.userReducer.email,
-        address: state.userReducer.address
+        address: state.userReducer.address,
+        status: state.userReducer.status
     }
 }
 

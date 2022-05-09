@@ -7,6 +7,7 @@ import { API_URL } from '../helper';
 import { FaRegSmileBeam } from "react-icons/fa";
 import LoginComponent from '../Components/Login';
 import Swal from 'sweetalert2';
+import PasswordStrengthBar from 'react-password-strength-bar';
 
 
 class RegisterPage extends Component {
@@ -15,11 +16,8 @@ class RegisterPage extends Component {
         this.state = {
             regPassType: "password",
             regPassShow: <MdVisibilityOff style={{ fontSize: 16 }} />,
-            toastOpen: "",
-            toastHeader: "",
-            toastMessage: "",
-            toastIcon: "",
-            modalLogin: false
+            modalLogin: false,
+            password: ''
         }
     }
 
@@ -49,7 +47,7 @@ class RegisterPage extends Component {
             timer: 2500,
             timerProgressBar: true
         })
-        if (this.usernameRegis.value === "" || this.emailRegis.value === "" || this.passwordRegis.value === "") {
+        if (this.usernameRegis.value === "" || this.emailRegis.value === "" || this.confPasswordRegis.value === "") {
             Swal.fire({
                 title: 'Warning!',
                 text: 'Please fill all the blank.',
@@ -57,27 +55,27 @@ class RegisterPage extends Component {
                 confirmButtonText: 'Ok'
             })
         } else {
-            if (this.passwordRegis.value === this.confPasswordRegis.value) {
+            if (this.state.password === this.confPasswordRegis.value) {
                 let data = {
                     idrole: 2,
                     idstatus: 1,
                     email: this.emailRegis.value,
                     username: this.usernameRegis.value,
-                    password: this.passwordRegis.value
+                    password: this.state.password
                 }
                 if (this.emailRegis.value.includes("@")) {
                     axios.post(`${API_URL}/users/register`, data)
                         .then(res => {
                             if (res.data.success) {
                                 Swal.fire({
-                                    title: 'Yeay!',
-                                    text: 'Register Success.',
+                                    title: 'Register Success',
+                                    text: 'Please kindly check your email to verify.',
                                     icon: 'success',
                                     confirmButtonText: 'Ok'
                                 })
+                                this.setState({ password: "" })
                                 this.emailRegis.value = ""
                                 this.usernameRegis.value = ""
-                                this.passwordRegis.value = ""
                                 this.confPasswordRegis.value = ""
                             } else {
                                 Swal.fire({
@@ -112,19 +110,10 @@ class RegisterPage extends Component {
     render() {
         return (
             <div className='container-fluid pt-3 pb-5' style={{ backgroundColor: '#FCFBFA' }} >
-                <Toast isOpen={this.state.toastOpen} style={{ float: 'right', marginRight: 40 }}>
-                    <ToastHeader icon={this.state.toastIcon}
-                        toggle={() => this.setState({ toastOpen: false })}>
-                        {this.state.toastHeader}
-                    </ToastHeader>
-                    <ToastBody>
-                        {this.state.toastMessage}
-                    </ToastBody>
-                </Toast>
                 <LoginComponent
-                        modalOpen={this.state.modalLogin}
-                        btClose={() => this.setState({ modalLogin: !this.state.modalLogin })}
-                    />
+                    modalOpen={this.state.modalLogin}
+                    btClose={() => this.setState({ modalLogin: !this.state.modalLogin })}
+                />
                 <div className='container shadow' style={{ backgroundColor: 'white', borderRadius: 50, padding: 60, paddingLeft: 150 }}>
                     <Row>
                         <Col xs='4' className='m-auto'>
@@ -153,17 +142,18 @@ class RegisterPage extends Component {
                                     <Label className='heading4' style={{ fontSize: 12, fontWeight: 800 }}>Password</Label>
                                     <InputGroup>
                                         <Input bsSize='sm' type={this.state.regPassType} id="textPassword" placeholder="Password" style={{ borderRight: "0px" }}
-                                            innerRef={(element) => this.confPasswordRegis = element} />
+                                            onChange={(event) => this.setState({ password: event.target.value })}/>
                                         <InputGroupText style={{ cursor: "pointer", backgroundColor: 'white' }} onClick={this.btShowPassRegis}>
                                             {this.state.regPassShow}
                                         </InputGroupText>
                                     </InputGroup>
+                                    <PasswordStrengthBar className='my-2' password={this.state.password} />
                                 </FormGroup>
-                                <FormGroup >
+                                <FormGroup style={{marginTop: -20}} >
                                     <Label className='heading4' style={{ fontSize: 12, fontWeight: 800 }}>Re-Type Password</Label>
                                     <InputGroup>
                                         <Input bsSize='sm' type={this.state.regPassType} id="textConfPassword" placeholder="Confirm password" style={{ borderRight: "0px", width: '70%' }}
-                                            innerRef={(element) => this.passwordRegis = element} />
+                                            innerRef={(element) => this.confPasswordRegis = element} />
                                         <InputGroupText style={{ cursor: "pointer", backgroundColor: 'white' }} onClick={this.btShowPassRegis}>
                                             {this.state.regPassShow}
                                         </InputGroupText>

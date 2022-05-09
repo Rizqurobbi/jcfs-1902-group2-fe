@@ -23,6 +23,7 @@ import TransactionManagement from './Pages/TransactionsManagement';
 import AboutUs from './Pages/Aboutus';
 import SalesReport from './Pages/SalesReport';
 import DataLogging from './Pages/DataLogging';
+import ContactUs from './Pages/ContactUs';
 
 
 class App extends Component {
@@ -61,6 +62,7 @@ class App extends Component {
           <Route path='/products-detail' element={<ProductDetail />} />
           <Route path='/doctorsprescription' element={<DoctorPrescriptionPage/>}/>
           <Route path='/aboutus' element={<AboutUs/>}/>
+          <Route path='/contactus' element={<ContactUs/>}/>
           {
             this.props.role == "User" ?
               <>

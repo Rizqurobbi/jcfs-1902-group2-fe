@@ -26,7 +26,7 @@ class FooterComponent extends Component {
                                 <Link to='/doctorsprescription'>
                                     <p className='footerFont'>Buy by Recipes</p>
                                 </Link>
-                                <Link to='/doctorsprescription'>
+                                <Link to='/contactus'>
                                     <p className='footerFont'>Contact</p>
                                 </Link>
                                 <Link to='/aboutus'>

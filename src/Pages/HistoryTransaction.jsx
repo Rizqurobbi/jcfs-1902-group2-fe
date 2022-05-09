@@ -312,7 +312,7 @@ class HistoryTransaction extends Component {
 
     printDoctorTransactions = () => {
         return this.state.doctorTransactions.map((value, index) => {
-            let badgeColor = value.status.includes("Process") ? "primary" : value.status.includes("Completed") ? "success" : "danger"
+            let badgeColor = value.status.includes("Process") ? "primary" : value.status.includes("Completed") ? "success" : value.status.includes("Waiting") ? "secondary" : "danger"
             let date = value.date
             let newDate = moment(date).format("LLL")
             return <div className="shadow pb-3 mb-4 heading4" style={{ borderRadius: 40 }}>

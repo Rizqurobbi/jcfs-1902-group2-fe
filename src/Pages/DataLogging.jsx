@@ -1,7 +1,7 @@
 import { TabList, Tabs, Tab, TabPanels, TabPanel } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { Component } from 'react';
-import { Col, Table, Row } from 'reactstrap';
+import { Col, Table, Row, Button } from 'reactstrap';
 import { API_URL } from '../helper';
 import pills from '../img/pillsimage.jpg';
 
@@ -11,7 +11,9 @@ class DataLogging extends Component {
         super(props);
         this.state = {
             dataLogOut: [],
-            dataLogIn: []
+            dataLogIn: [],
+            pageOut: 1,
+            pageIn: 1
         }
     }
 
@@ -52,10 +54,11 @@ class DataLogging extends Component {
     }
 
     printDataLoggingOut = () => {
-        return this.state.dataLogOut.map((value, index) => {
+        let { pageOut } = this.state
+        return this.state.dataLogOut.slice(pageOut > 1 ? (pageOut - 1) * 5 : pageOut - 1, pageOut * 5).map((value, index) => {
             return (
                 <tr>
-                    <td>{index + 1}</td>
+                    <td>{pageOut > 1 ? (pageOut - 1) * 5 + index + 1 : index + 1}</td>
                     <td style={{ width: '13%' }}>
                         <img src={value.url.includes('http') ? value.url : API_URL + value.url} style={{ objectFit: 'cover', width: '100%', height: '100%' }} alt="" />
                     </td>
@@ -69,10 +72,11 @@ class DataLogging extends Component {
     }
 
     printDataLoggingIn = () => {
-        return this.state.dataLogIn.map((value, index) => {
+        let { pageIn } = this.state
+        return this.state.dataLogIn.slice(pageIn > 1 ? (pageIn - 1) * 5 : pageIn - 1, pageIn * 5).map((value, index) => {
             return (
                 <tr>
-                    <td>{index + 1}</td>
+                    <td>{pageIn > 1 ? (pageIn - 1) * 5 + index + 1 : index + 1}</td>
                     <td style={{ width: '13%' }}>
                         <img src={value.url.includes('http') ? value.url : API_URL + value.url} style={{ objectFit: 'cover', width: '100%', height: '100%' }} alt="" />
                     </td>
@@ -83,6 +87,36 @@ class DataLogging extends Component {
                 </tr>
             )
         })
+    }
+
+    renderBtnDataLoggingOutPage = () => {
+        let btn = []
+        for (let i = 0; i < Math.ceil(this.state.dataLogOut.length / 5); i++) {
+            btn.push(
+                <Button
+                    className='NavbarButton'
+                    style={{ border: 'none', marginRight: 5 }}
+                    disabled={this.state.pageAll == i + 1 ? true : false}
+                    onClick={() => this.setState({ pageOut: i + 1 })}>{i + 1}
+                </Button>
+            )
+        }
+        return btn;
+    }
+
+    renderBtnDataLoggingInPage = () => {
+        let btn = []
+        for (let i = 0; i < Math.ceil(this.state.dataLogIn.length / 5); i++) {
+            btn.push(
+                <Button
+                    className='NavbarButton'
+                    style={{ border: 'none', marginRight: 5 }}
+                    disabled={this.state.pageAll == i + 1 ? true : false}
+                    onClick={() => this.setState({ pageIn: i + 1 })}>{i + 1}
+                </Button>
+            )
+        }
+        return btn;
     }
 
     render() {
@@ -119,6 +153,9 @@ class DataLogging extends Component {
                                             {this.printDataLoggingIn()}
                                         </tbody>
                                     </Table>
+                                    <div className='text-center'>
+                                        {this.renderBtnDataLoggingInPage()}
+                                    </div>
                                 </TabPanel>
                                 <TabPanel className='p-0'>
                                     <Table className='text-center'>
@@ -134,8 +171,12 @@ class DataLogging extends Component {
                                         </thead>
                                         <tbody>
                                             {this.printDataLoggingOut()}
+
                                         </tbody>
                                     </Table>
+                                    <div className='text-center'>
+                                        {this.renderBtnDataLoggingOutPage()}
+                                    </div>
                                 </TabPanel>
                             </TabPanels>
                         </>
