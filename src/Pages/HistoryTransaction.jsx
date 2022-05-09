@@ -140,11 +140,12 @@ class HistoryTransaction extends Component {
         return btn;
     }
 
-    onBtnDiscard = async (idtransaction) => {
+    onBtnDiscard = async (idtransaction, detail) => {
         try {
+            console.log(idtransaction, detail)
             let token = localStorage.getItem('data')
             if (token) {
-                let res = await axios.patch(`${API_URL}/transactions/discardtransaction`, { idtransaction: idtransaction }, {
+                let res = await axios.patch(`${API_URL}/transactions/discardtransaction`, { idtransaction: idtransaction, detail: detail }, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -156,6 +157,7 @@ class HistoryTransaction extends Component {
                         icon: 'success',
                         confirmButtonText: 'Ok'
                     })
+                    
                     this.props.getTransactionsActions()
                     this.getOngoingTransactions()
                 }
@@ -213,7 +215,7 @@ class HistoryTransaction extends Component {
                                     onClick={() => this.setState({ modalDetail: !this.state.modalDetail, detailTransaction: value.detail, transaction: value })}>
                                     Detail Transactions
                                 </Button>
-                                <Button color="danger" style={{ fontSize: 12, marginLeft: 10 }} onClick={() => this.onBtnDiscard(value.idtransaction)}>Discard Order</Button>
+                                <Button color="danger" style={{ fontSize: 12, marginLeft: 10 }} onClick={() => this.onBtnDiscard(value.idtransaction, value.detail)}>Discard Order</Button>
                             </div>
                     }
                 </div>
@@ -260,7 +262,7 @@ class HistoryTransaction extends Component {
                         onClick={() => this.setState({ modalDetail: !this.state.modalDetail, detailTransaction: value.detail, transaction: value })}>
                         Detail Transactions
                     </Button>
-                    <Button color="danger" style={{ fontSize: 12, marginLeft: 10 }} onClick={() => this.onBtnDiscard(value.idtransaction)} >Discard Order</Button>
+                    <Button color="danger" style={{ fontSize: 12, marginLeft: 10 }} onClick={() => this.onBtnDiscard(value.idtransaction, value.detail)} >Discard Order</Button>
                 </div>
             </div>
         })
