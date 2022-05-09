@@ -58,10 +58,10 @@ class ModalEdit extends React.Component {
             return this.props.productDetail.stocks.map((value, index) => {
                 return <Row>
                     <Col>
-                        <Input disabled={!this.state.edit} defaultValue={value.qty} type="number" placeholder={`Stock-${index + 1}`} onChange={(e) => this.handleStock(e, index)} />
+                        <Input disabled defaultValue={value.qty} type="number" placeholder={`Stock-${index + 1}`} onChange={(e) => this.handleStock(e, index)} />
                     </Col>
                     <Col>
-                        <Input disabled={!this.state.edit} defaultValue={value.satuan} type="text" placeholder={`Type-${index + 1}`} onChange={(e) => this.handleType(e, index)} />
+                        <Input disabled defaultValue={value.satuan} type="text" placeholder={`Type-${index + 1}`} onChange={(e) => this.handleType(e, index)} />
                     </Col>
                 </Row>
             })
