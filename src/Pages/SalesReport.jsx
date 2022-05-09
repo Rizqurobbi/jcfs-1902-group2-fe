@@ -297,7 +297,7 @@ class SalesReport extends React.Component {
                                                 </tbody>
                                             </Table>
                                             <div style={{ marginLeft: 20 }}>
-                                            {this.printTotalSalesReportByRecipe()}
+                                                {this.printTotalSalesReportByRecipe()}
                                             </div>
                                         </div>
                                     </TabPanel>

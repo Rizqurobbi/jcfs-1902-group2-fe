@@ -1,5 +1,8 @@
+import axios from 'axios';
+import moment from 'moment';
 import React from 'react';
-import { Modal, ModalBody , Row, Col } from 'reactstrap'
+import { Modal, ModalBody, Row, Col, Button } from 'reactstrap'
+import Swal from 'sweetalert2';
 import { API_URL } from '../helper';
 class ModalDetailTransactionManagement extends React.Component {
     constructor(props) {
@@ -29,8 +32,37 @@ class ModalDetailTransactionManagement extends React.Component {
             )
         })
     }
-
+    btConfirm = () => {
+        axios.post(`${API_URL}/transactions/confirmtransaction`, {
+            idtransaction: this.props.transaction.idtransaction,
+            date: moment().format('YYYY-MM-DD'),
+            detail: this.props.detailTransaction,
+        }, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('data')}`
+            }
+        })
+            .then((res) => {
+                axios.post(`${API_URL}/transactions/insertrevenue`, {
+                    date: moment().format('YYYY-MM-DD'),
+                    detail: this.props.detailTransaction,
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('data')}`
+                    }
+                })
+                Swal.fire({
+                    title: 'Yeay!',
+                    text: 'Checkout Success.',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                })
+                this.props.btClose()
+                window.location.reload();
+            })
+    }
     render() {
+        console.log(this.props.detailTransaction)
         return (
             <div>
                 {
@@ -85,18 +117,22 @@ class ModalDetailTransactionManagement extends React.Component {
                                 <hr className='my-3' />
                                 <Row style={{ marginTop: 40 }}>
                                     <Col className='align-self-center'>
-                                            <p className='heading3'>
+                                        <p className='heading3'>
                                             Receipt of payment
-                                            </p>
+                                        </p>
                                     </Col>
                                     <Col>
                                         {
-                                            this.props.transaction.payment_url ?
-                                                <div style={{width:'65%',margin:'auto'}}>
-                                                    <img src={API_URL + this.props.transaction.payment_url} style={{ width: '100%' }} />
+                                            // this.props.transaction.payment_url ?
+                                            <div style={{ width: '65%' }}>
+                                                <img src={API_URL + this.props.transaction.payment_url} style={{ width: '100%' }} />
+                                                <div className='d-flex my-3'>
+                                                    <Button divor="success" style={{ fontSize: 12, marginRight: 10 }} onClick={this.btConfirm} >Confirm</Button>
+                                                    <Button color="danger" style={{ fontSize: 12 }} onClick={this.btReject} >Reject</Button>
                                                 </div>
-                                                :
-                                                null
+                                            </div>
+                                            // :
+                                            // null
                                         }
                                     </Col>
 
