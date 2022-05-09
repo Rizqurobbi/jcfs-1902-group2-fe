@@ -72,7 +72,7 @@ class NavbarComponent extends Component {
                                                                 < BsCart4 style={{ marginLeft: '2px', marginTop: '3.8px' }} /> <span style={{ backgroundColor: '#E63E54', color: 'white', borderRadius: '50%', paddingLeft: '5.3px', paddingRight: '5.3px', paddingTop: '1.4px', fontSize: 11, textAlign: 'center' }}>{this.props.carts.length}</span>
                                                             </>
                                                             :
-                                                            null
+                                                            < BsCart4 style={{ marginLeft: '2px', marginTop: '3.8px' }} />
                                                     }
                                                 </DropdownItem>
                                             </Link>
