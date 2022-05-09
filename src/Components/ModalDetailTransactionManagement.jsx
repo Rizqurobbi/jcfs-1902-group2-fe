@@ -1,9 +1,10 @@
+import axios from 'axios';
+import moment from 'moment';
 import React from 'react';
 import { Modal, ModalBody, Row, Col, Button } from 'reactstrap'
 import { API_URL } from '../helper';
 import { FiMapPin } from "react-icons/fi";
 import moment from 'moment';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 
 class ModalDetailTransactionManagement extends React.Component {
@@ -48,6 +49,14 @@ class ModalDetailTransactionManagement extends React.Component {
             }
         })
             .then((res) => {
+                axios.post(`${API_URL}/transactions/insertrevenue`, {
+                    date: moment().format('YYYY-MM-DD'),
+                    detail: this.props.detailTransaction,
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('data')}`
+                    }
+                })
                 Swal.fire({
                     title: 'Yeay!',
                     text: 'Checkout Success.',
@@ -58,7 +67,6 @@ class ModalDetailTransactionManagement extends React.Component {
                 window.location.reload();
             })
     }
-
     btReject = () => {
         axios.patch(`${API_URL}/transactions/rejecttransaction`, {
             idtransaction: this.props.transaction.idtransaction
@@ -143,7 +151,6 @@ class ModalDetailTransactionManagement extends React.Component {
                                     </div>
                                 </div>
                                 <hr className='my-3' />
-
                                 <p className='heading3 mx-3'>
                                     Receipt of payment
                                 </p>

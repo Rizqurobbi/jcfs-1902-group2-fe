@@ -129,6 +129,11 @@ class NavbarComponent extends Component {
                                                     Data Logging
                                                 </Link>
                                             </DropdownItem>
+                                            <Link to='/revenue'>
+                                                <DropdownItem>
+                                                    Revenue
+                                                </DropdownItem>
+                                            </Link>
                                             <DropdownItem divider />
                                             <Link to='/'>
                                                 <DropdownItem onClick={() => {
