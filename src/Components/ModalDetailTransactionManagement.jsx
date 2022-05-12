@@ -50,7 +50,7 @@ class ModalDetailTransactionManagement extends React.Component {
             .then((res) => {
                 axios.post(`${API_URL}/transactions/insertrevenue`, {
                     date: moment().format('YYYY-MM-DD'),
-                    detail: this.props.detailTransaction,
+                    total: this.props.transaction.total_price,
                 }, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('data')}`

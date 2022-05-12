@@ -11,7 +11,7 @@ import ResetPasswordPage from './Pages/ResetPasswordPage';
 import VerificationPage from './Pages/VerificationPage';
 import ProductPage from './Pages/ProductPage';
 import ProductDetail from './Pages/ProductDetail';
-import { loginAction, keepAction } from './redux/actions'
+import { loginAction, keepAction, getCartAction } from './redux/actions'
 import { getCategory,getUnit } from './redux/actions/productsAction';
 import ProductManagement from './Pages/ProductManagement';
 import ProfileManagement from './Pages/EditProfilePage';
@@ -37,13 +37,16 @@ class App extends Component {
 
   componentDidMount() {
     this.keepLogin()
-    this.props.getCategory()
-    this.props.getUnit()
   }
 
   keepLogin = async () => {
     try {
       let res = await this.props.keepAction()
+      if(res){
+        this.props.getCategory()
+        this.props.getUnit()
+        this.props.getCartAction()
+      }
     } catch (error) {
       console.log(error)
     }
@@ -96,4 +99,4 @@ const mapToProps = (state) => {
   }
 }
 
-export default connect(mapToProps, { keepAction, getCategory, getUnit })(App);
+export default connect(mapToProps, { keepAction, getCategory, getUnit,getCartAction })(App);
