@@ -91,14 +91,15 @@ class ProductPage extends React.Component {
             })
             this.setState({ page: 1 })
         }
-        console.log(this.inCategory.value)
 
     }
-    btnClick = (e) => {
+    btnSort = (e) => {
         this.props.sortingProduct({
             field: e.target.value.split('-')[0],
-            sortType: e.target.value.split('-')[1]
+            sortType: e.target.value.split('-')[1],
+            idcategory: this.inCategory.value
         })
+        
     }
     btnReset = () => {
         this.inCategory.value = 'All Products'
@@ -128,7 +129,7 @@ class ProductPage extends React.Component {
                                     <FormGroup style={{ marginTop: 4, marginLeft: '100%' }}>
                                         <InputGroup>
                                             <Input type='select' style={{ width: "100px", borderRadius: 10 }}
-                                                onChange={this.btnClick}>
+                                                onChange={this.btnSort}>
                                                 <option value="idproduct-asc">Sort</option>
                                                 <option value="harga-asc">Harga Asc</option>
                                                 <option value="harga-desc">Harga Desc</option>

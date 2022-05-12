@@ -25,20 +25,21 @@ class CartPage extends React.Component {
     }
     btnCheckout = () => {
         const d = new Date()
-        axios.post(`${API_URL}/transactions/checkout`, {
-            idaddress: this.props.idaddress,
-            invoice: `INV/CP${d.getTime()}`,
-            date: moment().format('YYYY-MM-DD'),
-            total_price: this.totalPrice(),
-            shipping: this.shipping(),
-            total_payment: this.totalPayment(),
-            notes: 'Waiting for payment',
-            detail: this.props.carts,
-        }, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('data')}`
-            }
-        })
+        if (this.props.idaddress > 0){
+            axios.post(`${API_URL}/transactions/checkout`, {
+                idaddress: this.props.idaddress,
+                invoice: `INV/CP${d.getTime()}`,
+                date: moment().format('YYYY-MM-DD'),
+                total_price: this.totalPrice(),
+                shipping: this.shipping(),
+                total_payment: this.totalPayment(),
+                notes: 'Waiting for payment',
+                detail: this.props.carts,
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('data')}`
+                }
+            })
             .then((res) => {
                 this.props.outStockAction({
                     detail: this.props.carts,
@@ -51,8 +52,16 @@ class CartPage extends React.Component {
                     confirmButtonText: 'Ok'
                 })
                 this.props.getCartAction()
-
+                
             })
+        }else{
+            Swal.fire({
+                title: 'You have to add address!',
+                text: 'Go to My Profile to add it',
+                icon: 'warning',
+                confirmButtonText: 'Ok'
+            })
+        }
     }
     btnIncrement = (index) => {
         let temp = [...this.props.carts]
