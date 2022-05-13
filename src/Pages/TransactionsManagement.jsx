@@ -19,7 +19,7 @@ class TransactionManagement extends Component {
             pastTransactionsList: [],
             modalOpenDetail: false,
             detailTransaction: [],
-            transaction:[],
+            transaction: [],
             pageAll: 1,
             pageOngoing: 1,
             pagePast: 1,
@@ -60,7 +60,7 @@ class TransactionManagement extends Component {
             if (search) {
                 if (search.inFilter) {
                     if (search.inDateStart && search.inDateEnd) {
-                        res = axios.get(`${API_URL}/transactions/adminalltransactions?invoice=${search.inFilter}start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
+                        res = axios.get(`${API_URL}/transactions/adminalltransactions?invoice=${search.inFilter}&start_date=${search.inDateStart}&end_date=${search.inDateEnd}`, {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             }
@@ -281,6 +281,8 @@ class TransactionManagement extends Component {
         } else {
             this.getAllTransactionsAdmin({
                 inFilter: this.inFilterAll.value,
+                inDateStart: this.inDateStartAll.value,
+                inDateEnd: this.inDateEndAll.value,
             })
         }
         console.log(this.inFilterAll.value)
@@ -364,7 +366,9 @@ class TransactionManagement extends Component {
             this.getOngoingTransactionsAdmin()
         } else {
             this.getOngoingTransactionsAdmin({
-                inFilter: this.inFilterOngoing.value
+                inFilter: this.inFilterOngoing.value,
+                inDateStart: this.inDateStartOngoing.value,
+                inDateEnd: this.inDateEndOngoing.value,
             })
         }
     }
@@ -447,7 +451,9 @@ class TransactionManagement extends Component {
             this.getPastTransactionsAdmin()
         } else {
             this.getPastTransactionsAdmin({
-                inFilter: this.inFilterPast.value
+                inFilter: this.inFilterPast.value,
+                inDateStart: this.inDateStartPast.value,
+                inDateEnd: this.inDateEndPast.value,
             })
         }
     }
@@ -584,7 +590,7 @@ class TransactionManagement extends Component {
         console.log('transaksi user', this.props.transactions)
         console.log('transaksi semua user', this.state.recipe)
         console.log('state transaction', this.state.transaction)
-        console.log('halo',this.state.transaction)
+        console.log('halo', this.state.transaction)
         return (
             <div>
                 <ModalAddRecipe
@@ -604,10 +610,10 @@ class TransactionManagement extends Component {
                         <Tabs size='md' colorScheme='#231953'>
                             <>
                                 <TabList style={{ marginBottom: 30 }}>
-                                    <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10, fontSize: 18  }}>All transactions</Tab>
-                                    <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10, fontSize: 18  }}>Ongoing transactions</Tab>
-                                    <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10, fontSize: 18  }}>Past transactions</Tab>
-                                    <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10, fontSize: 18  }}>Doctor's prescription transactions</Tab>
+                                    <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10, fontSize: 18 }}>All transactions</Tab>
+                                    <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10, fontSize: 18 }}>Ongoing transactions</Tab>
+                                    <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10, fontSize: 18 }}>Past transactions</Tab>
+                                    <Tab className='heading2' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10, fontSize: 18 }}>Doctor's prescription transactions</Tab>
                                 </TabList>
                                 <TabPanels align='start'>
                                     <TabPanel className='p-0'>
