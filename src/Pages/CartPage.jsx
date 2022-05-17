@@ -24,44 +24,62 @@ class CartPage extends React.Component {
         this.props.getCartAction()
     }
     btnCheckout = () => {
-        const d = new Date()
-        if (this.props.idaddress > 0){
-            axios.post(`${API_URL}/transactions/checkout`, {
-                idaddress: this.props.idaddress,
-                invoice: `INV/CP${d.getTime()}`,
-                date: moment().format('YYYY-MM-DD'),
-                total_price: this.totalPrice(),
-                shipping: this.shipping(),
-                total_payment: this.totalPayment(),
-                notes: 'Waiting for payment',
-                detail: this.props.carts,
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('data')}`
+        Swal.fire({
+            title: 'Do you want to checkout?',
+            showDenyButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: 'No',
+            confirmButtonColor: '#3498db',
+            customClass: {
+                actions: 'my-actions',
+                confirmButton: 'order-2',
+                denyButton: 'order-3',
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const d = new Date()
+                if (this.props.idaddress > 0) {
+                    axios.post(`${API_URL}/transactions/checkout`, {
+                        idaddress: this.props.idaddress,
+                        invoice: `INV/CP${d.getTime()}`,
+                        date: moment().format('YYYY-MM-DD'),
+                        total_price: this.totalPrice(),
+                        shipping: this.shipping(),
+                        total_payment: this.totalPayment(),
+                        notes: 'Waiting for payment',
+                        detail: this.props.carts,
+                    }, {
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('data')}`
+                        }
+                    })
+                        .then((res) => {
+                            this.props.outStockAction({
+                                detail: this.props.carts,
+                                date: moment().format('YYYY-MM-DD')
+                            })
+                            Swal.fire({
+                                title: 'Yeay!',
+                                text: 'Checkout Success.',
+                                icon: 'success',
+                                confirmButtonText: 'Ok'
+                            })
+                            this.props.getCartAction()
+                        })
+                } else {
+                    Swal.fire({
+                        title: 'You have to add address!',
+                        text: 'Go to My Profile to add it',
+                        icon: 'warning',
+                        confirmButtonText: 'Ok'
+                    })
                 }
-            })
-            .then((res) => {
-                this.props.outStockAction({
-                    detail: this.props.carts,
-                    date: moment().format('YYYY-MM-DD')
-                })
-                Swal.fire({
-                    title: 'Yeay!',
-                    text: 'Checkout Success.',
-                    icon: 'success',
-                    confirmButtonText: 'Ok'
-                })
-                this.props.getCartAction()
-                
-            })
-        }else{
-            Swal.fire({
-                title: 'You have to add address!',
-                text: 'Go to My Profile to add it',
-                icon: 'warning',
-                confirmButtonText: 'Ok'
-            })
-        }
+            } else if (result.isDenied) {
+
+            }
+        })
+
+
     }
     btnIncrement = (index) => {
         let temp = [...this.props.carts]
@@ -77,13 +95,47 @@ class CartPage extends React.Component {
             temp[index].total_harga -= this.props.carts[index].harga
             this.props.updateQtyActions(temp[index].idcart, temp[index].qty)
         } else {
-            this.props.deleteCartActions(temp[index].idcart)
+            Swal.fire({
+                title: 'Do you want to remove the item?',
+                showDenyButton: true,
+                confirmButtonText: 'Yes',
+                confirmButtonColor: '#3498db',
+                denyButtonText: 'No',
+                customClass: {
+                    actions: 'my-actions',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.props.deleteCartActions(temp[index].idcart)
+                } else if (result.isDenied) {
+
+                }
+            })
         }
     }
     btnRemove = (index) => {
-        let temp = [...this.props.carts]
-        this.props.deleteCartActions(temp[index].idcart)
+        Swal.fire({
+            title: 'Do you want to remove the item?',
+            showDenyButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: 'No',
+            customClass: {
+                actions: 'my-actions',
+                confirmButton: 'order-2',
+                denyButton: 'order-3',
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let temp = [...this.props.carts]
+                this.props.deleteCartActions(temp[index].idcart)
+            } else if (result.isDenied) {
+
+            }
+        })
     }
+
     printCart = () => {
         return this.props.carts.map((value, index) => {
             return (
@@ -104,7 +156,7 @@ class CartPage extends React.Component {
                             <IoRemoveCircleOutline style={{ fontSize: 30, marginTop: 5, color: '#1E144F' }} onClick={() => this.btnDecrement(index)} />
                             <Input style={{ width: 45, border: 'none', textAlign: 'center' }} value={value.qty}></Input>
                             <IoAddCircleOutline style={{ fontSize: 30, marginTop: 5, color: '#1E144F' }} onClick={() => this.btnIncrement(index)} />
-                            <span onClick={() => this.btnRemove(index)} title='Remove Product' style={{ fontSize: 29, color: '#E63E54', marginTop: 5, marginLeft: 15 }}><FiTrash2 /></span>
+                            <span onClick={() => this.btnRemove(index)} title='Remove Product' style={{ fontSize: 29, color: '#E63E54', marginTop: 5, marginLeft: 15, cursor: 'pointer' }}><FiTrash2 /></span>
                         </div>
                     </div>
                 </div>

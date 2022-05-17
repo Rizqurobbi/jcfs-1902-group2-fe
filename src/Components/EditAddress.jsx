@@ -54,7 +54,6 @@ class EditAddress extends Component {
                     'Authorization': `Bearer ${token}`
                 }
             }).then(res => {
-                console.log(res.data)
                 Swal.fire({
                     title: 'Yeay!',
                     text: 'Change address success',
@@ -76,7 +75,6 @@ class EditAddress extends Component {
     getProvince = () => {
         axios.get(`${API_URL}/api/provinsi`)
             .then(res => {
-                console.log(res.data.dataProvinsi.rajaongkir.results)
                 this.setState({
                     province: res.data.dataProvinsi.rajaongkir.results
                 })
@@ -112,8 +110,6 @@ class EditAddress extends Component {
     }
 
     render() {
-        console.log('idx', this.props.idx + 1)
-        console.log('address', this.props.address.idaddress)
         return (
             <div>
                 <Modal size='md' isOpen={this.props.modalOpen} toggle={this.props.btClose} centered >

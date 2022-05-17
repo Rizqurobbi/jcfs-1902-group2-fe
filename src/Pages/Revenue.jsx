@@ -54,7 +54,6 @@ class RevenuePage extends React.Component {
     printRevenue = () => {
         return this.state.revenue.map((value, index) => {
             if (value.date == value.date) {
-                console.log(value.date == value.date)
                 return (
                     <tr>
                         <td>
@@ -116,7 +115,6 @@ class RevenuePage extends React.Component {
         return total
     }
     render() {
-        console.log(this.state.revenue)
         return (
             <div className='container-fluid'>
                 <div className="container">

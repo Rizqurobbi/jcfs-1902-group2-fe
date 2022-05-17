@@ -103,7 +103,6 @@ class ProductDetail extends React.Component {
         let { detail } = this.state
         return (
             <div className='row'>
-                {console.log(detail.idstock)}
                 {detail.idproduct &&
                     <>
                         <div className='col-6' style={{ paddingLeft: 105 }}>

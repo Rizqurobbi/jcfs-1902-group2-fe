@@ -55,7 +55,6 @@ export const getCategory = () => {
     return async (dispatch) => {
         try {
             let resCategory = await axios.get(`${API_URL}/products/category`)
-            console.log("data category", { category: resCategory.data.dataCategory })
             dispatch({
                 type: "GET_DATA_CATEGORY",
                 payload: { category: resCategory.data.dataCategory }
@@ -69,7 +68,6 @@ export const getUnit = () => {
     return async (dispatch) => {
         try {
             let resUnit = await axios.get(`${API_URL}/products/unit`)
-            console.log("data unit", { unit: resUnit.data.dataUnit })
             dispatch({
                 type: "GET_DATA_UNIT",
                 payload: { unit: resUnit.data.dataUnit }
@@ -94,19 +92,3 @@ export const outStockAction = (stock) => {
         }
     }
 }
-
-// export const getUnitCategory = () => {
-//     return async (dispatch) => {
-//         try {
-//             let resUnit = await axios.get(`${API_URL}/products/unit`)
-//             let resCategory = await axios.get(`${API_URL}/products/category`)
-//             console.log("data product", { unit: resUnit.data.dataUnit, category: resCategory.data.dataCategory })
-//             dispatch({
-//                 type: "GET_DATA_BRAND_CATEGORY",
-//                 payload: { unit: resUnit.data.dataUnit, category: resCategory.data.dataCategory }
-//             })
-//         } catch (error) {
-//             console.log(error)
-//         }
-//     }
-// }

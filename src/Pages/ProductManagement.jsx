@@ -11,6 +11,8 @@ import { FiEdit, FiUpload, FiTrash2 } from "react-icons/fi";
 import { CgAddR } from "react-icons/cg";
 import ModalEdit from '../Components/ModalEdit';
 import PM from '../img/productsManagement2.jpg'
+import Swal from 'sweetalert2';
+
 
 class ProductManagement extends React.Component {
     constructor(props) {
@@ -29,13 +31,31 @@ class ProductManagement extends React.Component {
     }
     // render element input form image
     deleteProduct = (id) => {
-        axios.delete(`${API_URL}/products/${id}`)
-            .then((res) => {
-                this.props.getProductAction()
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+        Swal.fire({
+            title: 'Do you want to delete the product?',
+            showDenyButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: 'No',
+            confirmButtonColor: '#3498db',
+            customClass: {
+                actions: 'my-actions',
+                confirmButton: 'order-2',
+                denyButton: 'order-3',
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`${API_URL}/products/${id}`)
+                    .then((res) => {
+                        this.props.getProductAction()
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            } else if (result.isDenied) {
+
+            }
+        })
+
     }
     printProduct = () => {
         let { page } = this.state
@@ -55,13 +75,13 @@ class ProductManagement extends React.Component {
                         <td style={{ paddingTop: 50 }}><p className='heading3' style={{ fontSize: 15 }}>Rp.{value.harga.toLocaleString()}</p></td>
                         <td style={{ paddingTop: 50 }}>
                             <div className='d-flex' style={{ justifyContent: 'space-evenly' }}>
-                                <span title='Remove Product' style={{ fontSize: 25, color: '#E63E54' }} onClick={() => this.deleteProduct(value.idproduct)}><FiTrash2 /></span>
                                 <span title='Edit Product' style={{ fontSize: 25, }} onClick={() => this.setState({ modalOpenEdit: !this.state.modalOpenEdit, productDetail: value })}><FiEdit /></span>
+                                <span title='Remove Product' style={{ fontSize: 25, color: '#E63E54' }} onClick={() => this.deleteProduct(value.idproduct)}><FiTrash2 /></span>
                             </div>
                         </td>
                     </tr>
                 )
-            }else{
+            } else {
                 return (
                     <tr>
                         <td>{index + 1}</td>

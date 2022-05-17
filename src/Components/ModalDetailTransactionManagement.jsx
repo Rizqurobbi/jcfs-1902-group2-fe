@@ -88,8 +88,6 @@ class ModalDetailTransactionManagement extends React.Component {
 
 
     render() {
-        console.log('inipropstransaction', this.props.transaction)
-        console.log('inidetailtransaksi', this.props.detailTransaction)
         return (
             <div>
                 {

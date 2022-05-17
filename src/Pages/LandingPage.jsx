@@ -39,7 +39,6 @@ class LandingPage extends Component {
     }
 
     render() {
-        console.log('props', this.props.products)
         const settings = {
             arrows: true,
             infinite: true,

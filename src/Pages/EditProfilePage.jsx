@@ -4,13 +4,14 @@ import { FormGroup, Label, InputGroup, Input, InputGroupText, Toast, ToastBody, 
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import axios from 'axios';
 import { API_URL } from '../helper';
-import { CgSmileSad } from "react-icons/cg";
 import { keepAction } from '../redux/actions/userAction';
 import { connect } from 'react-redux';
 import { FiEdit, FiTrash2, FiMapPin } from "react-icons/fi";
 import AddAddress from '../Components/AddAddress';
 import EditAddress from '../Components/EditAddress';
 import Swal from 'sweetalert2';
+import PasswordStrengthBar from 'react-password-strength-bar';
+
 
 class ProfileManagement extends Component {
     constructor(props) {
@@ -23,7 +24,8 @@ class ProfileManagement extends Component {
             modalAdd: false,
             modalEdit: false,
             address: {},
-            idx: 0
+            idx: 0,
+            newPassword: ''
         }
     }
 
@@ -169,7 +171,7 @@ class ProfileManagement extends Component {
                                             </div>
                                         </Col>
                                         <Col className='d-flex justify-content-center align-items-center' >
-                                            <button className='landing1 mx-3 py-2' onClick={() => this.btChooseAddress(value.idaddress)}>Choose</button>
+                                            <button className='landing1 mx-3 py-2' onClick={() => this.btChooseAddress(value.idaddress)}>Select</button>
                                             <span title='Edit' style={{ fontSize: 20, cursor: 'pointer' }} onClick={() => this.setState({ modalEdit: !this.state.modalEdit, address: value, idx: value.idaddress })}><FiEdit /></span>
                                             <span title='Remove Address' className=' mx-2' style={{ fontSize: 20, color: '#E63E54', cursor: 'pointer' }} onClick={() => this.btDeleteAddress(value.idaddress)} ><FiTrash2 /></span>
                                         </Col>
@@ -200,17 +202,19 @@ class ProfileManagement extends Component {
                     <Label className='heading4' style={{ fontSize: 12, fontWeight: 800 }}>New password</Label>
                     <InputGroup>
                         <Input bsSize='sm' type={this.state.newPassType} id="textPassword" placeholder="Password" style={{ borderRight: "0px" }}
-                            innerRef={(element) => this.newConfPassword = element} />
+                            onChange={(event) => this.setState({ newPassword: event.target.value })}
+                            innerRef={(element) => this.newPassword = element} />
                         <InputGroupText style={{ cursor: "pointer", backgroundColor: 'white' }} onClick={this.btShowPass}>
                             {this.state.newPassShow}
                         </InputGroupText>
                     </InputGroup>
+                    <PasswordStrengthBar className='my-2' password={this.state.newPassword} />
                 </FormGroup>
-                <FormGroup >
+                <FormGroup style={{ marginTop: -30 }} >
                     <Label className='heading4' style={{ fontSize: 12, fontWeight: 800 }}>Re-type new password</Label>
                     <InputGroup>
                         <Input bsSize='sm' type={this.state.newPassType} id="textConfPassword" placeholder="Confirm password" style={{ borderRight: "0px", width: '70%' }}
-                            innerRef={(element) => this.newPassword = element} />
+                            innerRef={(element) => this.newConfPassword = element} />
                         <InputGroupText style={{ cursor: "pointer", backgroundColor: 'white' }} onClick={this.btShowPass}>
                             {this.state.newPassShow}
                         </InputGroupText>
@@ -224,14 +228,14 @@ class ProfileManagement extends Component {
     }
 
     btSubmit = async () => {
-        if (this.newConfPassword.value === "" || this.newPassword.value === "") {
+        if (this.newConfPassword.value === "" || this.state.newPassword === "") {
             Swal.fire({
                 title: '',
                 text: 'Please fill all the blank',
                 icon: 'warning',
                 confirmButtonText: 'Ok'
             })
-        } else if (this.newConfPassword.value && this.newPassword.value === this.oldPassword.value) {
+        } else if (this.newConfPassword.value && this.state.newPassword === this.oldPassword.value) {
             Swal.fire({
                 title: '',
                 text: 'Please use new password',
@@ -239,35 +243,53 @@ class ProfileManagement extends Component {
                 confirmButtonText: 'Ok'
             })
         } else {
-            if (this.newConfPassword.value === this.newPassword.value) {
-                let token = localStorage.getItem("data")
-                let res = await axios.post(`${API_URL}/users/changepassword`, { newPassword: this.newConfPassword.value, oldPassword: this.oldPassword.value }, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
+            if (this.newConfPassword.value === this.state.newPassword) {
+                Swal.fire({
+                    title: 'Do you want to change the password?',
+                    showDenyButton: true,
+                    confirmButtonText: 'Yes',
+                    confirmButtonColor: '#3498db',
+                    denyButtonText: 'No',
+                    customClass: {
+                        actions: 'my-actions',
+                        confirmButton: 'order-1',
+                        denyButton: 'order-3',
+                    }
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        let token = localStorage.getItem("data")
+                        let res = await axios.post(`${API_URL}/users/changepassword`, { newPassword: this.newConfPassword.value, oldPassword: this.oldPassword.value }, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        })
+                        try {
+                            if (res.data.success) {
+                                Swal.fire({
+                                    title: 'Yeay!',
+                                    text: 'Change password success',
+                                    icon: 'success',
+                                    confirmButtonText: 'Ok'
+                                })
+                                this.newPassword.value = ""
+                                this.newConfPassword.value = ""
+                                this.props.keepAction()
+                            } else {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: 'Incorrect old password',
+                                    icon: 'error',
+                                    confirmButtonText: 'Ok'
+                                })
+                            }
+                        } catch (error) {
+                            console.log(error)
+                        }
+                    } else if (result.isDenied) {
+                        Swal.fire('Changes are not saved', '', 'info')
                     }
                 })
-                try {
-                    if (res.data.success) {
-                        Swal.fire({
-                            title: 'Yeay!',
-                            text: 'Change password success',
-                            icon: 'success',
-                            confirmButtonText: 'Ok'
-                        })
-                        this.newPassword.value = ""
-                        this.newConfPassword.value = ""
-                        this.props.keepAction()
-                    } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: 'Incorrect old password',
-                            icon: 'error',
-                            confirmButtonText: 'Ok'
-                        })
-                    }
-                } catch (error) {
-                    console.log(error)
-                }
+
             } else {
                 Swal.fire({
                     title: 'Warning!',
@@ -285,33 +307,49 @@ class ProfileManagement extends Component {
     }
 
     btSave = () => {
-        let formData = new FormData()
-        let data = {
-            fullname: this.inFullname.value,
-            username: this.inUsername.value,
-            age: this.inAge.value,
-            email: this.inEmail.value,
-            gender: this.inGender.value
-        }
-        formData.append(`data`, JSON.stringify(data))
-        formData.append('Images', this.state.images.file)
-        let token = localStorage.getItem("data")
-        axios.patch(`${API_URL}/users/editprofile`, formData, {
-            headers: {
-                'Authorization': `Bearer ${token}`
+        Swal.fire({
+            title: 'Do you want to save the changes?',
+            showDenyButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: 'No',
+            customClass: {
+                actions: 'my-actions',
+                confirmButton: 'order-2',
+                denyButton: 'order-3',
             }
-        }).then(res => {
-            console.log(res.data)
-            this.setState({ edit: false })
-            Swal.fire({
-                title: 'Yeay!',
-                text: 'Edit success',
-                icon: 'success',
-                confirmButtonText: 'Ok'
-            })
-            this.props.keepAction()
-        }).catch(err => {
-            console.log(err)
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let formData = new FormData()
+                let data = {
+                    fullname: this.inFullname.value,
+                    username: this.inUsername.value,
+                    age: this.inAge.value,
+                    email: this.inEmail.value,
+                    gender: this.inGender.value
+                }
+                formData.append(`data`, JSON.stringify(data))
+                formData.append('Images', this.state.images.file)
+                let token = localStorage.getItem("data")
+                axios.patch(`${API_URL}/users/editprofile`, formData, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }).then(res => {
+                    console.log(res.data)
+                    this.setState({ edit: false })
+                    Swal.fire({
+                        title: 'Yeay!',
+                        text: 'Edit success',
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    })
+                    this.props.keepAction()
+                }).catch(err => {
+                    console.log(err)
+                })
+            } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+            }
         })
     }
 
@@ -376,9 +414,6 @@ class ProfileManagement extends Component {
     }
 
     render() {
-        console.log('address', this.props.address)
-        console.log('idaddress', this.props.idaddress)
-        console.log('idaddress', this.props.status)
         return (
             <div className='container-fluid pb-5' style={{ backgroundColor: '#FCFBFA', height: '93vh', paddingTop: 30 }} >
                 <AddAddress
@@ -406,7 +441,6 @@ class ProfileManagement extends Component {
                                         <p className='heading4 text-muted' style={{ fontSize: 12 }}>Please kindly check your email to verify.</p>
                                     </div>
                             }
-
                             {
                                 this.state.images.file ?
                                     <img src={URL.createObjectURL(this.state.images.file)} className='m-auto' style={{ width: '80%', paddingBottom: 20, paddingTop: 80 }} />
@@ -441,14 +475,13 @@ class ProfileManagement extends Component {
                                             {
                                                 this.props.address.length > 0 ?
                                                     <div style={{ marginTop: 70, height: '53vh', paddingRight: 20 }} className='scrollbar'>
-                                                        {this.printAddress()} 
+                                                        {this.printAddress()}
                                                     </div>
                                                     :
-                                                    <div className='heading4' style={{ marginTop: 70, height: '53vh', paddingRight: 20, textAlign:'center' }}>
+                                                    <div className='heading4' style={{ marginTop: 70, height: '53vh', paddingRight: 20, textAlign: 'center' }}>
                                                         No address lists, please add new address.
                                                     </div>
                                             }
-
                                         </TabPanel>
                                         <TabPanel>
                                             {this.printChangePassword()}
@@ -458,9 +491,7 @@ class ProfileManagement extends Component {
                             </Tabs>
                         </Col>
                     </Row>
-
                 </div>
-
             </div>
         );
     }

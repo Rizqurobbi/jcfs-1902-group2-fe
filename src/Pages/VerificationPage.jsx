@@ -27,7 +27,6 @@ class VerificationPage extends Component {
     }
 
     render() {
-        console.log('test', this.state.redirect)
         if (this.state.redirect) {
             return <Navigate to='/' />
         } else {

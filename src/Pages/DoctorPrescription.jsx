@@ -3,13 +3,15 @@ import axios from 'axios';
 import { API_URL } from '../helper';
 import Swal from 'sweetalert2';
 import { connect } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 
 class DoctorPrescriptionPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            images: []
+            images: [],
+            redirect: false
         }
     }
 
@@ -19,33 +21,53 @@ class DoctorPrescriptionPage extends Component {
 
     btSubmit = () => {
         if (this.props.role == 'User') {
-            const d = new Date();
-            let formData = new FormData()
-            let data = {
-                invoice: `INV/REC${d.getTime()}`
-            }
-            formData.append('Images', this.state.images.file)
-            formData.append('data', JSON.stringify(data));
-
-            let token = localStorage.getItem("data")
-            if (token) {
-                axios.post(`${API_URL}/users/uploadrecipe`, formData, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
+            Swal.fire({
+                title: 'Do you want to submit the recipe?',
+                showDenyButton: true,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                confirmButtonColor: '#3498db',
+                customClass: {
+                    actions: 'my-actions',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const d = new Date();
+                    let formData = new FormData()
+                    let data = {
+                        invoice: `INV/REC${d.getTime()}`
                     }
-                }).then(res => {
-                    console.log(res.data)
-                    Swal.fire({
-                        title: 'Yeay!',
-                        text: 'Upload success',
-                        icon: 'success',
-                        confirmButtonText: 'Ok'
-                    })
-                    window.location.reload();
-                }).catch(err => {
-                    console.log(err)
-                })
-            }
+                    formData.append('Images', this.state.images.file)
+                    formData.append('data', JSON.stringify(data));
+
+                    let token = localStorage.getItem("data")
+                    if (token) {
+                        axios.post(`${API_URL}/users/uploadrecipe`, formData, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        }).then(res => {
+                            console.log(res.data)
+                            this.setState({
+                                redirect: true
+                            })
+                            Swal.fire({
+                                title: 'Yeay!',
+                                text: 'Upload success',
+                                icon: 'success',
+                                confirmButtonText: 'Ok'
+                            })
+                            
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                    }
+                } else if (result.isDenied) {
+                    Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
         } else if (this.props.role == 'Admin') {
             Swal.fire({
                 title: 'Warning!',
@@ -64,7 +86,9 @@ class DoctorPrescriptionPage extends Component {
     }
 
     render() {
-        console.log('asd', this.props.role)
+        if (this.state.redirect) {
+            return <Navigate to='/history'/>
+        }
         return (
             <div className='container-fluid px-0' style={{ backgroundColor: '#FCFBFA' }}>
                 <div className='container py-4'>

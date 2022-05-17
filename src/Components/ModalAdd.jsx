@@ -111,27 +111,23 @@ class ModalAdd extends React.Component {
         }
     }
     handleImages = (e, index) => {
-        console.log(this.state.stocks)
         let temp = [...this.state.images]
         temp[index] = { name: e.target.files[0].name, file: e.target.files[0] }
         this.setState({ images: temp })
     }
 
     handleType = (e, index) => {
-        console.log(this.state.stocks)
         let temp = [...this.state.stocks]
         temp[index].type = e.target.value;
         this.setState({ stocks: temp })
     }
 
     handleStock = (e, index) => {
-        console.log(this.state.stocks)
         let temp = [...this.state.stocks]
         temp[index].qty = parseInt(e.target.value)
         this.setState({ stocks: temp })
     }
     handleUnit = (e, index) => {
-        console.log(this.state.stocks)
         let temp = [...this.state.stocks]
         temp[index].qty = e.target.value
         this.setState({ stocks: temp })
@@ -142,7 +138,6 @@ class ModalAdd extends React.Component {
         this.props.btClose()
     }
     render() {
-        console.log(this.props.unit)
         return (
             <div>
                 <Modal

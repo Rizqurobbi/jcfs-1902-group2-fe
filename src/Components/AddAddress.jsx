@@ -47,14 +47,12 @@ class AddAddress extends Component {
                 idcity: this.inCity.value,
                 address: this.inAddressDetail.value
             }
-            console.log('ini data', data)
             let token = localStorage.getItem("data")
             axios.post(`${API_URL}/users/addaddress`, data, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             }).then(res => {
-                console.log(res.data)
                 Swal.fire({
                     title: 'Yeay!',
                     text: 'Change address success',
@@ -72,7 +70,6 @@ class AddAddress extends Component {
     getProvince = () => {
         axios.get(`${API_URL}/api/provinsi`)
             .then(res => {
-                console.log(res.data.dataProvinsi.rajaongkir.results)
                 this.setState({
                     province: res.data.dataProvinsi.rajaongkir.results
                 })
@@ -108,8 +105,6 @@ class AddAddress extends Component {
     }
 
     render() {
-        console.log('province', this.state.province)
-        console.log('province', this.state.city)
         return (
             <div>
                 <Modal size='md' isOpen={this.props.modalOpen} toggle={this.props.btClose} centered >

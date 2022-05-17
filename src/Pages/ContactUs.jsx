@@ -13,7 +13,7 @@ class ContactUs extends Component {
                             <p className='heading2'>Contact Us</p>
                             <p className='heading4' style={{marginRight: 200}}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, minus recusandae? Debitis asperiores nulla blanditiis ipsa excepturi eaque mollitia, reprehenderit, ut id, voluptatem voluptas. Natus quas voluptatem repudiandae porro in.</p>
                             <p className='heading3' style={{marginRight: 200, marginTop: 100}}>Farmacia made by</p>
-                            <p className='heading3' style={{marginRight: 200}}>Zakki Rizqurobbi & Fawwaz Utomo 😄</p>
+                            <p className='heading3' style={{marginRight: 200}}>Zakki Rizqurobbi &  M Fawwaz Putro U  😄</p>
                         </div>
                     </div>
                 </div>

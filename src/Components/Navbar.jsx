@@ -17,7 +17,6 @@ class NavbarComponent extends Component {
         }
     }
     render() {
-        console.log('role', this.props.role)
         return (
             <div style={{ backgroundColor: '#FCFBFA' }}>
                 <Navbar expand='md' className='container py-4 d-flex'>

@@ -46,7 +46,6 @@ export const addToCartAction = (data) => {
 export const updateQtyActions = (id, qty) => {
     return async (dispatch) => {
         try {
-            console.log('test', id, qty)
             let token = localStorage.getItem('data');
             if (token) {
                 let res = await axios.patch(`${API_URL}/transactions/carts/${id}`, {

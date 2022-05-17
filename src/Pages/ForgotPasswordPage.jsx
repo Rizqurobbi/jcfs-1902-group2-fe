@@ -3,17 +3,12 @@ import reset from '../img/forgotpassword.png'
 import { FormGroup, Label, InputGroup, Input, Toast, ToastHeader, ToastBody } from 'reactstrap';
 import axios from 'axios';
 import { API_URL } from '../helper';
-import { CgSmileSad  } from "react-icons/cg";
-import { FaRegSmileBeam } from "react-icons/fa";
+import Swal from 'sweetalert2';
 
 class ForgotPasswordPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            toastOpen: "",
-            toastHeader: "",
-            toastMessage: "",
-            toastIcon: ""
         }
     }
 
@@ -22,11 +17,11 @@ class ForgotPasswordPage extends Component {
             axios.post(`${API_URL}/users/forgot`, { email: this.emailForgot.value })
                 .then(res => {
                     if (res.data.success) {
-                        this.setState({
-                            toastOpen: true,
-                            toastHeader: "Register Success",
-                            toastMessage: "Please check your email to change password",
-                            toastIcon: <FaRegSmileBeam style={{fontSize: 20}}/>
+                        Swal.fire({
+                            title: 'Success',
+                            text: 'Please kindly check your email to to reset your password.',
+                            icon: 'success',
+                            confirmButtonText: 'Ok'
                         })
                         this.emailForgot.value = ""
                     }
@@ -34,11 +29,11 @@ class ForgotPasswordPage extends Component {
                     console.log(error)
                 })
         } else {
-            this.setState({
-                toastOpen: true,
-                toastHeader: "Oh no...",
-                toastIcon: <CgSmileSad style={{fontSize: 20}}/>,
-                toastMessage: "Email Incorrect"
+            Swal.fire({
+                title: 'Warning!',
+                text: `Email doesn't exist.`,
+                icon: 'warning',
+                confirmButtonText: 'Ok'
             })
         }
     }
@@ -46,15 +41,6 @@ class ForgotPasswordPage extends Component {
     render() {
         return (
             <div className='container-fluid px-0' style={{ backgroundColor: '#FCFBFA', height: '72vh', paddingTop: 60 }}>
-                <Toast isOpen={this.state.toastOpen} style={{ float: 'right', marginRight: 40 }}>
-                    <ToastHeader icon={this.state.toastIcon}
-                        toggle={() => this.setState({ toastOpen: false })}>
-                        {this.state.toastHeader}
-                    </ToastHeader>
-                    <ToastBody>
-                        {this.state.toastMessage}
-                    </ToastBody>
-                </Toast>
                 <div className='container shadow ' style={{ backgroundColor: 'white', borderRadius: 50, padding: 60, width: "50%" }}>
                     <img className="rounded fade-in m-auto" src={reset} width="10%" />
                     <div className='text-center'>

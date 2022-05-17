@@ -35,10 +35,8 @@ class ModalEdit extends React.Component {
         }
         formData.append(`data`, JSON.stringify(data))
         this.state.images.forEach(val => formData.append('Images', val.file))
-        console.log(data)
         axios.patch(`${API_URL}/products/${this.props.productDetail.idproduct}`, formData)
             .then(res => {
-                console.log(res.data)
                 Swal.fire({
                     title: 'Yeay!',
                     text: 'Edit success',
@@ -68,7 +66,6 @@ class ModalEdit extends React.Component {
         }
     }
     handleImages = (e, index) => {
-        console.log(this.state.images)
         let temp = [...this.state.images]
         temp[index] = { name: e.target.files[0].name, file: e.target.files[0] }
         this.setState({ images: temp })
@@ -93,14 +90,12 @@ class ModalEdit extends React.Component {
         }
     }
     handleType = (e, index) => {
-        console.log(this.state.stocks)
         let temp = [...this.props.productDetail.stocks]
         temp[index].type = e.target.value;
         this.setState({ stocks: temp })
     }
 
     handleStock = (e, index) => {
-        console.log(this.state.stocks)
         let temp = [...this.props.productDetail.stocks]
         temp[index].qty = parseInt(e.target.value)
         this.setState({ stocks: temp })
@@ -133,7 +128,6 @@ class ModalEdit extends React.Component {
 
     render() {
         let { idcategory, nama, category, harga, deskripsi, penyajian, dosis, caraPenyimpanan, kegunaan, komposisi, efekSamping } = this.props.productDetail
-        console.log('iniproductdetail', this.props.productDetail)
         return (
             <div>
                 <Modal
