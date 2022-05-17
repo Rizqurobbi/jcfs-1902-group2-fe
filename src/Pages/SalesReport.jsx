@@ -1,16 +1,22 @@
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import axios from 'axios';
 import React from 'react';
+import Chart from 'chart.js/auto';
+import { Bar } from 'react-chartjs-2'
+import { CategoryScale } from 'chart.js';
 import { connect } from 'react-redux';
-import { Button, Input, InputGroup, Table } from 'reactstrap';
+import { Button, Input, InputGroup, Table, ButtonGroup } from 'reactstrap';
 import { API_URL } from '../helper';
 import SR from '../img/salesreport.jpg'
+Chart.register(CategoryScale);
 class SalesReport extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             salesReport: [],
-            salesReportByrecipe: []
+            salesReportByrecipe: [],
+            pageUserCart: 1,
+            pageRecipe: 1
         }
     }
     componentDidMount() {
@@ -27,7 +33,7 @@ class SalesReport extends React.Component {
                         'Authorization': `Bearer ${token}`
                     }
                 }).then(res => {
-                    this.setState({ salesReport: res.data.dataSalesReportUser })
+                    this.setState({ salesReport: res.data.dataSalesReportUser, pageUserCart: 1 })
                 }).catch(err => [
                     console.log(err)
                 ])
@@ -37,7 +43,7 @@ class SalesReport extends React.Component {
                         'Authorization': `Bearer ${token}`
                     }
                 }).then(res => {
-                    this.setState({ salesReport: res.data.dataSalesReportUser })
+                    this.setState({ salesReport: res.data.dataSalesReportUser, pageUserCart: 1 })
                 }).catch(err => [
                     console.log(err)
                 ])
@@ -48,7 +54,7 @@ class SalesReport extends React.Component {
                     'Authorization': `Bearer ${token}`
                 }
             }).then(res => {
-                this.setState({ salesReport: res.data.dataSalesReportUser })
+                this.setState({ salesReport: res.data.dataSalesReportUser, pageUserCart: 1 })
             }).catch(err => [
                 console.log(err)
             ])
@@ -65,7 +71,7 @@ class SalesReport extends React.Component {
                         'Authorization': `Bearer ${token}`
                     }
                 }).then(res => {
-                    this.setState({ salesReportByrecipe: res.data.dataSalesReportRecipe })
+                    this.setState({ salesReportByrecipe: res.data.dataSalesReportRecipe, pageRecipe: 1 })
                 }).catch(err => [
                     console.log(err)
                 ])
@@ -75,7 +81,7 @@ class SalesReport extends React.Component {
                         'Authorization': `Bearer ${token}`
                     }
                 }).then(res => {
-                    this.setState({ salesReportByrecipe: res.data.dataSalesReportRecipe })
+                    this.setState({ salesReportByrecipe: res.data.dataSalesReportRecipe, pageRecipe: 1 })
                 }).catch(err => [
                     console.log(err)
                 ])
@@ -86,14 +92,15 @@ class SalesReport extends React.Component {
                     'Authorization': `Bearer ${token}`
                 }
             }).then(res => {
-                this.setState({ salesReportByrecipe: res.data.dataSalesReportRecipe })
+                this.setState({ salesReportByrecipe: res.data.dataSalesReportRecipe, pageRecipe: 1 })
             }).catch(err => [
                 console.log(err)
             ])
         }
     }
     printSalesReportUserCart = () => {
-        return this.state.salesReport.map((value, index) => {
+        let { pageUserCart } = this.state
+        return this.state.salesReport.slice(pageUserCart > 1 ? (pageUserCart - 1) * 5 : pageUserCart - 1, pageUserCart * 5).map((value, index) => {
             return (
                 <tr>
                     <td>
@@ -163,8 +170,23 @@ class SalesReport extends React.Component {
         this.inDateEndUser.value = ''
         this.getSalesReportUserCart()
     }
+    btnPaginationUserCart = () => {
+        let btn = []
+        for (let i = 0; i < Math.ceil(this.state.salesReport.length / 5); i++) {
+            btn.push(
+                <Button
+                    style={{ border: "none", marginRight: 5 }}
+                    className='NavbarButton'
+                    disabled={this.state.pageUserCart == i + 1 ? true : false}
+                    onClick={() => this.setState({ pageUserCart: i + 1 })}>{i + 1}
+                </Button>
+            )
+        }
+        return btn;
+    }
     printSalesReportByRecipe = () => {
-        return this.state.salesReportByrecipe.map((value, index) => {
+        let { pageRecipe } = this.state
+        return this.state.salesReportByrecipe.slice(pageRecipe > 1 ? (pageRecipe - 1) * 5 : pageRecipe - 1, pageRecipe * 5).map((value, index) => {
             return (
                 <tr>
                     <td>
@@ -223,6 +245,7 @@ class SalesReport extends React.Component {
             </div>
         )
     }
+
     handleDateRecipe = () => {
         this.getSalesReportByRecipe({
             inDateStart: this.inDateStartRecipe.value,
@@ -233,6 +256,72 @@ class SalesReport extends React.Component {
         this.inDateStartRecipe.value = ''
         this.inDateEndRecipe.value = ''
         this.getSalesReportByRecipe()
+    }
+    btnPaginationRecipe = () => {
+        let btn = []
+        for (let i = 0; i < Math.ceil(this.state.salesReportByrecipe.length / 5); i++) {
+            btn.push(
+                <Button
+                    style={{ border: "none", marginRight: 5 }}
+                    className='NavbarButton'
+                    disabled={this.state.pageRecipe == i + 1 ? true : false}
+                    onClick={() => this.setState({ pageRecipe: i + 1 })}>{i + 1}
+                </Button>
+            )
+        }
+        return btn;
+    }
+    printChartLineUserCart = () => {
+        return (
+            <Bar
+                data={{
+                    labels: this.state.salesReport.map((value, index) => {
+                        return (
+                            `${value.nama}`
+                        )
+                    }),
+                    datasets: [
+                        {
+                            label: 'Qty',
+                            data: this.state.salesReport.map((value, index) => {
+                                return (
+                                    `${value.qty}`
+                                )
+                            }),
+                            backgroundColor: [
+                                'lightblue'
+                            ],
+                            indexAxis: 'y'
+                        }
+                    ]
+                }} />
+        )
+    }
+    printChartLineRecipe = () => {
+        return (
+            <Bar
+                data={{
+                    labels: this.state.salesReportByrecipe.map((value, index) => {
+                        return (
+                            `${value.nama}`
+                        )
+                    }),
+                    datasets: [
+                        {
+                            label: 'Qty',
+                            data: this.state.salesReportByrecipe.map((value, index) => {
+                                return (
+                                    `${(value.qty)}`
+                                )
+                            }),
+                            backgroundColor: [
+                                'pink'
+                            ],
+                            indexAxis: 'y'
+                        }
+                    ]
+                }} />
+        )
     }
     render() {
         return (
@@ -262,7 +351,7 @@ class SalesReport extends React.Component {
                                                     <tr>
                                                         <th>Date</th>
                                                         <th>Image</th>
-                                                        <th>Product</th>
+                                                        <th style={{ width: '500px' }}>Product</th>
                                                         <th>Qty</th>
                                                         <th>Total</th>
                                                     </tr>
@@ -276,6 +365,12 @@ class SalesReport extends React.Component {
                                                 {this.printTotalSalesReportUserCart()}
                                             </div>
                                         </div>
+                                        <div className="my-5 text-center">
+                                            <ButtonGroup>
+                                                {this.btnPaginationUserCart()}
+                                            </ButtonGroup>
+                                        </div>
+                                        {this.printChartLineUserCart()}
                                     </TabPanel>
                                     <TabPanel>
                                         <div>
@@ -300,11 +395,16 @@ class SalesReport extends React.Component {
                                                 {this.printTotalSalesReportByRecipe()}
                                             </div>
                                         </div>
+                                        <div className="my-5 text-center">
+                                            <ButtonGroup>
+                                                {this.btnPaginationRecipe()}
+                                            </ButtonGroup>
+                                        </div>
+                                        {this.printChartLineRecipe()}
                                     </TabPanel>
                                 </TabPanels>
                             </>
                         </Tabs>
-
                     </div>
                 </div>
 

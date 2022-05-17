@@ -100,26 +100,26 @@ class NavbarComponent extends Component {
                                         :
                                         <DropdownMenu DropdownMenu className='heading4'
                                         >
-                                            <DropdownItem>
-                                                <Link to='/product-management'>
+                                            <Link to='/product-management'>
+                                                <DropdownItem>
                                                     Products Management
-                                                </Link>
-                                            </DropdownItem>
-                                            <DropdownItem>
-                                                <Link to='/transactions-management'>
+                                                </DropdownItem>
+                                            </Link>
+                                            <Link to='/transactions-management'>
+                                                <DropdownItem>
                                                     Transactions Management
-                                                </Link>
-                                            </DropdownItem>
+                                                </DropdownItem>
+                                            </Link>
                                             <Link to='/sales-report'>
                                                 <DropdownItem>
                                                     Sales Report
                                                 </DropdownItem>
                                             </Link>
-                                            <DropdownItem>
-                                                <Link to='/data-logging'>
+                                            <Link to='/data-logging'>
+                                                <DropdownItem>
                                                     Data Logging
-                                                </Link>
-                                            </DropdownItem>
+                                                </DropdownItem>
+                                            </Link>
                                             <Link to='/revenue'>
                                                 <DropdownItem>
                                                     Revenue
