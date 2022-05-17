@@ -52,7 +52,7 @@ class ModalAddRecipe extends Component {
                         idtransaction: this.props.detailRecipe.iduser,
                         idproduct: this.state.inProduct,
                         idunit: this.state.inUnit,
-                        idstock: this.state.detail.stocks[1].idstock,
+                        idstock: this.state.detail.stocks[2].idstock,
                         url: this.state.detail.images[0].url,
                         nama: this.state.detail.nama,
                         total_harga: Math.round((this.state.detail.harga / this.state.detail.stocks[1].qty) * this.inQty.value),
@@ -148,48 +148,66 @@ class ModalAddRecipe extends Component {
     }
 
     onBtCheckout = () => {
-        let dataCheckout = {
-            iduser: this.props.detailRecipe.iduser,
-            idaddress: this.props.detailRecipe.idaddress,
-            invoice: this.props.detailRecipe.invoice,
-            date: this.props.detailRecipe.date,
-            total_price: this.totalPrice(),
-            shipping: this.shipping(),
-            total_payment: this.totalPayment(),
-            notes: 'Recipe has been processed',
-            detail: this.state.AddProduct,
-        }
-        console.log('datachekcout', dataCheckout)
-        axios.post(`${API_URL}/transactions/checkoutrecipe`, dataCheckout, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('data')}`
+        Swal.fire({
+            title: 'Do you really want to checkout?',
+            showDenyButton: true,
+            confirmButtonText: 'Yes',
+            confirmButtonColor: '#3498db',
+            denyButtonText: 'No',
+            customClass: {
+                actions: 'my-actions',
+                confirmButton: 'order-2',
+                denyButton: 'order-3',
             }
-        }).then((res) => {
-            if (res.data.success) {
-                let dataOutRecipe = {
-                    detail: this.state.AddProduct
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let dataCheckout = {
+                    iduser: this.props.detailRecipe.iduser,
+                    idaddress: this.props.detailRecipe.idaddress,
+                    invoice: this.props.detailRecipe.invoice,
+                    date: this.props.detailRecipe.date,
+                    total_price: this.totalPrice(),
+                    shipping: this.shipping(),
+                    total_payment: this.totalPayment(),
+                    notes: 'Recipe has been processed',
+                    detail: this.state.AddProduct,
                 }
-                axios.post(`${API_URL}/products/outstockrecipe`, dataOutRecipe)
-                Swal.fire({
-                    title: 'Yeay!',
-                    text: 'Checkout success',
-                    icon: 'success',
-                    confirmButtonText: 'Ok'
+                axios.post(`${API_URL}/transactions/checkoutrecipe`, dataCheckout, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('data')}`
+                    }
+                }).then((res) => {
+                    if (res.data.success) {
+                        let dataOutRecipe = {
+                            detail: this.state.AddProduct
+                        }
+                        axios.post(`${API_URL}/products/outstockrecipe`, dataOutRecipe)
+                        Swal.fire({
+                            title: 'Yeay!',
+                            text: 'Checkout success',
+                            icon: 'success',
+                            confirmButtonText: 'Ok'
+                        })
+                        this.editStatusTransactions()
+                        this.setState({
+                            AddProduct: []
+                        })
+                        this.props.btClose()
+                        window.location.reload()
+                    }
+                }).catch((err) => {
+                    console.log(err)
                 })
-                this.editStatusTransactions()
-                this.setState({
-                    AddProduct: []
-                })
+            } else if (result.isDenied){
+
             }
-        }).catch((err) => {
-            console.log(err)
         })
     }
 
     editStatusTransactions = () => {
         axios.patch(`${API_URL}/transactions/editstatusrecipe`, { idresep: this.props.detailRecipe.idresep })
             .then(res => {
-                console.log(res)
+                
             }).catch(error => {
                 console.log(error)
             })
@@ -225,9 +243,9 @@ class ModalAddRecipe extends Component {
                 }
             })
             if (res.success) {
-               this.setState({
-                   cost: res.data
-               })
+                this.setState({
+                    cost: res.data
+                })
             }
         } catch (error) {
             console.log(error)
@@ -245,9 +263,6 @@ class ModalAddRecipe extends Component {
     }
 
     render() {
-        console.log('ini produk', this.props.products)
-        console.log('ini recipe detail', this.props.detailRecipe)
-        console.log('ini cost', this.state.cost)
         return (
             <div>
                 <Modal size='xl' isOpen={this.props.modalOpen} toggle={this.onBtClose} centered >

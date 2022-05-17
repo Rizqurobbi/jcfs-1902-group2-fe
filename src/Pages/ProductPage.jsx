@@ -105,7 +105,6 @@ class ProductPage extends React.Component {
         this.inCategory.value = 'All Products'
         this.setState({ inputNama: '' })
         this.props.getProductAction()
-        console.log(this.state.inputNama)
     }
 
     render() {

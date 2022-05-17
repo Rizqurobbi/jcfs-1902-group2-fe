@@ -34,7 +34,6 @@ export const loginAction = (email, password) => {
                 email, password
             })
             if (res.data.success) {
-                console.log('ini data', res.data.dataLogin)
                 localStorage.setItem("data", (res.data.dataLogin.token))
                 dispatch({
                     type: "LOGIN_SUCCESS",
@@ -77,7 +76,6 @@ export const resetPassword = ( newPass ) => {
     return async (dispatch) => {
         try {
             let token = window.location.pathname.split('/')[2]
-            console.log('initoken dan pass', token, newPass)
             if (token) {
                 let res = await axios.post(`${API_URL}/users/reset`, {newPass},  {
                     headers: {

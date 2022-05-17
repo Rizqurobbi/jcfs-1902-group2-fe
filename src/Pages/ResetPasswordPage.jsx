@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { FormGroup, Label, InputGroup, Input, InputGroupText } from 'reactstrap';
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import ResetPasswordModal from '../Components/ResetSuccess';
-
+import PasswordStrengthBar from 'react-password-strength-bar';
 
 class VerificationPage extends Component {
     constructor(props) {
@@ -13,7 +13,8 @@ class VerificationPage extends Component {
             resetPassType: "password",
             resetPassShow: <MdVisibilityOff style={{ fontSize: 16 }} />,
             modalReset: false,
-            redirect: false
+            redirect: false,
+            password: ''
         }
     }
 
@@ -32,9 +33,9 @@ class VerificationPage extends Component {
     }
 
     resetPass = async () => {
-        if (this.passReset.value === this.confPassReset.value) {
+        if (this.state.password === this.confPassReset.value) {
             try {
-                let res = await this.props.resetPassword(this.passReset.value)
+                let res = await this.props.resetPassword(this.state.password)
                 if (res.success) {
                     this.setState({
                         modalReset: !this.state.modalReset
@@ -61,13 +62,15 @@ class VerificationPage extends Component {
                             <Label className='heading4' style={{ fontSize: 12, fontWeight: 800 }}>New Password</Label>
                             <InputGroup>
                                 <Input bsSize='sm' type={this.state.resetPassType} id="textPassword" placeholder="Password" style={{ borderRight: "0px" }}
+                                    onChange={(event) => this.setState({ password: event.target.value })}
                                     innerRef={(element) => this.passReset = element} />
                                 <InputGroupText style={{ cursor: "pointer", backgroundColor: 'white' }} onClick={this.btShowPassRegis}>
                                     {this.state.resetPassShow}
                                 </InputGroupText>
                             </InputGroup>
+                            <PasswordStrengthBar className='my-2' password={this.state.password} />
                         </FormGroup>
-                        <FormGroup style={{ width: '40%', margin: 'auto' }}>
+                        <FormGroup style={{ width: '40%', margin: 'auto', marginTop: -15 }}>
                             <Label className='heading4' style={{ fontSize: 12, fontWeight: 800 }}>Re-Type New Password</Label>
                             <InputGroup>
                                 <Input bsSize='sm' type={this.state.resetPassType} id="textConfPassword" placeholder="Confirm password" style={{ borderRight: "0px", width: '70%' }}

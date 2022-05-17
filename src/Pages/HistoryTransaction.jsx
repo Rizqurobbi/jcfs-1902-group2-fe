@@ -142,26 +142,82 @@ class HistoryTransaction extends Component {
 
     onBtnDiscard = async (idtransaction, detail) => {
         try {
-            console.log(idtransaction, detail)
-            let token = localStorage.getItem('data')
-            if (token) {
-                let res = await axios.patch(`${API_URL}/transactions/discardtransaction`, { idtransaction: idtransaction, detail: detail }, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                })
-                if (res.data.success) {
-                    await Swal.fire({
-                        title: 'Yeay!',
-                        text: 'Edit success',
-                        icon: 'success',
-                        confirmButtonText: 'Ok'
-                    })
-                    
-                    this.props.getTransactionsActions()
-                    this.getOngoingTransactions()
+            Swal.fire({
+                title: 'Do you want to discard the transaction?',
+                showDenyButton: true,
+                confirmButtonText: 'Yes',
+                confirmButtonColor: '#3498db',
+                denyButtonText: 'No',
+                customClass: {
+                    actions: 'my-actions',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
                 }
-            }
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    let token = localStorage.getItem('data')
+                    if (token) {
+                        let res = await axios.patch(`${API_URL}/transactions/discardtransaction`, { idtransaction: idtransaction, detail: detail }, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        })
+                        if (res.data.success) {
+                            await Swal.fire({
+                                title: '',
+                                text: 'Discard Transaction success',
+                                icon: 'error',
+                                confirmButtonText: 'Ok'
+                            })
+                            this.props.getTransactionsActions()
+                            this.getOngoingTransactions()
+                        }
+                    }
+                } else if (result.isDenied) {
+                }
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    onBtnDiscardRec = async (idtransaction, detail) => {
+        try {
+            Swal.fire({
+                title: 'Do you want to discard the transaction?',
+                showDenyButton: true,
+                confirmButtonText: 'Yes',
+                confirmButtonColor: '#3498db',
+                denyButtonText: 'No',
+                customClass: {
+                    actions: 'my-actions',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
+                }
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    let token = localStorage.getItem('data')
+                    if (token) {
+                        let res = await axios.patch(`${API_URL}/transactions/discardrectransaction`, { idtransaction: idtransaction, detail: detail }, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        })
+                        if (res.data.success) {
+                            await Swal.fire({
+                                title: '',
+                                text: 'Discard Transaction success',
+                                icon: 'error',
+                                confirmButtonText: 'Ok'
+                            })
+                            this.props.getTransactionsActions()
+                            this.getOngoingTransactions()
+                            this.getDoctorTransactions()
+                        }
+                    }
+                } else if (result.isDenied) {
+                }
+            })
         } catch (error) {
             console.log(error)
         }
@@ -215,7 +271,12 @@ class HistoryTransaction extends Component {
                                     onClick={() => this.setState({ modalDetail: !this.state.modalDetail, detailTransaction: value.detail, transaction: value })}>
                                     Detail Transactions
                                 </Button>
-                                <Button color="danger" style={{ fontSize: 12, marginLeft: 10 }} onClick={() => this.onBtnDiscard(value.idtransaction, value.detail)}>Discard Order</Button>
+                                {
+                                    value.invoice.includes('REC') ?
+                                        <Button color="danger" style={{ fontSize: 12, marginLeft: 10 }} onClick={() => this.onBtnDiscardRec(value.idtransaction, value.detail)}>Discard Order</Button>
+                                        :
+                                        <Button color="danger" style={{ fontSize: 12, marginLeft: 10 }} onClick={() => this.onBtnDiscard(value.idtransaction, value.detail)}>Discard Order</Button>
+                                }
                             </div>
                     }
                 </div>
@@ -348,34 +409,49 @@ class HistoryTransaction extends Component {
     }
     onBtnDiscardRecipe = async (idresep) => {
         try {
-            let token = localStorage.getItem('data')
-            if (token) {
-                let res = await axios.patch(`${API_URL}/transactions/discardstatusrecipe`, { idresep: idresep }, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                })
-                if (res.data.success) {
-                    await Swal.fire({
-                        title: 'Yeay!',
-                        text: 'Discard Success',
-                        icon: 'error',
-                        confirmButtonText: 'Ok'
-                    })
-                    this.props.getTransactionsActions()
-                    this.getDoctorTransactions()
+            Swal.fire({
+                title: 'Do you want to discard the transaction?',
+                showDenyButton: true,
+                confirmButtonText: 'Yes',
+                confirmButtonColor: '#3498db',
+                denyButtonText: 'No',
+                customClass: {
+                    actions: 'my-actions',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
                 }
-            }
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    let token = localStorage.getItem('data')
+                    if (token) {
+                        let res = await axios.patch(`${API_URL}/transactions/discardstatusrecipe`, { idresep: idresep }, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        })
+                        if (res.data.success) {
+                            await Swal.fire({
+                                title: 'Yeay!',
+                                text: 'Discard Success',
+                                icon: 'error',
+                                confirmButtonText: 'Ok'
+                            })
+                            this.props.getTransactionsActions()
+                            this.getDoctorTransactions()
+                        }
+                    }
+                } else if (result.isDenied) {
+                    Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+
+
         } catch (error) {
             console.log(error)
         }
     }
 
     render() {
-        console.log('transaction', this.props.transactions)
-        console.log('ongoingtransaction', this.state.ongoingTransactions)
-        console.log('pasttransaction', this.state.pastTransactions)
-        console.log('doctortransaction', this.state.doctorTransactions)
         return (
             <div className='container-fluid pt-4' style={{ backgroundColor: '#FCFBFA', paddingBottom: 50 }} >
                 <ModalDetailTransaction

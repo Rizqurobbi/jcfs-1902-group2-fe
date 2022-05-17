@@ -16,7 +16,6 @@ const INITIAL_STATE = {
 export const userReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case "LOGIN_SUCCESS":
-            console.log("DATA DARI ACTION PAYLOAD", action.payload)
             return {
                 ...state,
                 iduser: action.payload.iduser,

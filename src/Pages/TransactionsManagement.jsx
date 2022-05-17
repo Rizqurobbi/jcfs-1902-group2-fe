@@ -8,6 +8,7 @@ import ModalDetailTransactionManagement from '../Components/ModalDetailTransacti
 import { getTransactionsActions } from '../redux/actions/transactionsAction';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import Swal from 'sweetalert2';
 
 
 class TransactionManagement extends Component {
@@ -44,7 +45,6 @@ class TransactionManagement extends Component {
             }
         }).then(res => {
             if (res.data.success) {
-                console.log('tes', res.data.dataRecipe)
                 this.setState({
                     recipe: res.data.dataRecipe
                 })
@@ -53,6 +53,7 @@ class TransactionManagement extends Component {
             console.log(error)
         })
     }
+
     getAllTransactionsAdmin = (search = null) => {
         let token = localStorage.getItem('data')
         let res;
@@ -285,7 +286,6 @@ class TransactionManagement extends Component {
                 inDateEnd: this.inDateEndAll.value,
             })
         }
-        console.log(this.inFilterAll.value)
     }
     printFilterDateAll = () => {
         return (
@@ -543,14 +543,31 @@ class TransactionManagement extends Component {
     }
 
     onBtDiscardOrder = (idresep) => {
-        axios.patch(`${API_URL}/transactions/discardstatusrecipe`, { idresep: idresep })
-            .then(res => {
-                if (res.data.success) {
-                    this.getUserRecipe()
-                }
-            }).catch(error => {
-                console.log(error)
-            })
+        Swal.fire({
+            title: 'Do you want to save the changes?',
+            showDenyButton: true,
+            confirmButtonText: 'Yes',
+            confirmButtonColor: '#3498db',
+            denyButtonText: 'No',
+            customClass: {
+                actions: 'my-actions',
+                confirmButton: 'order-2',
+                denyButton: 'order-3',
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.patch(`${API_URL}/transactions/discardstatusrecipe`, { idresep: idresep })
+                    .then(res => {
+                        if (res.data.success) {
+                            this.getUserRecipe()
+                        }
+                    }).catch(error => {
+                        console.log(error)
+                    })
+            } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+            }
+        })
     }
 
     printUserRecipe = () => {
@@ -586,11 +603,6 @@ class TransactionManagement extends Component {
     }
 
     render() {
-        console.log('detil resep', this.state.detailRecipe)
-        console.log('transaksi user', this.props.transactions)
-        console.log('transaksi semua user', this.state.recipe)
-        console.log('state transaction', this.state.transaction)
-        console.log('halo', this.state.transaction)
         return (
             <div>
                 <ModalAddRecipe

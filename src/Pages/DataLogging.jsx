@@ -120,8 +120,6 @@ class DataLogging extends Component {
     }
 
     render() {
-        console.log('inidataout', this.state.dataLogOut)
-        console.log('inidatain', this.state.dataLogIn)
         return (
             <div className='container-fluid' style={{ backgroundColor: '#FCFBFA' }}>
                 <div className='container pt-4' style={{ backgroundColor: '#FCFBFA', textAlign: 'center' }}>

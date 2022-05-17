@@ -32,31 +32,48 @@ class ModalDetailTransaction extends Component {
     }
 
     btSubmit = () => {
-        let formData = new FormData()
-        let data = {
-            idtransaction: this.props.transaction.idtransaction
-        }
-        formData.append('Images', this.state.images.file)
-        formData.append('data', JSON.stringify(data));
-        let token = localStorage.getItem('data')
-        if (token) {
-            axios.patch(`${API_URL}/transactions/uploadpayment`, formData, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
+        Swal.fire({
+            title: 'Do you want to submit the payment?',
+            showDenyButton: true,
+            confirmButtonText: 'Yes',
+            confirmButtonColor: '#3498db',
+            denyButtonText: 'No',
+            customClass: {
+                actions: 'my-actions',
+                confirmButton: 'order-2',
+                denyButton: 'order-3',
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let formData = new FormData()
+                let data = {
+                    idtransaction: this.props.transaction.idtransaction
                 }
-            }).then(res => {
-                console.log(res.data)
-                Swal.fire({
-                    title: 'Yeay!',
-                    text: 'Upload success',
-                    icon: 'success',
-                    confirmButtonText: 'Ok'
-                })
-                window.location.reload();
-            }).catch(err => {
-                console.log(err)
-            })
-        }
+                formData.append('Images', this.state.images.file)
+                formData.append('data', JSON.stringify(data));
+                let token = localStorage.getItem('data')
+                if (token) {
+                    axios.patch(`${API_URL}/transactions/uploadpayment`, formData, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    }).then(res => {
+                        Swal.fire({
+                            title: 'Yeay!',
+                            text: 'Upload success',
+                            icon: 'success',
+                            confirmButtonText: 'Ok'
+                        })
+                        window.location.reload();
+                    }).catch(err => {
+                        console.log(err)
+                    })
+                }
+            } else if (result.isDenied) {
+            }
+        })
+
+
     }
 
     printDetail = () => {
@@ -78,7 +95,6 @@ class ModalDetailTransaction extends Component {
     }
 
     render() {
-        console.log('ini transaction', this.props.transaction)
         return (
             <div>
                 <Modal size='lg' isOpen={this.props.modalOpen} toggle={this.props.btClose} centered >

@@ -53,7 +53,7 @@ class LoginComponent extends Component {
                 } else {
                     Swal.fire({
                         title: 'Error!',
-                        text: 'Account not exist.',
+                        text: `Your login's username/email or password doesn't match.`,
                         icon: 'error',
                         confirmButtonText: 'Ok',
                         width: '23%'
