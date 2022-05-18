@@ -42,7 +42,7 @@ class CartPage extends React.Component {
                     axios.post(`${API_URL}/transactions/checkout`, {
                         idaddress: this.props.idaddress,
                         invoice: `INV/CP${d.getTime()}`,
-                        date: moment().format('YYYY-MM-DD'),
+                        date: moment().format().slice(0,19).replace('T',' '),
                         total_price: this.totalPrice(),
                         shipping: this.shipping(),
                         total_payment: this.totalPayment(),

@@ -229,7 +229,7 @@ class HistoryTransaction extends Component {
             let badgeColor = value.status.includes("Waiting") ? "secondary" : value.status.includes("Process") ? "primary" :
                 value.status.includes("Ongoing") ? "warning" : value.status.includes("Completed") ? "success" : "danger"
             let date = value.date
-            let newDate = moment(date).format("LLL")
+            let newDate = moment(date).format("LL")
             return <div className="shadow pb-3 mb-4 heading4" style={{ borderRadius: 40 }}>
                 <div className="py-3 px-5 NavbarButton" style={{ color: "white", borderTopLeftRadius: 40, borderTopRightRadius: 40 }}>
                     <span>{newDate}</span>
@@ -290,7 +290,7 @@ class HistoryTransaction extends Component {
             let badgeColor = value.status.includes("Waiting") ? "secondary" : value.status.includes("Process") ? "primary" :
                 value.status.includes("Ongoing") ? "warning" : value.status.includes("Completed") ? "success" : "danger"
             let date = value.date
-            let newDate = moment(date).format("LLL")
+            let newDate = moment(date).format("LL")
             return <div className="shadow pb-3 mb-4 heading4" style={{ borderRadius: 40 }}>
                 <div className="py-3 px-5 NavbarButton" style={{ color: "white", borderTopLeftRadius: 40, borderTopRightRadius: 40 }}>
                     <span>{newDate}</span>
@@ -335,7 +335,7 @@ class HistoryTransaction extends Component {
             let badgeColor = value.status.includes("Waiting") ? "secondary" : value.status.includes("Process") ? "primary" :
                 value.status.includes("Ongoing") ? "warning" : value.status.includes("Completed") ? "success" : "danger"
             let date = value.date
-            let newDate = moment(date).format("LLL")
+            let newDate = moment(date).format("LL")
             return <div className="shadow pb-3 mb-4 heading4" style={{ borderRadius: 40 }}>
                 <div className="py-3 px-5 NavbarButton" style={{ color: "white", borderTopLeftRadius: 40, borderTopRightRadius: 40 }}>
                     <span>{newDate}</span>
@@ -377,7 +377,7 @@ class HistoryTransaction extends Component {
         return this.state.doctorTransactions.map((value, index) => {
             let badgeColor = value.status.includes("Process") ? "primary" : value.status.includes("Completed") ? "success" : value.status.includes("Waiting") ? "secondary" : "danger"
             let date = value.date
-            let newDate = moment(date).format("LLL")
+            let newDate = moment(date).format("LL")
             return <div className="shadow pb-3 mb-4 heading4" style={{ borderRadius: 40 }}>
                 <div className="py-3 px-5 NavbarButton" style={{ color: "white", borderTopLeftRadius: 40, borderTopRightRadius: 40 }}>
                     <span>{newDate}</span>
