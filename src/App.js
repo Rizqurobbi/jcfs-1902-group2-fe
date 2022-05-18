@@ -37,14 +37,14 @@ class App extends Component {
 
   componentDidMount() {
     this.keepLogin()
+    this.props.getCategory()
+    this.props.getUnit()
   }
 
   keepLogin = async () => {
     try {
       let res = await this.props.keepAction()
       if(res){
-        this.props.getCategory()
-        this.props.getUnit()
         this.props.getCartAction()
       }
     } catch (error) {

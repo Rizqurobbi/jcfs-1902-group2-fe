@@ -52,24 +52,33 @@ class ModalAdd extends React.Component {
                 }
             ]
         }
-        formData.append(`data`, JSON.stringify(data))
-        this.state.images.forEach(val => formData.append('Images', val.file))
-        axios.post(API_URL + '/products', formData)
-            .then(res => {
-                if (res) {
-                    this.props.btClose()
-                    this.setState({images:[]})
-                    Swal.fire({
-                        title: 'Yeay!',
-                        text: 'Add product success',
-                        icon: 'success',
-                        confirmButtonText: 'Ok'
-                    })
-                    this.props.getProductAction()
-                }
-            }).catch(err => {
-                console.log(err)
+        if (data.idcategory == 0 || data.nama== '' || data.harga == null || data.deskripsi == '' || data.penyajian == '' || data.dosis == '' || data.caraPenyimpanan == '' || data.kegunaan == '' || data.komposisi == '' || data.idunit == 0 || data.qty == null || data.efekSamping == '' || data.stocks[1].idunit == 0 || data.stocks[1].qty == null || this.state.images.length==0) {
+            Swal.fire({
+                title: 'You have a blank form!',
+                text: 'You have to fill all the form',
+                icon: 'warning',
+                confirmButtonText: 'Ok'
             })
+        } else {
+            formData.append(`data`, JSON.stringify(data))
+            this.state.images.forEach(val => formData.append('Images', val.file))
+            axios.post(API_URL + '/products', formData)
+                .then(res => {
+                    if (res) {
+                        this.props.btClose()
+                        this.setState({ images: [] })
+                        Swal.fire({
+                            title: 'Yeay!',
+                            text: 'Add product success',
+                            icon: 'success',
+                            confirmButtonText: 'Ok'
+                        })
+                        this.props.getProductAction()
+                    }
+                }).catch(err => {
+                    console.log(err)
+                })
+        }
 
     }
     onBtAddImages = () => {
@@ -161,14 +170,14 @@ class ModalAdd extends React.Component {
                                     <div className='col-6'>
                                         <FormGroup>
                                             <Label>Price</Label>
-                                            <Input type='Number' innerRef={e => this.inPrice = e}></Input>
+                                            <Input type='number' innerRef={e => this.inPrice = e}></Input>
                                         </FormGroup>
                                     </div>
                                     <div className='col-6'>
                                         <FormGroup>
                                             <Label>Category</Label>
                                             <Input type='select' innerRef={e => this.inCategory = e}>
-                                                <option value={null}>Category</option>
+                                                <option value={0}>Category</option>
                                                 {
                                                     this.props.category.map((value, index) => <option value={value.idcategory} key={value.idcategory}>{value.category}</option>)
                                                 }
@@ -189,10 +198,10 @@ class ModalAdd extends React.Component {
                                         <FormGroup>
                                             <Label>Stocks</Label>
                                             <div className='d-flex'>
-                                                <Input style={{marginRight:'5px'}} type="number" placeholder={`Qty`} innerRef={e => this.inQty = e} />
+                                                <Input style={{ marginRight: '5px' }} type="number" placeholder={`Qty`} innerRef={e => this.inQty = e} />
                                                 <Input type='select'
                                                     innerRef={e => this.inUnit = e}>
-                                                    <option value={null}>Unit</option>
+                                                    <option value={0}>Unit</option>
                                                     {
                                                         this.props.unit.map((val, index) => <option value={val.idunit} key={val.idunit}>{val.satuan}</option>)
                                                     }
@@ -204,10 +213,10 @@ class ModalAdd extends React.Component {
                                         <FormGroup>
                                             <Label>Netto/Stock</Label>
                                             <div className="d-flex">
-                                                <Input style={{marginRight:'5px'}} type="number" placeholder={`Qty`} innerRef={e => this.inNettoQty = e} />
+                                                <Input style={{ marginRight: '5px' }} type="number" placeholder={`Qty`} innerRef={e => this.inNettoQty = e} />
                                                 <Input type='select'
                                                     innerRef={e => this.inNettoUnit = e}>
-                                                    <option value={null}>Unit</option>
+                                                    <option value={0}>Unit</option>
                                                     {
                                                         this.props.unit.map((val, index) => <option value={val.idunit} key={val.idunit}>{val.satuan}</option>)
                                                     }

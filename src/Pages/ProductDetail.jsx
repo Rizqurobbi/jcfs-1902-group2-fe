@@ -32,46 +32,55 @@ class ProductDetail extends React.Component {
             })
     }
     btnAddToCart = async () => {
-        if (this.props.role == 'User') {
-            if (this.props.status.includes('Active')) {
-                let { detail, counter } = this.state
-                let dataCart = {
-                    idproduct: detail.idproduct,
-                    idstock: detail.stocks[0].idstock,
-                    qty: counter,
-                }
-                if (this.props.username) {
-                    let res = await this.props.addToCartAction(dataCart)
-                    if (res.success) {
-                        this.setState({ redirect: true })
-                    } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: 'Stock empty',
-                            icon: 'error',
-                            confirmButtonText: 'Ok'
-                        })
+        if(this.state.detail.stocks[0].qty>0){
+            if (this.props.role == 'User') {
+                if (this.props.status.includes('Active')) {
+                    let { detail, counter } = this.state
+                    let dataCart = {
+                        idproduct: detail.idproduct,
+                        idstock: detail.stocks[0].idstock,
+                        qty: counter,
                     }
-                } 
+                    if (this.props.username) {
+                        let res = await this.props.addToCartAction(dataCart)
+                        if (res.success) {
+                            this.setState({ redirect: true })
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Stock empty',
+                                icon: 'error',
+                                confirmButtonText: 'Ok'
+                            })
+                        }
+                    }
+                } else {
+                    Swal.fire({
+                        title: '',
+                        text: 'Please verify your email before shopping',
+                        icon: 'warning',
+                        confirmButtonText: 'Ok'
+                    })
+                }
+            } else if (this.props.role == 'Admin') {
+                Swal.fire({
+                    title: 'Warning!',
+                    text: 'You are an Admin',
+                    icon: 'warning',
+                    confirmButtonText: 'Ok'
+                })
             } else {
                 Swal.fire({
-                    title: '',
-                    text: 'Please verify your email before shopping',
+                    title: 'Warning!',
+                    text: 'Please login first',
                     icon: 'warning',
                     confirmButtonText: 'Ok'
                 })
             }
-        } else if (this.props.role == 'Admin') {
+        }else{
             Swal.fire({
                 title: 'Warning!',
-                text: 'You are an Admin',
-                icon: 'warning',
-                confirmButtonText: 'Ok'
-            })
-        } else {
-            Swal.fire({
-                title: 'Warning!',
-                text: 'Please login first',
+                text: 'Out of stock',
                 icon: 'warning',
                 confirmButtonText: 'Ok'
             })
@@ -149,64 +158,58 @@ class ProductDetail extends React.Component {
             <div style={{ background: 'white' }}>
                 {
                     detail.idproduct &&
-                        detail.stocks[0].qty > 0 ?
-                        <>
-                            <div style={{ backgroundColor: 'white', height: 50 }}>
-                                <div style={{ paddingLeft: '20px', paddingTop: '10px' }} className='container'>
-                                    <div style={{ display: 'flex' }}>
-                                        <p className='mx-2' style={{ color: '#231953', cursor: 'pointer' }}>Home {'>'}</p>
-                                        <Link to='/products'>
-                                            <p style={{ color: '#231953', cursor: 'pointer' }}>Products {'>'}</p>
-                                        </Link>
-                                        <p className='mx-2' style={{ color: '#231953', fontWeight: 'bolder', cursor: 'pointer' }}>{detail.nama}</p>
-                                    </div>
+                    <>
+                        <div style={{ backgroundColor: 'white', height: 50 }}>
+                            <div style={{ paddingLeft: '20px', paddingTop: '10px' }} className='container'>
+                                <div style={{ display: 'flex' }}>
+                                    <p className='mx-2' style={{ color: '#231953', cursor: 'pointer' }}>Home {'>'}</p>
+                                    <Link to='/products'>
+                                        <p style={{ color: '#231953', cursor: 'pointer' }}>Products {'>'}</p>
+                                    </Link>
+                                    <p className='mx-2' style={{ color: '#231953', fontWeight: 'bolder', cursor: 'pointer' }}>{detail.nama}</p>
                                 </div>
                             </div>
-                            <div style={{ padding: 100 }} className="container">
-                                {this.printDetail()}
-                                <p className='heading2' style={{ fontSize: 26, marginTop: 80, textAlign: 'center' }}>Information :</p>
-                                <Tabs size='md' align='center' colorScheme='#231953' className='my-3'>
-                                    {detail.idproduct &&
-                                        <>
-                                            <TabList>
-                                                <Tab className='heading2 px-5' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Serving</Tab>
-                                                <Tab className='heading2 px-5' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Dose</Tab>
-                                                <Tab className='heading2 px-5' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>How to keep</Tab>
-                                                <Tab className='heading2 px-5' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Benefits</Tab>
-                                                <Tab className='heading2 px-5' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Composition</Tab>
-                                                <Tab className='heading2 px-5' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Cautions</Tab>
-                                            </TabList>
-                                            <TabPanels align='center'>
-                                                <TabPanel>
-                                                    <p className='heading4'>{detail.penyajian}</p>
-                                                </TabPanel>
-                                                <TabPanel>
-                                                    <p className='heading4'>{detail.dosis}</p>
-                                                </TabPanel>
-                                                <TabPanel>
-                                                    <p className='heading4'>{detail.caraPenyimpanan}</p>
-                                                </TabPanel>
-                                                <TabPanel>
-                                                    <p className='heading4'>{detail.kegunaan}</p>
-                                                </TabPanel>
-                                                <TabPanel>
-                                                    <p className='heading4'>{detail.komposisi}</p>
-                                                </TabPanel>
-                                                <TabPanel>
-                                                    <p className='heading4'>{detail.efekSamping}</p>
-                                                </TabPanel>
-                                            </TabPanels>
-                                        </>
-                                    }
-                                </Tabs>
-                            </div>
-                        </>
-                        :
-                        <div className='m-auto container' style={{ height: '72vh', }}>
-                            <h1 className='heading1' style={{ paddingTop: 100, paddingBottom: 10, textAlign: "center" }}>
-                                STOCK IS EMPTY
-                            </h1>
                         </div>
+                        <div style={{ padding: 100 }} className="container">
+                            {this.printDetail()}
+                            <p className='heading2' style={{ fontSize: 26, marginTop: 80, textAlign: 'center' }}>Information :</p>
+                            <Tabs size='md' align='center' colorScheme='#231953' className='my-3'>
+                                {detail.idproduct &&
+                                    <>
+                                        <TabList>
+                                            <Tab className='heading2 px-5' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Serving</Tab>
+                                            <Tab className='heading2 px-5' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Dose</Tab>
+                                            <Tab className='heading2 px-5' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>How to keep</Tab>
+                                            <Tab className='heading2 px-5' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Benefits</Tab>
+                                            <Tab className='heading2 px-5' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Composition</Tab>
+                                            <Tab className='heading2 px-5' _selected={{ color: 'white', bg: 'linear-gradient(163deg, rgba(126,197,255,1) 0%, rgba(80,175,255,1) 46%, rgba(6,142,255,1) 100%)' }} style={{ borderRadius: 10 }}>Cautions</Tab>
+                                        </TabList>
+                                        <TabPanels align='center'>
+                                            <TabPanel>
+                                                <p className='heading4'>{detail.penyajian}</p>
+                                            </TabPanel>
+                                            <TabPanel>
+                                                <p className='heading4'>{detail.dosis}</p>
+                                            </TabPanel>
+                                            <TabPanel>
+                                                <p className='heading4'>{detail.caraPenyimpanan}</p>
+                                            </TabPanel>
+                                            <TabPanel>
+                                                <p className='heading4'>{detail.kegunaan}</p>
+                                            </TabPanel>
+                                            <TabPanel>
+                                                <p className='heading4'>{detail.komposisi}</p>
+                                            </TabPanel>
+                                            <TabPanel>
+                                                <p className='heading4'>{detail.efekSamping}</p>
+                                            </TabPanel>
+                                        </TabPanels>
+                                    </>
+                                }
+                            </Tabs>
+                        </div>
+                    </>
+
                 }
             </div>
         );
