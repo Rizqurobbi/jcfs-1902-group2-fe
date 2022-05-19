@@ -90,25 +90,8 @@ class ModalAdd extends React.Component {
     handleImages = (e) => {
         this.setState({ images: { name: e.target.files[0].name, file: e.target.files[0] } })
     }
-
-    handleType = (e, index) => {
-        let temp = [...this.state.stocks]
-        temp[index].type = e.target.value;
-        this.setState({ stocks: temp })
-    }
-
-    handleStock = (e, index) => {
-        let temp = [...this.state.stocks]
-        temp[index].qty = parseInt(e.target.value)
-        this.setState({ stocks: temp })
-    }
-    handleUnit = (e, index) => {
-        let temp = [...this.state.stocks]
-        temp[index].qty = e.target.value
-        this.setState({ stocks: temp })
-    }
     onBtCancel = () => {
-        this.setState({ stocks: [], images: [] })
+        this.setState({ images: [] })
         // fungsi untuk close modal
         this.props.btClose()
     }
@@ -119,7 +102,7 @@ class ModalAdd extends React.Component {
                     centered
                     fullscreen="sm"
                     size="lg"
-                    toggle={this.props.btClose}
+                    toggle={this.onBtCancel}
                     isOpen={this.props.modalOpen}
                 >
                     <ModalHeader toggle={this.props.btClose}>
@@ -229,7 +212,7 @@ class ModalAdd extends React.Component {
                         >
                             UPLOAD
                         </button>
-                        <button className='landing1 py-1' onClick={this.props.btClose}>
+                        <button className='landing1 py-1' onClick={this.onBtCancel}>
                             Cancel
                         </button>
                     </ModalFooter>
