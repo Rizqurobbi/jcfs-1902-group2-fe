@@ -29,7 +29,7 @@ class RevenuePage extends React.Component {
                         'Authorization': `Bearer ${token}`
                     }
                 }).then(res => {
-                    this.setState({ revenue: res.data.dataRevenue })
+                    this.setState({ revenue: res.data.dataRevenue, page: 1 })
                 }).catch(err => [
                     console.log(err)
                 ])
@@ -58,7 +58,7 @@ class RevenuePage extends React.Component {
     }
     printRevenue = () => {
         let { page } = this.state
-        return this.state.revenue.slice(page > 1 ? (page - 1) * 4 : page - 1, page * 4).map((value, index) => {
+        return this.state.revenue.slice(page > 1 ? (page - 1) * 5 : page - 1, page * 5).map((value, index) => {
             if (value.date == value.date) {
                 return (
                     <tr>
@@ -75,7 +75,7 @@ class RevenuePage extends React.Component {
     }
     btnPagination = () => {
         let btn = []
-        for (let i = 0; i < Math.ceil(this.state.revenue.length / 4); i++) {
+        for (let i = 0; i < Math.ceil(this.state.revenue.length / 5); i++) {
             btn.push(
                 <Button
                     style={{ border: "none", marginRight: 5 }}
@@ -181,7 +181,7 @@ class RevenuePage extends React.Component {
                                 </TabList>
                                 <TabPanels>
                                     <TabPanel>
-                                        <div className='d-flex' style={{marginTop:'10px'}}>
+                                        <div className='d-flex' style={{ marginTop: '10px' }}>
                                             <Table bordered style={{ textAlign: 'center', }}>
                                                 <thead>
                                                     <tr>
