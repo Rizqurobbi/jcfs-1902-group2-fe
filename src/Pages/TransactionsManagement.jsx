@@ -236,7 +236,7 @@ class TransactionManagement extends Component {
     printAllTransactionList = () => {
         let { allTransactionsList, pageAll } = this.state
         return allTransactionsList.slice(pageAll > 1 ? (pageAll - 1) * 3 : pageAll - 1, pageAll * 3).map((value, index) => {
-            let newDate = moment(value.date).format('LLL')
+            let newDate = moment(value.date).format('LL')
             let badgeColor = value.status.includes("Ongoing") ? "warning" : value.status.includes("Waiting") ? 'secondary' : value.status.includes("Completed") ? 'success' : value.status.includes("Process") ? 'info' : 'danger'
             return <div className="shadow pb-3 mb-4 heading4" style={{ borderRadius: 40 }}>
                 <div className="py-3 px-5 NavbarButton d-flex" style={{ color: "white", borderTopLeftRadius: 40, borderTopRightRadius: 40 }}>
@@ -321,7 +321,7 @@ class TransactionManagement extends Component {
     printOngoingTransactionList = () => {
         let { ongoingTransactionsList, pageOngoing } = this.state
         return ongoingTransactionsList.slice(pageOngoing > 1 ? (pageOngoing - 1) * 3 : pageOngoing - 1, pageOngoing * 3).map((value, index) => {
-            let newDate = moment(value.date).format('LLL')
+            let newDate = moment(value.date).format('LL')
             let badgeColor = value.status.includes("Ongoing") ? "warning" : value.status.includes("Waiting") ? 'secondary' : value.status.includes("Process") ? 'info' : 'danger'
             return <div className="shadow pb-3 mb-4 heading4" style={{ borderRadius: 40 }}>
                 <div className="py-3 px-5 NavbarButton d-flex" style={{ color: "white", borderTopLeftRadius: 40, borderTopRightRadius: 40 }}>
@@ -406,7 +406,7 @@ class TransactionManagement extends Component {
     printPastTransactionList = () => {
         let { pastTransactionsList, pagePast } = this.state
         return pastTransactionsList.slice(pagePast > 1 ? (pagePast - 1) * 3 : pagePast - 1, pagePast * 3).map((value, index) => {
-            let newDate = moment(value.date).format('LLL')
+            let newDate = moment(value.date).format('LL')
             let badgeColor = value.status.includes("Completed") ? "success" : "danger"
             return <div className="shadow pb-3 mb-4 heading4" style={{ borderRadius: 40 }}>
                 <div className="py-3 px-5 NavbarButton d-flex" style={{ color: "white", borderTopLeftRadius: 40, borderTopRightRadius: 40 }}>
@@ -572,7 +572,7 @@ class TransactionManagement extends Component {
 
     printUserRecipe = () => {
         return this.state.recipe.map((value, index) => {
-            let newDate = moment(value.date).format('LLL')
+            let newDate = moment(value.date).format('LL')
             let badgeColor = value.status.includes("Cancel") ? "danger" : value.status.includes("Process") ? "primary" : "warning"
             return <div className="shadow pb-3 mb-4 heading4" style={{ borderRadius: 40 }}>
                 <div className="py-3 px-5 NavbarButton" style={{ color: "white", borderTopLeftRadius: 40, borderTopRightRadius: 40 }}>
