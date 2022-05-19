@@ -16,7 +16,7 @@ class VerificationPage extends Component {
     verify = async () => {
         try {
             let res = await this.props.verifyLogin()
-            if (res.success) {
+            if (res) {
                 this.setState({
                     redirect: true
                 })

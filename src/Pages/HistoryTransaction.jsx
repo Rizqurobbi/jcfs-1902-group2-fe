@@ -431,7 +431,7 @@ class HistoryTransaction extends Component {
                         })
                         if (res.data.success) {
                             await Swal.fire({
-                                title: 'Yeay!',
+                                title: '',
                                 text: 'Discard Success',
                                 icon: 'error',
                                 confirmButtonText: 'Ok'
