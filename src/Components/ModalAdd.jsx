@@ -52,7 +52,7 @@ class ModalAdd extends React.Component {
                 }
             ]
         }
-        if (data.idcategory == 0 || data.nama== '' || data.harga == null || data.deskripsi == '' || data.penyajian == '' || data.dosis == '' || data.caraPenyimpanan == '' || data.kegunaan == '' || data.komposisi == '' || data.idunit == 0 || data.qty == null || data.efekSamping == '' || data.stocks[1].idunit == 0 || data.stocks[1].qty == null || this.state.images.length==0) {
+        if (data.idcategory == 0 || data.nama == '' || data.harga == null || data.deskripsi == '' || data.penyajian == '' || data.dosis == '' || data.caraPenyimpanan == '' || data.kegunaan == '' || data.komposisi == '' || data.idunit == 0 || data.qty == null || data.efekSamping == '' || data.stocks[1].idunit == 0 || data.stocks[1].qty == null || this.state.images.length == 0) {
             Swal.fire({
                 title: 'You have a blank form!',
                 text: 'You have to fill all the form',
@@ -61,7 +61,7 @@ class ModalAdd extends React.Component {
             })
         } else {
             formData.append(`data`, JSON.stringify(data))
-            this.state.images.forEach(val => formData.append('Images', val.file))
+            formData.append('Images', this.state.images.file)
             axios.post(API_URL + '/products', formData)
                 .then(res => {
                     if (res) {
@@ -81,48 +81,14 @@ class ModalAdd extends React.Component {
         }
 
     }
-    onBtAddImages = () => {
-        if (this.state.images.length < 1) {
-            this.state.images.push("")
-            this.setState({ images: this.state.images })
-        } else {
-            alert(`As For Now Admin can only input 1 image per product`)
-        }
-    }
-    onBtDeleteStock = (index) => {
-        this.state.stocks.splice(index, 1)
-        this.setState({ stocks: this.state.stocks })
-    }
-
-    onBtDeleteImage = (index) => {
-        this.state.images.splice(index, 1)
-        this.setState({ images: this.state.images })
-    }
     printImages = () => {
-        if (this.state.images.length > 0) {
-            return this.state.images.map((value, index) => {
-                return <Row>
-                    <Col>
-                        <Input style={{ width: '10vw' }} accept="image/*" type="file" placeholder={`Select Images-${index + 1}`}
-                            onChange={(e) => this.handleImages(e, index)} />
-                        {
-                            value.file ?
-                                <img src={URL.createObjectURL(value.file)} style={{ width: '60%', marginTop: 20, marginBottom: 20 }} />
-                                :
-                                <img src='http://bppl.kkp.go.id/uploads/publikasi/karya_tulis_ilmiah/default.jpg' style={{ width: '60%', marginTop: 20, marginBottom: 20 }} />
-                        }
-                    </Col>
-                    <Col>
-                        <a className="btn btn-outline-danger" onClick={() => this.onBtDeleteImage(index)} style={{ cursor: 'pointer' }}>Delete</a>
-                    </Col>
-                </Row>
-            })
-        }
+        return this.state.images.file ?
+            <img src={URL.createObjectURL(this.state.images.file)} style={{ width: '60%', marginTop: 20, marginBottom: 20 }} />
+            :
+            <img src='http://bppl.kkp.go.id/uploads/publikasi/karya_tulis_ilmiah/default.jpg' style={{ width: '60%', marginTop: 20, marginBottom: 20 }} />
     }
-    handleImages = (e, index) => {
-        let temp = [...this.state.images]
-        temp[index] = { name: e.target.files[0].name, file: e.target.files[0] }
-        this.setState({ images: temp })
+    handleImages = (e) => {
+        this.setState({ images: { name: e.target.files[0].name, file: e.target.files[0] } })
     }
 
     handleType = (e, index) => {
@@ -249,8 +215,9 @@ class ModalAdd extends React.Component {
                                 </FormGroup>
                                 <FormGroup>
                                     <Label>Images</Label>
-                                    <button type="button" size="sm" style={{ float: 'right', margin: 'auto' }} className='landing1' onClick={this.onBtAddImages}>CLICK</button>
+                                    {/* <button type="button" size="sm" style={{ float: 'right', margin: 'auto' }} className='landing1' onClick={this.onBtAddImages}>CLICK</button> */}
                                     {this.printImages()}
+                                    <Input style={{ width: '10vw' }} accept="image/*" type="file" onChange={(e) => this.handleImages(e)} />
                                 </FormGroup>
                             </div>
                         </div>
