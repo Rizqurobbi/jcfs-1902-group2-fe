@@ -32,7 +32,7 @@ class ProductDetail extends React.Component {
             })
     }
     btnAddToCart = async () => {
-        if(this.state.detail.stocks[0].qty>0){
+        if (this.state.detail.stocks[0].qty > 0) {
             if (this.props.role == 'User') {
                 if (this.props.status.includes('Active')) {
                     let { detail, counter } = this.state
@@ -77,7 +77,7 @@ class ProductDetail extends React.Component {
                     confirmButtonText: 'Ok'
                 })
             }
-        }else{
+        } else {
             Swal.fire({
                 title: 'Warning!',
                 text: 'Out of stock',
@@ -162,7 +162,9 @@ class ProductDetail extends React.Component {
                         <div style={{ backgroundColor: 'white', height: 50 }}>
                             <div style={{ paddingLeft: '20px', paddingTop: '10px' }} className='container'>
                                 <div style={{ display: 'flex' }}>
-                                    <p className='mx-2' style={{ color: '#231953', cursor: 'pointer' }}>Home {'>'}</p>
+                                    <Link to='/'>
+                                        <p className='mx-2' style={{ color: '#231953', cursor: 'pointer' }}>Home {'>'}</p>
+                                    </Link>
                                     <Link to='/products'>
                                         <p style={{ color: '#231953', cursor: 'pointer' }}>Products {'>'}</p>
                                     </Link>
