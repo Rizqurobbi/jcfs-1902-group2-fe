@@ -101,16 +101,18 @@ class ProfileManagement extends Component {
                 </FormGroup>
                 <FormGroup >
                     <Label className='heading4' style={{ fontSize: 12, fontWeight: 800 }}>Email</Label>
-                    <InputGroup>
-                        {
-                            this.state.edit ?
-                                <Input disabled={!this.state.edit} bsSize='sm' type="text" id="textemail" defaultValue={this.props.email}
+                    {
+                        this.state.edit ?
+                            <div className='d-flex'>
+                                <Input disabled={!this.state.edit} bsSize='sm' type="text" defaultValue={this.props.email}
                                     innerRef={(element) => this.inEmail = element} />
-                                :
-                                <Input disabled={!this.state.edit} bsSize='sm' type="text" value={this.props.email} />
-                        }
-
-                    </InputGroup>
+                                <button className='landing1 text-center mx-2' style={{ width: '20%' }} onClick={this.btVerify}>
+                                    <p style={{ fontSize: 15, fontWeight: 'bold', margin: 'auto' }}>Verify</p>
+                                </button>
+                            </div>
+                            :
+                            <Input disabled={!this.state.edit} bsSize='sm' type="text" id="textemail" defaultValue={this.props.email} />
+                    }
                 </FormGroup>
                 {
                     this.state.edit ?
@@ -226,6 +228,73 @@ class ProfileManagement extends Component {
             </div>
         )
     }
+
+    btVerify = async () => {
+        if (this.props.email !== this.inEmail.value) {
+            Swal.fire({
+                title: 'Do you want to change the email?',
+                showDenyButton: true,
+                confirmButtonText: 'Yes',
+                confirmButtonColor: '#3498db',
+                denyButtonText: 'No',
+                customClass: {
+                    actions: 'my-actions',
+                    confirmButton: 'order-1',
+                    denyButton: 'order-3',
+                }
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    if (this.inEmail.value.includes('@')) {
+                        let token = localStorage.getItem("data")
+                        let res = await axios.post(`${API_URL}/users/changeemail`, { email: this.inEmail.value }, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        })
+                        try {
+                            if (res.data.success) {
+                                Swal.fire({
+                                    title: '',
+                                    text: 'Please check your email to verify.',
+                                    icon: 'warning',
+                                    confirmButtonText: 'Ok'
+                                })
+                                this.newPassword.value = ""
+                                this.newConfPassword.value = ""
+                                this.props.keepAction()
+                            } else {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: '',
+                                    icon: 'error',
+                                    confirmButtonText: 'Ok'
+                                })
+                            }
+                        } catch (error) {
+                            console.log(error)
+                        }
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Your email is invalid.',
+                            icon: 'error',
+                            confirmButtonText: 'Ok'
+                        })
+                    }
+                } else if (result.isDenied) {
+
+                }
+            })
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Input new email.',
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            })
+        }
+    }
+
 
     btSubmit = async () => {
         if (this.newConfPassword.value === "" || this.state.newPassword === "") {
